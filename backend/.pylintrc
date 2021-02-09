@@ -1,0 +1,5 @@
+[MASTER]
+
+output-format=colorized
+load-plugins=pylint_django
+django-settings-module=backend.settings
