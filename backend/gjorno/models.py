@@ -3,7 +3,10 @@ from django.contrib.auth.admin import User
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user", verbose_name="User")
+    """Model acting as an extension of the default User model"""
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user", verbose_name="User"
+    )
     phone_number = models.CharField(max_length=11)
 
     def __str__(self):
@@ -11,7 +14,10 @@ class Profile(models.Model):
 
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator")
+    """Model representing an activity created by the user"""
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator"
+    )
     title = models.CharField(max_length=50)
     description = models.TextField()
     categories = models.ManyToManyField(blank=False, null=False, to="gjorno.Category")
@@ -24,6 +30,7 @@ class Activity(models.Model):
 
 
 class Category(models.Model):
+    """Generic category for the Activity model"""
     title = models.CharField(max_length=50)
 
     def __str__(self):
