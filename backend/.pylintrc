@@ -1,5 +1,8 @@
 [MASTER]
 
+fail-under=8.0
 output-format=colorized
 load-plugins=pylint_django
 django-settings-module=backend.settings
+ignore=apps.py, asgi.py, wsgi.py
+disable=too-many-ancestors

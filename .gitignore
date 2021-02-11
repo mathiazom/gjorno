@@ -1,4 +1,5 @@
 /venv
 /friedrich
+/builds
 **/.idea/
 **/__pycache__/

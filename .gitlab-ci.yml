@@ -1,0 +1,14 @@
+image: "python:3.7"
+
+before_script:
+  - python --version
+  - python -m pip install -r backend/requirements.txt
+
+stages:
+  - Linting
+
+PyLint:
+  stage: Linting
+  script:
+  - cd backend
+  - python -m pylint gjorno backend
