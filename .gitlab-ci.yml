@@ -19,8 +19,8 @@ PyLint:
   stage: Linting
   script:
     - python --version
-    - python -m pip install -r backend/requirements.txt
     - cd backend
+    - python -m pip install -r requirements.txt
     - python -m pylint gjorno backend
 
 yarn test:
@@ -34,3 +34,12 @@ yarn test:
     - cd frontend
     - yarn install --cache-folder .yarn
     - yarn test --passWithNoTests
+
+python manage.py test:
+  image: "python:3.7"
+  stage: Testing
+  script:
+    - python --version
+    - cd backend
+    - python -m pip install -r requirements.txt
+    - python manage.py test
