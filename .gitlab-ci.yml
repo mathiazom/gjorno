@@ -1,14 +1,19 @@
-image: "python:3.7"
-
-before_script:
-  - python --version
-  - python -m pip install -r backend/requirements.txt
-
 stages:
   - Linting
 
-PyLint:
+ESLint:
+  image: node
   stage: Linting
   script:
-  - cd backend
-  - python -m pylint gjorno backend
+    - cd frontend
+    - yarn install
+    - yarn eslint src
+
+PyLint:
+  image: "python:3.7"
+  stage: Linting
+  script:
+    - python --version
+    - python -m pip install -r backend/requirements.txt
+    - cd backend
+    - python -m pylint gjorno backend
