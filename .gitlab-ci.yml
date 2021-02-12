@@ -7,8 +7,8 @@ ESLint:
   stage: Linting
   cache:
     paths:
-      - node_modules/
-      - .yarn
+      - frontend/.yarn
+      - frontend/node_modules/
   script:
     - cd frontend
     - yarn install --cache-folder .yarn
@@ -28,8 +28,8 @@ yarn test:
   stage: Testing
   cache:
     paths:
-      - node_modules/
-      - .yarn
+      - frontend/.yarn
+      - frontend/node_modules/
   script:
     - cd frontend
     - yarn install --cache-folder .yarn
