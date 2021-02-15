@@ -5,5 +5,6 @@ from .models import Activity
 
 
 class ActivityView(viewsets.ModelViewSet):
+    """View for the set of all Activity objects"""
     serializer_class = ActivitySerializer
     queryset = Activity.objects.all()

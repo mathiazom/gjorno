@@ -1,16 +1,21 @@
+"""Admin site configurations"""
+
 from django.contrib import admin
 from .models import Activity, Category, Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
+    """Admin config for Profile model"""
     list_display = ('user',)
 
 
 class ActivityAdmin(admin.ModelAdmin):
+    """Admin config for Activity model"""
     list_display = ('title', 'user',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    """Admin config for Category model"""
     list_display = ('title',)
 
 
