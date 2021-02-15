@@ -2,9 +2,9 @@ import React from 'react';
 
 const Login = () => {
     return (
-        <div className="loginButton">
-            <button>
-                Logg inn
+        <div>
+            <button id="loginButton">
+                LOGG INN
             </button>
         </div>
     )
