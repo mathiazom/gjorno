@@ -7,10 +7,75 @@
   pointer-events: none;
 }
 
-.aktivtet {
-  color: lightcoral;
-  border: 2px solid black;
+.activity {
+  border-radius: 8px;
   margin: 50px;
+  margin-right: 10%;
+  margin-left: 10%;
+  display: flex;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.activity_main_header {
+  color: #00915d;
+}
+
+.activity-right-section {
+  flex-direction: column;
+  margin-right: 10%;
+  flex-basis: 30%;
+}
+
+.activity-left-section {
+  flex-direction: column;
+  margin-left: 10%;
+  flex-basis: 30%;
+}
+
+.activity_img {
+  margin-bottom: 10%;
+  height: 5rem;
+  width: 5rem;
+}
+
+.activity_paragraph {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  color: #212121;
+}
+
+.activity_date {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  color: #888888;
+}
+
+.activity_organizer {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  color: #888888;
+}
+
+.activity_join_button {
+  background-color: #00915d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 #loginButton {

@@ -9,6 +9,9 @@ function App() {
       <Navbar/>
       <Title />
       <Activity />
+      <Activity />
+      <Activity />
+      <Activity />
     </div>
   );
 }
