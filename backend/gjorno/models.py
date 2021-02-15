@@ -20,7 +20,7 @@ class Activity(models.Model):
     )
     title = models.CharField(max_length=50)
     description = models.TextField()
-    categories = models.ManyToManyField(blank=False, null=False, to="gjorno.Category")
+    categories = models.ManyToManyField(blank=False, to="gjorno.Category")
 
     def __str__(self):
         return self.title
