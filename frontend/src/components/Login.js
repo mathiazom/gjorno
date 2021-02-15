@@ -1,9 +1,10 @@
 import React from 'react';
 
 const Login = () => {
+    //id="loginButton"
     return (
         <div>
-            <button id="loginButton">
+            <button type="button" class="btn btn-outline-success">
                 LOGG INN
             </button>
         </div>

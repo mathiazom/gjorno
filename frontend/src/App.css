@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .App-logo {
@@ -19,17 +21,19 @@
 
 .activity_main_header {
   color: #00915d;
+  margin-top: 10%;
 }
 
 .activity-right-section {
   flex-direction: column;
-  margin-right: 10%;
+  margin-right: 5%;
   flex-basis: 30%;
+  display: inline-grid;
 }
 
 .activity-left-section {
   flex-direction: column;
-  margin-left: 10%;
+  margin-left: 5%;
   flex-basis: 30%;
 }
 
@@ -44,48 +48,30 @@
   margin-right: 10%;
   margin-top: 5%;
   margin-bottom: 5%;
-  font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
   color: #212121;
 }
 
 .activity_date {
-  font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
+  font-size: 1rem;
   color: #888888;
+  margin-top: 5%;
 }
 
 .activity_organizer {
-  font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
+  font-size: 1rem;
   color: #888888;
 }
 
 .activity_join_button {
-  background-color: #00915d;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
-}
-
-#loginButton {
-  color: #00915d;
-  background-color: #ffffff;
-  border: 3px solid #00915d;
-  border-radius: 5px;
-  padding: 7px;
-  text-align: center;
-  font-weight: bold;
+  margin-bottom: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 #navbar {

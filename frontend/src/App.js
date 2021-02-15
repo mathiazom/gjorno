@@ -7,6 +7,11 @@ function App() {
     <div className="App">
       <Navbar/>
       <Activity />
+      <Activity />
+      <Activity />
+      <Activity />
+      <Activity />
+
     </div>
   );
 }

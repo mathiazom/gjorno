@@ -9,9 +9,9 @@ const Activity = () => {
             </div>
             <p className="activity_paragraph">Løpetur fra Gløshaugen til Heimdal. Det er bare å blir med! Tenker å ligge på cirka 7km/t.</p>
             <div class="activity-right-section">
-                <h5 className="activity_date">11. Februar 2021 - 18:00</h5>
-                <h5 className="activity_organizer">Arrangert av Eksem Pel</h5>
-                <button className="activity_join_button">BLI MED</button>
+                <p className="activity_date">11. Februar 2021 - 18:00</p>
+                <p className="activity_organizer">Av Eksem Pel</p>
+                <button type="button" class="btn btn-success activity_join_button">BLI MED</button>
             </div>
         </div>
     );
