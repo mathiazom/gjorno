@@ -79,14 +79,13 @@
 }
 
 #loginButton {
-  color: #00915D;
+  color: #00915d;
   background-color: #ffffff;
-  border: 3px solid #00915D;
+  border: 3px solid #00915d;
   border-radius: 5px;
   padding: 7px;
   text-align: center;
   font-weight: bold;
-
 }
 
 #navbar {
@@ -94,14 +93,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: #00915D;
+  color: #00915d;
   margin-left: 30px;
   margin-right: 30px;
 }
 
-.burgers{
+.burgers {
   width: 35px;
   height: 5px;
-  background-color: black;
+  background-color: #00915d;
   margin: 6px 0;
 }
