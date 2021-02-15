@@ -33,7 +33,7 @@ yarn test:
   script:
     - cd frontend
     - yarn install --cache-folder .yarn
-    - yarn test --passWithNoTests
+    - yarn test --coverage --passWithNoTests
 
 python manage.py test:
   image: "python:3.7"
