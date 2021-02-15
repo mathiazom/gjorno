@@ -12,3 +12,10 @@
   border: 2px solid black;
   margin: 50px;
 }
+
+.loginButton {
+  color: #ffffff;
+  border: 5px solid #00915D;
+  text-align: center;
+
+}
