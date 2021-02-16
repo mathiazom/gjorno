@@ -1,6 +1,6 @@
 [MASTER]
 
-fail-under=8.0
+fail-under=6.0
 output-format=colorized
 load-plugins=pylint_django
 django-settings-module=backend.settings
