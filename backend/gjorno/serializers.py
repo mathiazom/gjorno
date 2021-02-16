@@ -7,4 +7,10 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('id','title','description','categories','user',)
+        fields = '__all__'
+
+class BasicActivitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Activity
+        exclude = ('user',)
