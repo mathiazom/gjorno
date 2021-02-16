@@ -1,3 +1,7 @@
-/friedrich
+**/venv
+**/friedrich
+/builds
 **/.idea/
 **/__pycache__/
+**/cache/
+frontend/package-lock.json

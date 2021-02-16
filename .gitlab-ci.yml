@@ -1,0 +1,45 @@
+stages:
+  - Linting
+  - Testing
+
+ESLint:
+  image: node
+  stage: Linting
+  cache:
+    paths:
+      - frontend/.yarn
+      - frontend/node_modules/
+  script:
+    - cd frontend
+    - yarn install --cache-folder .yarn
+    - yarn eslint src
+
+PyLint:
+  image: "python:3.7"
+  stage: Linting
+  script:
+    - python --version
+    - cd backend
+    - python -m pip install -r requirements.txt
+    - python -m pylint gjorno backend
+
+yarn test:
+  image: node
+  stage: Testing
+  cache:
+    paths:
+      - frontend/.yarn
+      - frontend/node_modules/
+  script:
+    - cd frontend
+    - yarn install --cache-folder .yarn
+    - yarn test --passWithNoTests
+
+python manage.py test:
+  image: "python:3.7"
+  stage: Testing
+  script:
+    - python --version
+    - cd backend
+    - python -m pip install -r requirements.txt
+    - python manage.py test
