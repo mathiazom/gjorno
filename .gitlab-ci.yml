@@ -1,6 +1,7 @@
 stages:
   - Linting
   - Testing
+  - Artifacts
 
 ESLint:
   image: node
@@ -30,16 +31,38 @@ yarn test:
     paths:
       - frontend/.yarn
       - frontend/node_modules/
+  artifacts:
+    paths:
+      - frontend/coverage/
   script:
     - cd frontend
     - yarn install --cache-folder .yarn
-    - yarn test --passWithNoTests
+    - yarn test --coverage --passWithNoTests --coverageReporters html --coverageReporters text
 
 python manage.py test:
   image: "python:3.7"
   stage: Testing
+  artifacts:
+    paths:
+      - backend/htmlcov/
   script:
     - python --version
     - cd backend
     - python -m pip install -r requirements.txt
+    - coverage run manage.py test
+    - coverage html
+    - coverage report
+
+pages:
+  stage: Artifacts
+  dependencies:
     - python manage.py test
+    - yarn test
+  script:
+    - mkdir --parents public/coverage/
+    - mv backend/htmlcov/ public/coverage/backend
+    - mv frontend/coverage/ public/coverage/frontend
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days

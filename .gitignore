@@ -5,3 +5,5 @@
 **/__pycache__/
 **/cache/
 frontend/package-lock.json
+**/.DS_Store
+builds/

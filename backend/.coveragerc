@@ -1,0 +1,11 @@
+[run]
+source = gjorno,backend
+omit =
+  */migrations/*
+  */asgi.py
+  */wsgi.py
+  */apps.py
+branch = True
+
+[report]
+skip_empty = True
