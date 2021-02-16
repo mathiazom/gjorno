@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from './logo.svg';
 import './App.css';
 import Activity from './components/Activity';
 import Navbar from './components/Navbar';
@@ -13,7 +12,6 @@ function App() {
       <Activity />
       <Activity />
       <Activity />
-
     </div>
   );
 }
