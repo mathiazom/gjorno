@@ -54,6 +54,13 @@ REST_FRAMEWORK = {
     ]
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'gjorno.serializers.UserWithProfileSerializer'
+}
+
+ACCOUNT_ADAPTER = 'gjorno.adapters.UserWithProfileAdapter'
+
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',

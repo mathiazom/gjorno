@@ -4,8 +4,8 @@ from django.contrib.auth.admin import User
 
 class Profile(models.Model):
     """Model acting as an extension of the default User model"""
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user", verbose_name="User"
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="profile", verbose_name="User"
     )
     phone_number = models.CharField(max_length=11)
 
