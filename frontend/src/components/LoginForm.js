@@ -36,21 +36,21 @@ function LoginForm() {
     return (
         <div className="container" id="container">
             <a className="close" onClick={closeLogin}></a>
-	        <div className="form-container sign-up-container">
-		        <form action="#">
-			        <h1>Lag konto</h1>
-			        <span>med navn, epost og passord</span>
-			        <input type="text" placeholder="Navn" />
-			        <input type="email" placeholder="Epost" />
-			        <input type="password" placeholder="Passord" />
-			        <button>Registrer deg</button>
-		        </form>
-	        </div>
-	        <div className="form-container sign-in-container">
-		        <form action="#">
-			        <h1>Logg inn</h1>
+            <div className="form-container sign-up-container">
+                <form action="#">
+                    <h1>Lag konto</h1>
+                    <span>med navn, epost og passord</span>
+                    <input type="text" placeholder="Navn" />
+                    <input type="email" placeholder="Epost" />
+                    <input type="password" placeholder="Passord" />
+                    <button>Registrer deg</button>
+                </form>
+            </div>
+            <div className="form-container sign-in-container">
+                <form action="#">
+                    <h1>Logg inn</h1>
                     <span>med brukernavn og passord</span>
-			        <input type="email" placeholder="Brukernavn" required />
+                    <input type="email" placeholder="Brukernavn" required />
                     <input type="password" placeholder="Passord" required />
                     <a href="#">Glemt passord?</a>
                     <button>Logg inn</button>
