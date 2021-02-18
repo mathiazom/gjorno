@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Activity = () => {
+const Activity = (props) => {
     return (
         <div className="card activity-card w-75 mx-auto mt-4 mb-4 ps-3 pe-3">
             <img src={"images/runner.png"} className="img-fluid ps-4 pe-4" alt={"runner"}/>
                 <div className="card-body d-flex row">
                     <div className={"col-12 col-lg-8 pe-4"}>
-                        <h5 className="card-title text-success">Skøyter</h5>
-                        <p className="card-text">Jeg tenker å stå på skøyter på Solsiden nå, mens det ennå er is der. Men vil gjerne ikke stå alene, så håper noen vil bli med.</p>
+                        <h5 className="card-title text-success">{props.data.title}</h5>
+                        <p className="card-text">{props.data.description}</p>
                     </div>
                     <div className={"col-12 col-lg-4 text-end d-none d-lg-block"}>
                         <div className={"text-secondary"}>
