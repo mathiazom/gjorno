@@ -3,10 +3,12 @@ This is views
 '''
 
 
+from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .serializers import ActivitySerializer, BasicActivitySerializer
+from .serializers import ActivitySerializer, BasicActivitySerializer, UserAndProfileSerializer
 from .models import Activity
+
 
 
 class ActivityView(viewsets.ModelViewSet):
@@ -25,3 +27,13 @@ class ActivityView(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UsersView(viewsets.ModelViewSet):
+    """View for the user information"""
+    queryset = User.objects.all()
+    serializer_class = UserAndProfileSerializer
+
+
+
+
+    
