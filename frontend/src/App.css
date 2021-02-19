@@ -174,7 +174,7 @@
 {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  background: #00915d;
 }
 
 /*
@@ -197,9 +197,9 @@
  #menu
  {
    position: absolute;
-   width: 150px;
    margin: -100px 0 0 -50px;
    padding: 50px;
+   width: 16em;
    padding-top: 150px;
    border-radius: 10px;
    
