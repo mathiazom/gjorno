@@ -8,6 +8,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import ActivitySerializer, BasicActivitySerializer, UserAndProfileSerializer
 from .models import Activity
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -33,7 +34,10 @@ class UsersView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserAndProfileSerializer
 
+class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users.. """
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
 
-
-
-    
+    def get_queryset(self):
+        return Activity.objects.filter(user=self.request.user)
