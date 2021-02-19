@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Activity = (props) => {
+function Activity(props) {
     return (
         <div className="card activity-card w-75 mx-auto mt-4 mb-4 ps-3 pe-3">
             <img src={"images/runner.png"} className="img-fluid ps-4 pe-4" alt={"runner"}/>
