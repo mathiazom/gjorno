@@ -6,19 +6,22 @@ import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
 
 function App() {
-  return (
-    <div className="App">
-      <input type="checkbox" id="show" />
-      <Navbar/>
-      <Activity />
-      <Activity />
-      <Activity />
-      <Activity />
-      <Activity />
-
-      <LoginForm />
-    </div>
-  );
+    return (
+        <div className="App">
+            <input type="checkbox" id="show" />
+            <LoginForm />
+            <div className={"main-container"}>
+                <Navbar/>
+                <div className={"mx-auto"}>
+                    <Activity/>
+                    <Activity/>
+                    <Activity/>
+                    <Activity/>
+                    <Activity/>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;

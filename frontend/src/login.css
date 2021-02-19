@@ -75,7 +75,7 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  position: absolute;
+  position: fixed;
   overflow: hidden;
   width: 768px;
   max-width: 100%;
@@ -92,12 +92,10 @@
   display: block;
 }
 
-#show:checked ~ .activity {
+#show:checked ~ .main-container {
   filter: blur(10px);
-}
-
-#show:checked ~ #navbar {
-  filter: blur(10px);
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 #show {
@@ -228,6 +226,7 @@
 
 .close:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 .close:before,
