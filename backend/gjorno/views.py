@@ -2,14 +2,12 @@
 This is views
 '''
 
-
-from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from django.contrib.auth.admin import User
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .serializers import ActivitySerializer, BasicActivitySerializer, UserAndProfileSerializer
 from .models import Activity
-from rest_framework.permissions import IsAuthenticated
-
 
 
 class ActivityView(viewsets.ModelViewSet):
@@ -29,10 +27,21 @@ class ActivityView(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UsersView(viewsets.ModelViewSet):
+
+class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
     serializer_class = UserAndProfileSerializer
+
+
+class CurrentUserView(generics.RetrieveUpdateAPIView):
+    """View for current user information"""
+    serializer_class = UserAndProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return User.objects.get(id=self.request.user.id)
+
 
 class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all of the users.. """

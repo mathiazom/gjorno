@@ -1,9 +1,9 @@
 """Model serializers"""
 
-from rest_framework import fields, serializers
+from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
-from .models import Activity
 from django.contrib.auth.admin import User
+from .models import Activity, Profile
 
 
 class UserWithProfileSerializer(RegisterSerializer):
@@ -26,12 +26,23 @@ class BasicActivitySerializer(serializers.ModelSerializer):
         model = Activity
         exclude = ('user',)
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+
 class UserAndProfileSerializer(serializers.ModelSerializer):
     """This is the serializer for user and profile information"""
 
-
     phone_number = serializers.CharField(source="profile.phone_number")
+
+    def update(self, instance, validated_data):
+        instance.profile.__dict__.update(validated_data.pop('profile'))
+        instance.profile.save()
+        return super().update(instance, validated_data)
+
     class Meta:
         model = User
         fields = ("phone_number", "username", "email")
-    

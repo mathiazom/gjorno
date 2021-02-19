@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from gjorno.views import ActivityView, UsersView, MyActivitiesView
+from gjorno.views import ActivityView, UsersView, CurrentUserView, MyActivitiesView
 
 router = routers.DefaultRouter()
 router.register("activities", ActivityView, 'activities')
@@ -26,6 +26,7 @@ router.register("my_activities", MyActivitiesView, 'my_activities')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/current_user/', CurrentUserView.as_view()),
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls'))
 ]
