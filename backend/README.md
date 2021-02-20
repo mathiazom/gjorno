@@ -23,26 +23,35 @@ pip install virtualenv
 ```
 virtualenv venv
 ```
+
 or in case that fails try
+
 ```
 python -m virtualenv venv
 ```
+
 > venv is just a name here, it could just as well be heinrich, william, franz ...
 
 ##### Activation
 
 Windows
+
 ```
 . venv\Scripts\activate
 ```
+
 macOS
+
 ```
-. venv\bin\activate
+chmod +x venv/bin/activate
+source /venv/bin/activate
+./venv/bin/activate
 ```
 
 <br>
 
 #### 📦 Installing required modules
+
 > Make sure you have activated the virtualenv before you start installing modules
 
 The [`requirements.txt`](requirements.txt) file specifies all the required modules to be able to run the backend. This includes `Django`, `djangorestframework`, `django-rest-auth` and a whole bunch of other stuff...
@@ -58,11 +67,13 @@ pip install -r requirements.txt
 #### 🏇 Running Django
 
 Before running the server, we have to initialize the underlying database
+
 ```
 python manage.py migrate
 ```
 
 It's also useful to create an admin user
+
 ```
 python manage.py createsuperuser
 ```
@@ -81,7 +92,6 @@ It is now ready to handle requests 🥳
 
 Django provides a handy interface for inspecting and moderating backend data, the [Admin site](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/). It's available for superusers at [`localhost:8000/admin`](http://localhost:8000/admin)
 
-
 <br>
 
 ## API Reference
@@ -91,4 +101,5 @@ The API is available at [`localhost:8000/api`](http://localhost:8000/api). Acces
 #### 🤝 Currently supported requests
 
 #### `GET localhost:8000/api/activities`
+
 > Returns all activities
