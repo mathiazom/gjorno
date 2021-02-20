@@ -2,6 +2,8 @@
 
 This project uses [Django](https://www.djangoproject.com/), a Python Web framework, as a REST API backend with the [Django REST framework](https://www.django-rest-framework.org/). This exposes various URL paths for the frontend to point its requests to, e.g. `/activities` to fetch all activities currently in the database.
 
+### [API Reference](api_reference.md)
+
 <br>
 
 ## Setup
@@ -91,15 +93,3 @@ It is now ready to handle requests 🥳
 #### 🧙‍♂️ Admin Interface
 
 Django provides a handy interface for inspecting and moderating backend data, the [Admin site](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/). It's available for superusers at [`localhost:8000/admin`](http://localhost:8000/admin)
-
-<br>
-
-## API Reference
-
-The API is available at [`localhost:8000/api`](http://localhost:8000/api). Accessing this URL in the browser will present the [Browsable API](https://www.django-rest-framework.org/topics/browsable-api/). Like the admin site, it's a useful tool for testing requests and inspecting the structure of the API.
-
-#### 🤝 Currently supported requests
-
-#### `GET localhost:8000/api/activities`
-
-> Returns all activities
