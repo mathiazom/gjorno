@@ -1,10 +1,13 @@
 import React from 'react';
 
 const Login = () => {
-    //id="loginButton"
+    const addLogin = () => {
+        document.getElementById("show").checked = true;
+    }
+
     return (
         <div>
-            <button type="button" className="btn btn-outline-success">
+            <button onClick={() => {addLogin()}} type="button" className="btn btn-outline-success">
                 LOGG INN
             </button>
         </div>
