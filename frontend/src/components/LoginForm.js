@@ -1,19 +1,38 @@
 import React from 'react';
 import axios from 'axios';
 
+/**
+ * Component for the login form. Contain both login and registration.
+ * Is opened by the LoginButton.
+ */
 export default class LoginForm extends React.Component {
+    /**
+     * Function changing from Login to Register in the login pop-up.
+     */
     addClass = () => {
         document.getElementById("container").classList.add('right-panel-active');
     }
 
+    /**
+     * Function changing from Register to Login in the login pop-up.
+     */
     removeClass = () => {
         document.getElementById("container").classList.remove('right-panel-active');
     }
 
-    closeLogin = () => {
+    /**
+     * Function for closing the login pop-up. Unchecks a checkbox (in App.js).
+     */
+    closeLoginForm = () => {
         document.getElementById("show").checked = false;
     }
 
+    /**
+     * Function for registering a new user. Collecting text in the form-field, and sending them as a POST to the backend.
+     * Returns a token uniqe to the user, and storing it in the users localStorage.
+     * 
+     * @param {*} event 
+     */
     handleSubmit = event => {
         event.preventDefault();
         const user = { 
@@ -26,14 +45,16 @@ export default class LoginForm extends React.Component {
         axios.post("http://localhost:8000/auth/register/", user)
             .then(res => { 
                 console.log(res);
-                {window.localStorage.setItem("Token", res.data.key)}
-                this.closeLogin();
+                window.localStorage.setItem("Token", res.data.key)
+                this.closeLoginForm();
             })
             .catch(error => {
                 console.log(error.response);
             })}
     
-
+    /**
+     * Function for login. POST username and password to the backend, retured the users token if valid.
+     */
     login = () => {
         axios.post("http://localhost:8000/auth/login/", {
             "username": document.getElementById("login-username").value,
@@ -41,11 +62,10 @@ export default class LoginForm extends React.Component {
         }).then(res => {
             window.localStorage.setItem("Token", res.data.key)
             console.log(res.data.key);
-            this.closeLogin();
+            this.closeLoginForm();
         }).catch(error => {
             console.log(error.response);
     })}
-
 
     render() {
         return (

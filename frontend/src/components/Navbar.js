@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './Title';
-import Login from './Login';
+import LoginButton from './LoginButton';
 import BurgerMenu from './BurgerMenu';
 
 const Navbar = () => {
@@ -8,7 +8,7 @@ const Navbar = () => {
         <div id="navbar" className={"p-4 ps-5 pe-5 sticky-top shadow-sm"}>
             <BurgerMenu/>
             <Title/>
-            <Login/>
+            <LoginButton/>
         </div>
     )
 }
