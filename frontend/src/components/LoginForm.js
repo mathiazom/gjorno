@@ -9,21 +9,21 @@ export default class LoginForm extends React.Component {
     /**
      * Function changing from Login to Register in the login pop-up.
      */
-    addClass = () => {
+    addClass() {
         document.getElementById("container").classList.add('right-panel-active');
     }
 
     /**
      * Function changing from Register to Login in the login pop-up.
      */
-    removeClass = () => {
+    removeClass() {
         document.getElementById("container").classList.remove('right-panel-active');
     }
 
     /**
      * Function for closing the login pop-up. Unchecks a checkbox (in App.js).
      */
-    closeLoginForm = () => {
+    closeLoginForm() {
         document.getElementById("show").checked = false;
     }
 
@@ -33,7 +33,7 @@ export default class LoginForm extends React.Component {
      * 
      * @param {*} event 
      */
-    handleSubmit = event => {
+    handleSubmit(event) {
         event.preventDefault();
         const user = { 
             "username": document.getElementById("reg-username").value,
@@ -55,7 +55,7 @@ export default class LoginForm extends React.Component {
     /**
      * Function for login. POST username and password to the backend, retured the users token if valid.
      */
-    login = () => {
+    login() {
         axios.post("http://localhost:8000/auth/login/", {
             "username": document.getElementById("login-username").value,
             "password": document.getElementById("login-password").value,
@@ -70,7 +70,7 @@ export default class LoginForm extends React.Component {
     render() {
         return (
         <div className="container" id="container">
-            <a className="close" onClick={this.closeLogin}/>
+            <a className="close" onClick={this.closeLoginForm}/>
             <div className="form-container sign-up-container">
                 <form action="#">
                     <h1>Lag konto</h1>
