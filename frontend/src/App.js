@@ -193,4 +193,3 @@ function ProtectedRoute({ path, children }) {
         />
     );
 }
-

@@ -20,7 +20,7 @@ class EditActivity extends React.Component {
 
     componentDidMount() {
         updatePageTitle("Rediger aktivitet");
-        axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}`)
+        axios.get(`https://api.gjorno.site/api/activities/${this.props.match.params.id}`)
             .then(res => {
                 this.setState({activity: res.data})
             })
@@ -33,7 +33,7 @@ class EditActivity extends React.Component {
      * Send the edited activity back to the server, using a PUT.
      */
     editActivity(activity) {
-        axios.put(`http://localhost:8000/api/activities/${this.props.match.params.id}/`,
+        axios.put(`https://api.gjorno.site/api/activities/${this.props.match.params.id}/`,
             activity,
             {
                 headers: {

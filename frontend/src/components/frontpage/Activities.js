@@ -55,7 +55,7 @@ export default class Activities extends React.Component {
             headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
         }
         axios
-            .get(`http://localhost:8000/api/activities/`, {
+            .get(`http://api.gjorno.site/api/activities/`, {
                 headers: headers
             })
             .then(res => {
@@ -178,4 +178,3 @@ export default class Activities extends React.Component {
         );
     }
 }
-

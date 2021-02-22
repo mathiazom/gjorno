@@ -24,7 +24,7 @@ SECRET_KEY = ')67ao=a=x!kqdca*+#v9x4ex35)bb=x4b1&_(nx$qi#x+unp#+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.gjorno.site','52.15.119.20']
 
 # Email configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -156,5 +156,4 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-# we whitelist localhost:3000 because that's where frontend will be served
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_ALLOW_ALL = True

@@ -22,7 +22,7 @@ class CreateActivity extends React.Component {
      * Takes values from html-form and sends a POST to the API
      */
     createActivity(data) {
-        axios.post("http://localhost:8000/api/activities/",
+        axios.post("https://api.gjorno.site/api/activities/",
             data,
             {
                 headers: {

@@ -170,7 +170,8 @@ class LoginForm extends React.Component {
             "password2": document.getElementById("reg-password2").value,
             "is_organization": document.getElementById("organizationSwitch").checked
         };
-        axios.post("http://localhost:8000/auth/register/", user)
+
+        axios.post("http://api.gjorno.site/auth/register/", user)
             .then(res => {
                 window.localStorage.setItem("Token", res.data.key);
                 this.props.history.push("/");
@@ -216,7 +217,7 @@ class LoginForm extends React.Component {
         }
         const loginButton = document.getElementById("auth-login-button");
         loginButton.disabled = true;
-        axios.post("http://localhost:8000/auth/login/", {
+        axios.post("https://api.gjorno.site/auth/login/", {
             "username": document.getElementById("login-username").value,
             "password": document.getElementById("login-password").value,
         }).then(res => {
