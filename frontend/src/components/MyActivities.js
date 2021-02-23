@@ -33,7 +33,7 @@ export default class MyActivities extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid w-100">
+            <div className="container-fluid w-100 p-0 ps-md-5">
                 <h2>Mine aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
