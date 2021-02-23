@@ -75,9 +75,9 @@ Example response for a valid request to database with three activities:
         "id": 23,
         "title": "Football at 9",
         "description": "Would be great to get teams of around 7",
-        "user": 13,
+        "user": 12,
         "categories": [
-            15
+            14
         ]
     },
     {
@@ -87,6 +87,36 @@ Example response for a valid request to database with three activities:
         "user": 14,
         "categories": [
             16
+        ]
+    }
+]
+```
+
+## Retrieve activities of currently logged in user
+#### `GET localhost:8000/api/my_activities/`
+🔑 Requires the `Authorization` header (see [above](#authorization))
+
+Expects no request body
+
+Example response for a valid request to database where logged in user has `id=12`:
+```json
+[
+    {
+        "id": 22,
+        "title": "Walk around the lake",
+        "description": "I think this is a a great walk",
+        "user": 12,
+        "categories": [
+            14
+        ]
+    },
+    {
+        "id": 23,
+        "title": "Football at 9",
+        "description": "Would be great to get teams of around 7",
+        "user": 12,
+        "categories": [
+            145
         ]
     }
 ]
@@ -160,6 +190,23 @@ Example request body (updates only `title` and `categories`, keeps original `des
 }
 ```
 
+## Retrieve all categories
+#### `GET localhost:8000/api/categories/`
+Expects no request body
+
+Example response for a valid request to database with two categories:
+```json
+[
+  {
+    "id": 1,
+    "title": "Dolor"
+  },
+  {
+    "id": 2,
+    "title": "Amet"
+  }
+]
+```
 
 ## Retrieve all users
 #### `GET localhost:8000/api/users/`
@@ -185,8 +232,6 @@ Example response for a valid request to database with three users:
   }
 ]
 ```
-If activity was successfully updated, the respone body will contain the updated activity.
-
 
 
 ## Retrieve currently logged in user
