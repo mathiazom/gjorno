@@ -1,19 +1,20 @@
 import React from 'react';
+import Log from './Log';
+import ProfileInfo from './ProfileInfo';
 
-export default class Profile extends React.Component {
-
-    /**
-     * WIP: Empty component
-     */
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div></div>
-        )
-    }
+const Profile = () => {
+    return(
+        <div className="container-fluid w-75 mt-5">
+            <div className="row">
+                <div className="col-3">
+                    <ProfileInfo />
+                </div>
+                <div className="col">
+                    <Log />
+                </div>
+            </div>
+        </div>
+    );
 }
 
+export default Profile;
