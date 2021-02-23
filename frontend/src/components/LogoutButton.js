@@ -14,6 +14,8 @@ const LogoutButton = () => {
         })*/
         window.localStorage.removeItem("Token");
         console.log("Logging user off...");
+        location.href = "http://localhost:3000"; 
+        location.reload();
     }
 
     return (

@@ -45,8 +45,9 @@ export default class LoginForm extends React.Component {
         axios.post("http://localhost:8000/auth/register/", user)
             .then(res => { 
                 console.log(res);
-                window.localStorage.setItem("Token", res.data.key)
-                this.closeLoginForm();
+                window.localStorage.setItem("Token", res.data.key);
+                location.reload();
+                //this.closeLoginForm();
             })
             .catch(error => {
                 console.log(error.response);
@@ -62,7 +63,8 @@ export default class LoginForm extends React.Component {
         }).then(res => {
             window.localStorage.setItem("Token", res.data.key)
             console.log(res.data.key);
-            this.closeLoginForm();
+            location.reload();
+            //this.closeLoginForm();
         }).catch(error => {
             console.log(error.response);
     })}
