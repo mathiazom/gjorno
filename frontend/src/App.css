@@ -1,10 +1,10 @@
 .activity {
-    border-radius: 8px;
-    margin: 50px;
-    margin-right: 10%;
-    margin-left: 10%;
-    display: flex;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+  border-radius: 8px;
+  margin: 50px;
+  margin-right: 10%;
+  margin-left: 10%;
+  display: flex;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   display: flex;
   flex-direction: row;
@@ -13,220 +13,216 @@
 }
 
 .activity_main_header {
-    color: #198754;
-    margin-top: 10%;
+  color: #198754;
+  margin-top: 10%;
 }
 
 .activity-right-section {
-    flex-direction: column;
-    margin-right: 5%;
-    flex-basis: 30%;
-    display: inline-grid;
+  flex-direction: column;
+  margin-right: 5%;
+  flex-basis: 30%;
+  display: inline-grid;
 }
 
 .activity-left-section {
-    flex-direction: column;
-    margin-left: 5%;
-    flex-basis: 30%;
+  flex-direction: column;
+  margin-left: 5%;
+  flex-basis: 30%;
 }
 
 .activity_img {
-    margin-bottom: 10%;
-    height: 5rem;
-    width: 5rem;
+  margin-bottom: 10%;
+  height: 5rem;
+  width: 5rem;
 }
 
 .activity_paragraph {
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    font-style: normal;
-    font-weight: normal;
-    color: #212121;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-style: normal;
+  font-weight: normal;
+  color: #212121;
 }
 
 .activity_date {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1rem;
-    color: #888888;
-    margin-top: 5%;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  color: #888888;
+  margin-top: 5%;
 }
 
 .activity_organizer {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1rem;
-    color: #888888;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  color: #888888;
 }
 
 .activity_join_button {
-    margin-bottom: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
+  margin-bottom: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 #navbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    color: #198754;
-    background: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #198754;
+  background: #ffffff;
 }
 
 .burgers {
-    width: 35px;
-    height: 5px;
-    background-color: #198754;
-    margin: 6px 0;
+  width: 35px;
+  height: 5px;
+  background-color: #198754;
+  margin: 6px 0;
 }
 
 /*BURGERS*/
 
 #menuToggle {
-    display: block;
-    position: relative;
+  display: block;
+  position: relative;
 
-    z-index: 1;
+  z-index: 1;
 
-    -webkit-user-select: none;
-    user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #menuToggle a {
-    text-decoration: none;
-    color: #FFFFFF;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease;
 }
 
 #menuToggle a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-#menuToggle input /* Makes burger a button*/
-{
-    display: block;
-    width: 40px;
-    height: 32px;
-    position: absolute;
-    top: -7px;
-    left: -5px;
+#menuToggle input /* Makes burger a button*/ {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    opacity: 0; /* hide this */
-    z-index: 2; /* and place it over the hamburger */
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
 
-    -webkit-touch-callout: none;
+  -webkit-touch-callout: none;
 }
 
 #menuToggle span {
-    display: block;
-    width: 33px;
-    height: 4px;
-    margin-bottom: 5px;
-    position: relative;
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
 
-    background: #198754;
-    border-radius: 3px;
+  background: #198754;
+  border-radius: 3px;
 
-    z-index: 1;
+  z-index: 1;
 
-    transform-origin: 4px 0px;
+  transform-origin: 4px 0px;
 
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-    opacity 0.55s ease;
-
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 }
 
 /* Fancy "opening burger" menu thing*/
 
 #menuToggle span:first-child {
-    transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
 }
 
 #menuToggle span:nth-last-child(2) {
-    transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
 }
 
 /*
  * Transform all the slices of hamburger
  * into a crossmark.
  */
-#menuToggle input:checked ~ span
-{
+#menuToggle input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 /*
  * But let's hide the middle one.
  */
 #menuToggle input:checked ~ span:nth-last-child(3) {
-    opacity: 0;
-    transform: rotate(0deg) scale(0.2, 0.2);
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
 }
 
 /*
  * Ohyeah and the last one should go the other direction
  */
 #menuToggle input:checked ~ span:nth-last-child(2) {
-    transform: rotate(-45deg) translate(0, -1px);
+  transform: rotate(-45deg) translate(0, -1px);
 }
 
 #menu {
-    position: absolute;
-    margin: -120px 0 0 -60px;
-    width: 16em;
-    padding: 50px;
-    padding-top: 150px;
-    border-radius: 10px;
+  position: absolute;
+  margin: -120px 0 0 -60px;
+  width: 16em;
+  padding: 50px;
+  padding-top: 150px;
+  border-radius: 10px;
 
-    background: #198754;
-    list-style-type: none;
-    -webkit-font-smoothing: antialiased; /*For Firefox*/
+  background: #198754;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased; /*For Firefox*/
 
-    transform-origin: 0% 0%; /* Makes it collapsable */
-    transform: translate(-100%, 0);
+  transform-origin: 0% 0%; /* Makes it collapsable */
+  transform: translate(-100%, 0);
 
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 #menu li {
-    padding: 10px 0;
-    font-size: 22px;
+  padding: 10px 0;
+  font-size: 22px;
 }
 
 #menuToggle input:checked ~ ul {
-    transform: none;
+  transform: none;
 }
 
 #menuToggle a {
-    text-decoration: none;
-    color: #FFFFFF;
+  text-decoration: none;
+  color: #ffffff;
 
-    transition: color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 #menuToggle a:hover {
-    color: #072819;
-    text-decoration: none;
+  color: #072819;
+  text-decoration: none;
 }
 
 @media (min-width: 992px) {
-    .activity-card {
-        flex-direction: row;
-        align-items: center;
-        max-width: 70%;
-    }
+  .activity-card {
+    flex-direction: row;
+    align-items: center;
+    max-width: 70%;
+  }
 }
 
 @media (min-width: 1200px) {
-    .activity-card {
-        max-width: 60%;
-    }
+  .activity-card {
+    max-width: 60%;
+  }
 }
