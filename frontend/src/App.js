@@ -1,43 +1,37 @@
 import React from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from "react-router-dom";
 import './App.css';
 import './login.css';
-import Activity from './components/Activity';
+import Activities from './components/Activities';
+import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
-import axios from 'axios'
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
-
-    componentDidMount() {
-        axios.get('/api/activities/')
-            .then(res => {
-                this.setState({data: res.data});
-            });
-    }
-    renderAllActivities() {
-        return this.state.data.map((activity) => (
-            <Activity data={activity} key={activity.id}/>
-        ));
-    }
 
     render() {
         return (
-            <div className={"App"}>
-                <input type="checkbox" id="show" />
-                <LoginForm />
-                <div className={"main-container"}>
-                    <Navbar/>
-                    <div className={"mx-auto"}>
-                      {this.renderAllActivities()}
+            <Router>
+                <div className={"App"}>
+                    <input type="checkbox" id="show" />
+                    <LoginForm />
+                    <div className={"main-container"}>
+                        <Navbar/>
+                        <Switch>
+                            <Route exact path={"/"}>
+                                <Activities />
+                            </Route>
+                            <Route exact path={"/profile"}>
+                                <Profile />
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
-            </div>
+            </Router>
         )
     }
 }
