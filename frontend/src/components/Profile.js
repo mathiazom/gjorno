@@ -1,5 +1,5 @@
 import React from 'react';
-import Log from './Log';
+import MyActivities from './MyActivities';
 import ProfileInfo from './ProfileInfo';
 
 const Profile = () => {
@@ -10,7 +10,7 @@ const Profile = () => {
                     <ProfileInfo />
                 </div>
                 <div className="col">
-                    <Log />
+                    <MyActivities />
                 </div>
             </div>
         </div>

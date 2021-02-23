@@ -10,7 +10,6 @@ import Activities from './components/Activities';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
-import Profile from './components/Profile';
 
 export default class App extends React.Component {
 
