@@ -11,8 +11,12 @@ export default class MyActivities extends React.Component {
     }
 
     componentDidMount() {
-        axios.defaults.headers.common['Authorization'] = `Token ${window.localStorage.getItem("Token")}`;
-        axios.get('http://localhost:8000/api/my_activities/')
+        axios.get('http://localhost:8000/api/my_activities/',
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }
+            })
             .then(res => {
                 this.setState({data: res.data});
             })

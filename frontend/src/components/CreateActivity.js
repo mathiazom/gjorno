@@ -46,8 +46,11 @@ class CreateActivity extends React.Component {
             description: description,
             categories: categories
         }
-        axios.defaults.headers.common['Authorization'] = `Token ${window.localStorage.getItem("Token")}`;
-        axios.post("http://localhost:8000/api/activities/", activity)
+        axios.post("http://localhost:8000/api/activities/", activity,
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }})
             .then(() => {
                 this.props.history.push("/");
             });
