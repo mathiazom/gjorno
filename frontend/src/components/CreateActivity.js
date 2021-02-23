@@ -1,13 +1,15 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
+import MultiSelect from "react-multi-select-component";
 
 class CreateActivity extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            categories: []
+            categories: [],
+            selected_categories: []
         };
 
         // Bind "this" to get access to "this.props.history"
@@ -15,38 +17,33 @@ class CreateActivity extends React.Component {
     }
 
     componentDidMount() {
+
         axios.get('http://localhost:8000/api/categories/')
             .then(res => {
-                this.setState({categories: res.data});
-                let select = document.getElementById("activity-categories-input")
-                for(const category of this.state.categories){
-                    let option = document.createElement("option");
-                    option.text = category.title;
-                    option.dataset.id = category.id;
-                    select.add(option);
-                }
+                // Create category dropdown options
+                let categories = res.data.map((category)=>{
+                    return {label: category.title, value: category.id}
+                });
+                this.setState({categories: categories});
             })
             .catch(error => {
-                console.log(error.response);
+                console.log(error);
             })
     }
 
     createActivity() {
         const title = document.getElementById("activity-title-input").value;
         const description = document.getElementById("activity-description-input").value;
-        let select = document.getElementById("activity-categories-input")
-        const categories = []
-        for(const option of select.options){
-            if(option.selected){
-                categories.push(option.dataset.id);
-            }
-        }
-        const activity = {
-            title: title,
-            description: description,
-            categories: categories
-        }
-        axios.post("http://localhost:8000/api/activities/", activity,
+        // Extract ids of selected categories
+        const category_ids = this.state.selected_categories.map((category)=>{
+            return category.value;
+        })
+        axios.post("http://localhost:8000/api/activities/",
+            {
+                title: title,
+                description: description,
+                categories: category_ids
+            },
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -73,7 +70,19 @@ class CreateActivity extends React.Component {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-categories-input" className="form-label">Kategorier</label>
-                        <select id="activity-categories-input" className="form-select" multiple />
+                        <MultiSelect
+                            id="activity-categories-input"
+                            options={this.state.categories}
+                            value={this.state.selected_categories}
+                            onChange={(selected)=>this.setState({selected_categories: selected})}
+                            hasSelectAll={false}
+                            focusSearchOnOpen={false}
+                            overrideStrings={{
+                                "selectSomeItems": "Velg",
+                                "allItemsAreSelected": "Alle kategorier",
+                                "search": "Søk"
+                            }}
+                        />
                     </div>
                     <div className="mt-4">
                         <button className="btn btn-success w-100" onClick={this.createActivity}>Legg ut</button>
