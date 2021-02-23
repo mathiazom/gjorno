@@ -10,8 +10,11 @@ export default class ProfileInfo extends React.Component {
     }
 
     componentDidMount() {
-        axios.defaults.headers.common['Authorization'] = `Token ${window.localStorage.getItem("Token")}`;
-        axios.get('http://localhost:8000/api/current_user/')
+        axios.get('http://localhost:8000/api/current_user/',
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }})
             .then(res => {
                 this.setState({data: res.data});
             });
