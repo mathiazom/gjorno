@@ -16,7 +16,9 @@ from .models import Activity, Category
 
 class ActivitiesView(viewsets.ModelViewSet):
     """View for the set of all Activity objects"""
-    queryset = Activity.objects.all()
+
+    # All activities, ordered by creation time (aka descending id)
+    queryset = Activity.objects.all().order_by('-id')
 
     def get_serializer_class(self):
         if self.request.method in ["POST", "PUT", "PATCH"]:
@@ -53,7 +55,7 @@ class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Activity.objects.filter(user=self.request.user)
+        return Activity.objects.filter(user=self.request.user).order_by('-id')
 
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):
