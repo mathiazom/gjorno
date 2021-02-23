@@ -33,6 +33,11 @@ export default class App extends React.Component {
                             <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
                             </ProtectedRoute>
+
+                            {/* Redirect anything else to frontpage */}
+                            <Route path={"*"}>
+                                <Redirect to={{pathname: "/"}}/>
+                            </Route>
                         </Switch>
                     </div>
                 </div>
