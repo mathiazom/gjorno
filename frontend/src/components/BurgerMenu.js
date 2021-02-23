@@ -13,6 +13,7 @@ const BurgerMenu = () => {
 
             <ul id="menu">
                 <li><BurgerLink to={"/"} label={"Aktiviteter"}/></li>
+                <li><BurgerLink to={"/create-activity"} label={"Ny aktivitet"}/></li>
                 <li><Link className={"text-white-50"}>Organisert</Link></li>
                 <li><BurgerLink to={"/profile"} label={"Profil"}/></li>
             </ul>

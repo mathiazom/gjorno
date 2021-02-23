@@ -1,11 +1,23 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 /**
  * Component for the login form. Contain both login and registration.
  * Is opened by the LoginButton.
  */
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+
+        // Bind "this" to get access to "this.props.history"
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
+    }
+
+
     /**
      * Function changing from Login to Register in the login pop-up.
      */
@@ -33,7 +45,7 @@ export default class LoginForm extends React.Component {
      * 
      * @param {*} event 
      */
-    handleSubmit(event) {
+    register(event) {
         event.preventDefault();
         const user = { 
             "username": document.getElementById("reg-username").value,
@@ -43,11 +55,10 @@ export default class LoginForm extends React.Component {
         };
         console.log(user);
         axios.post("http://localhost:8000/auth/register/", user)
-            .then(res => { 
-                console.log(res);
+            .then(res => {
                 window.localStorage.setItem("Token", res.data.key);
+                this.props.history.push("/");
                 location.reload();
-                //this.closeLoginForm();
             })
             .catch(error => {
                 console.log(error.response);
@@ -62,9 +73,8 @@ export default class LoginForm extends React.Component {
             "password": document.getElementById("login-password").value,
         }).then(res => {
             window.localStorage.setItem("Token", res.data.key)
-            console.log(res.data.key);
+            this.props.history.push("/");
             location.reload();
-            //this.closeLoginForm();
         }).catch(error => {
             console.log(error.response);
     })}
@@ -81,7 +91,7 @@ export default class LoginForm extends React.Component {
                         <input id="reg-password1" className={"rounded"} type="password" placeholder="Passord" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
                         <input id="reg-password2" className={"rounded"} type="password" placeholder="Gjenta passord" />
                     </div>
-                    <button type="submit" onClick={this.handleSubmit}>Registrer deg</button>
+                    <button type="submit" onClick={this.register}>Registrer deg</button>
                 </form>
             </div>
             <div className="form-container sign-in-container">
@@ -112,3 +122,5 @@ export default class LoginForm extends React.Component {
         </div>);
         }
     }
+
+export default withRouter(LoginForm);
