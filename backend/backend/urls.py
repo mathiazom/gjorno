@@ -16,10 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from gjorno.views import ActivityView, UsersView, CurrentUserView, MyActivitiesView
+from gjorno.views import \
+    ActivitiesView,\
+    CategoriesView, \
+    UsersView, \
+    CurrentUserView, \
+    MyActivitiesView
 
 router = routers.DefaultRouter()
-router.register("activities", ActivityView, 'activities')
+router.register("activities", ActivitiesView, 'activities')
+router.register("categories", CategoriesView, 'categories')
 router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
 

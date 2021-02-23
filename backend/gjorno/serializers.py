@@ -3,7 +3,7 @@
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.admin import User
-from .models import Activity, Profile
+from .models import Activity, Profile, Category
 
 
 class UserWithProfileSerializer(RegisterSerializer):
@@ -46,3 +46,9 @@ class UserAndProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("phone_number", "username", "email")
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
