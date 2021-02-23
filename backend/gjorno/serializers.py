@@ -16,6 +16,9 @@ class UserWithProfileSerializer(RegisterSerializer):
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+
+    username = serializers.CharField(source="user.username")
+
     class Meta:
         model = Activity
         fields = '__all__'

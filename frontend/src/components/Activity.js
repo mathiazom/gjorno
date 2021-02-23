@@ -12,28 +12,19 @@ const Activity = (props) => {
                     </div>
                     <div className={"col-12 col-lg-4 text-end d-none d-lg-block"}>
                         <div className={"text-secondary"}>
-                            <p>{props.date}</p>
-                            <p>Arrangert av <span className={"text-success"}><b>{props.arrangedBy}</b></span></p>
+                            <p>Publisert av <span className={"text-success"}><b>{props.data.username}</b></span></p>
                         </div>
-                        <a href="#" className="btn btn-success float-right">Legg til favoritt</a>
+                        <a href="#" className="btn btn-success float-right">Legg til i logg</a>
                     </div>
                     <div className={"col-12 d-block d-lg-none pt-3 pb-3"}>
                         <div className={"text-secondary"}>
-                            <span>{props.date}</span><br/>
-                            <span>Arrangert av <span className={"text-success"}><b>{props.arrangedBy}</b></span></span>
+                            <span>Publisert av <span className={"text-success"}><b>{props.data.username}</b></span></span>
                         </div>
-                        <a href="#" className="btn btn-success mt-3">Legg til favoritt</a>
+                        <a href="#" className="btn btn-success mt-3">Legg til i logg</a>
                     </div>
                 </div>
         </div>
     );
 }
-
-Activity.defaultProps = {
-    title: 'Skøyter',
-    description: "Jeg tenker å stå på skøyter på Solsiden nå, mens det ennå er is der. Men vil gjerne ikke stå alene, så håper noen vil bli med.",
-    date: "11. Februar 2021 - 18:00",
-    arrangedBy: "Jenny"
-};
 
 export default Activity;
