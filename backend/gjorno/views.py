@@ -6,11 +6,15 @@ from django.contrib.auth.admin import User
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ActivitySerializer, BasicActivitySerializer, UserAndProfileSerializer
-from .models import Activity
+from .serializers import\
+    ActivitySerializer,\
+    BasicActivitySerializer,\
+    UserAndProfileSerializer, \
+    CategorySerializer
+from .models import Activity, Category
 
 
-class ActivityView(viewsets.ModelViewSet):
+class ActivitiesView(viewsets.ModelViewSet):
     """View for the set of all Activity objects"""
     queryset = Activity.objects.all()
 
@@ -50,3 +54,9 @@ class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
+
+
+class CategoriesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all categories. """
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
