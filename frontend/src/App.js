@@ -2,7 +2,8 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 import './App.css';
 import './login.css';
@@ -26,11 +27,16 @@ export default class App extends React.Component {
                             <Route exact path={"/"}>
                                 <Activities />
                             </Route>
-                            <Route exact path={"/create-activity"}>
+                            <ProtectedRoute exact path={"/create-activity"}>
                                 <CreateActivity />
-                            </Route>
-                            <Route exact path={"/profile"}>
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
+                            </ProtectedRoute>
+
+                            {/* Redirect anything else to frontpage */}
+                            <Route path={"*"}>
+                                <Redirect to={{pathname: "/"}}/>
                             </Route>
                         </Switch>
                     </div>
@@ -38,5 +44,39 @@ export default class App extends React.Component {
             </Router>
         )
     }
+}
+
+// A <Route> wrapper that redirects to login form if not authenticated
+function ProtectedRoute({children}) {
+
+    // Display login form if not authenticated (as soon as page is ready)
+    const toggleLogin = () => {
+        document.getElementById("show").checked = true;
+    }
+    const isAuthenticated = window.localStorage.getItem("Token");
+    if(!isAuthenticated){
+        const showToggle = document.getElementById("show");
+        if(showToggle != null){
+            // Show login form now
+            toggleLogin();
+        }else{
+            // Show login form as soon as page is loaded
+            window.onload = () => {
+                toggleLogin();
+            }
+        }
+    }
+
+    return (
+        <Route
+            render={({location}) =>
+                isAuthenticated ? (
+                    children
+                ) : (
+                    <Redirect to={{pathname: "/", state: {from: location}}}/>
+                )
+            }
+        />
+    );
 }
 
