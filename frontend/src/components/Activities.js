@@ -15,6 +15,8 @@ export default class Activities extends React.Component {
         axios.get('/api/activities/')
             .then(res => {
                 this.setState({data: res.data});
+            }).catch(error => {
+                console.log(error.response);
             });
     }
     renderAllActivities() {

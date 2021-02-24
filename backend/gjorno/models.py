@@ -1,3 +1,7 @@
+"""
+The basic models that make up the database schema
+"""
+
 from django.db import models
 from django.contrib.auth.admin import User
 
@@ -19,7 +23,7 @@ class Activity(models.Model):
         User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator"
     )
     title = models.CharField(max_length=50)
-    description = models.TextField()
+    description = models.TextField(max_length=240)
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
 
     def __str__(self):

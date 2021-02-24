@@ -10,7 +10,6 @@ const LoginButton = () => {
      */
     const login = () => {
         document.getElementById("show").checked = true;
-        console.log("Current token: "+window.localStorage.getItem("Token"));
     }
 
     return (

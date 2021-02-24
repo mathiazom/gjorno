@@ -27,7 +27,7 @@ class CreateActivity extends React.Component {
                 this.setState({categories: categories});
             })
             .catch(error => {
-                console.log(error);
+                console.log(error.response);
             })
     }
 
@@ -50,6 +50,8 @@ class CreateActivity extends React.Component {
                 }})
             .then(() => {
                 this.props.history.push("/");
+            }).catch(error => {
+                console.log(error.response);
             });
     }
 
@@ -61,11 +63,11 @@ class CreateActivity extends React.Component {
                     <div className="mt-3 mb-3">
                         <label htmlFor="activity-title-input" className="form-label">Tittel</label>
                         <input id="activity-title-input" type="text" className="form-control"
-                               placeholder="Joggetur Gløshaugen-Heimdal"/>
+                               placeholder="Joggetur Gløshaugen-Heimdal" required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Beskrivelse</label>
-                        <textarea className="form-control" id="activity-description-input" rows="3"
+                        <textarea className="form-control" id="activity-description-input" rows="3" required
                         placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     </div>
                     <div className="mb-3">

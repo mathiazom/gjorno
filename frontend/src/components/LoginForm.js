@@ -53,7 +53,6 @@ class LoginForm extends React.Component {
             "password2": document.getElementById("reg-password2").value,
             "phone_number": "11111111"
         };
-        console.log(user);
         axios.post("http://localhost:8000/auth/register/", user)
             .then(res => {
                 window.localStorage.setItem("Token", res.data.key);
