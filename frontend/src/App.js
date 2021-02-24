@@ -12,6 +12,7 @@ import CreateActivity from "./components/CreateActivity";
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
+import EditProfile from './components/EditProfile';
 
 export default class App extends React.Component {
 
@@ -33,7 +34,9 @@ export default class App extends React.Component {
                             <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
                             </ProtectedRoute>
-
+                            <ProtectedRoute exact path={"/profile/edit"}>
+                                <EditProfile />
+                            </ProtectedRoute>
                             {/* Redirect anything else to frontpage */}
                             <Route path={"*"}>
                                 <Redirect to={{pathname: "/"}}/>
