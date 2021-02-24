@@ -66,8 +66,11 @@ class LoginForm extends React.Component {
     
     /**
      * Function for login. POST username and password to the backend, retured the users token if valid.
+     *
+     * @param {*} event
      */
-    login() {
+    login(event) {
+        event.preventDefault();
         axios.post("http://localhost:8000/auth/login/", {
             "username": document.getElementById("login-username").value,
             "password": document.getElementById("login-password").value,
