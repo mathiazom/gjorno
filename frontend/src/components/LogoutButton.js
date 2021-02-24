@@ -17,9 +17,6 @@ class LogoutButton extends React.Component {
      * Log the user of. Deletes the token both on the server and in the browser.
     */
     logout() {
-        /*axios.post("http://localhost:8000/auth/logout/", {
-            // Username?
-        })*/
         window.localStorage.removeItem("Token");
         this.props.history.push("/");
         location.reload();

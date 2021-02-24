@@ -7,6 +7,8 @@ from .models import Activity, Profile, Category
 
 
 class UserWithProfileSerializer(RegisterSerializer):
+    """Custom serializer for account registration"""
+
     phone_number = serializers.CharField(max_length=11)
 
     def get_cleaned_data(self):
@@ -16,6 +18,7 @@ class UserWithProfileSerializer(RegisterSerializer):
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    """Modified Activity serializer that includes author's username"""
 
     username = serializers.CharField(source="user.username")
 
@@ -25,21 +28,24 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class BasicActivitySerializer(serializers.ModelSerializer):
+    """Activity serializer that excludes the user object"""
+
     class Meta:
         model = Activity
         exclude = ('user',)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """Standard model serializer for Profile"""
     class Meta:
         model = Profile
         fields = '__all__'
 
 
 class UserAndProfileSerializer(serializers.ModelSerializer):
-    """This is the serializer for user and profile information"""
+    """Serializer for combining user and profile information"""
 
-    phone_number = serializers.CharField(source="profile.phone_number")
+    phone_number = serializers.CharField(source="profile.phone_number", max_length=11)
 
     def update(self, instance, validated_data):
         instance.profile.__dict__.update(validated_data.pop('profile'))
@@ -52,6 +58,7 @@ class UserAndProfileSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """Standard model serializer for Category"""
     class Meta:
         model = Category
         fields = "__all__"

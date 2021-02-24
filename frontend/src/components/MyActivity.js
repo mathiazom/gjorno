@@ -9,8 +9,6 @@ export default class MyActivity extends React.Component {
 
     render() {
 
-        console.log(this.props.data);
-
         return (
             <div className="card w-100 mt-4 mb-4 ps-3 pe-3">
                 <div className="card-body d-flex row">

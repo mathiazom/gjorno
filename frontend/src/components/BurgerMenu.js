@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import BurgerLink from './BurgerLink'
 
 const BurgerMenu = () => {
-    return(
+    return (
         <div id="menuToggle">
-            <input id="burger-checkbox" type="checkbox" />
+            <input id="burger-checkbox" type="checkbox"/>
 
-            <span></span>
-            <span></span>
-            <span className={"mb-0"}></span>
+            <span/>
+            <span/>
+            <span className={"mb-0"} />
 
-            <ul id="menu">
+            <ul id="menu" className={"bg-success"}>
                 <li><BurgerLink to={"/"} label={"Aktiviteter"}/></li>
                 <li><BurgerLink to={"/create-activity"} label={"Ny aktivitet"}/></li>
                 <li><Link className={"text-white-50"}>Organisert</Link></li>

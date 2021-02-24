@@ -18,6 +18,8 @@ export default class ProfileInfo extends React.Component {
                 }})
             .then(res => {
                 this.setState({data: res.data});
+            }).catch(error => {
+                console.log(error.response);
             });
     }
 

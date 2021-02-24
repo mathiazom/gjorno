@@ -27,7 +27,7 @@ class EditActivity extends React.Component {
                 this.setState({categories: categories});
             })
             .catch(error => {
-                console.log(error);
+                console.log(error.response);
             })
 
         this.fillActivity();
@@ -51,9 +51,8 @@ class EditActivity extends React.Component {
                 this.setState({selected_categories: selected})
             })
             .catch(error => {
-                console.log(error);
-            })
-
+                console.log(error.response);
+            });
     }
 
     editActivity() {
@@ -76,6 +75,8 @@ class EditActivity extends React.Component {
                 }})
             .then(() => {
                 this.props.history.push("/profile");
+            }).catch(error => {
+                console.log(error.response);
             });
     }
 

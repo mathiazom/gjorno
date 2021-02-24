@@ -23,7 +23,9 @@ class EditProfile extends React.Component {
                 document.getElementById("edit-username").value = this.state.data.username;
                 document.getElementById("edit-phone").value = this.state.data.phone_number;
                 document.getElementById("edit-email").value = this.state.data.email;
-        })
+            }).catch(error => {
+                console.log(error.response);
+            })
     }
 
     edit() {
@@ -32,7 +34,6 @@ class EditProfile extends React.Component {
             "phone_number": document.getElementById("edit-phone").value,
             "email": document.getElementById("edit-email").value
         };
-        console.log(user);
         axios.put("http://localhost:8000/api/current_user/", user, {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -51,7 +52,7 @@ class EditProfile extends React.Component {
                     
                     <div className="mt-3 mb-3">
                         <label htmlFor="Username" className="form-label">Brukernavn</label>
-                        <input id="edit-username" type="text" className="form-control"/>
+                        <input id="edit-username" type="text" className="form-control" required/>
                     </div>
                     
                     <div className="mb-3">
@@ -61,7 +62,7 @@ class EditProfile extends React.Component {
 
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Telefonnummer</label>
-                        <input id="edit-phone" type="text" className="form-control"/>
+                        <input id="edit-phone" type="text" className="form-control" required maxLength={11}/>
                     </div>
 
                 </div>

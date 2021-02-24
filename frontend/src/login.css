@@ -28,8 +28,8 @@
 
 .container button {
   border-radius: 20px;
-  border: 1px solid #00915d;
-  background-color: #00915d;
+  border: 1px solid #198754;
+  background-color: #198754;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -164,8 +164,8 @@
 
 .overlay {
   background: #00915d;
-  background: -webkit-linear-gradient(to right, #00915d, #00915d);
-  background: linear-gradient(to right, #00915d, #00915d);
+  background: -webkit-linear-gradient(to right, #198754, #198754);
+  background: linear-gradient(to right, #198754, #198754);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
