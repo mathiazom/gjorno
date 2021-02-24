@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import MultiSelect from "react-multi-select-component";
 
-class CreateActivity extends React.Component {
+class EditActivity extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class CreateActivity extends React.Component {
         };
 
         // Bind "this" to get access to "this.props.history"
-        this.createActivity = this.createActivity.bind(this);
+        this.editActivity = this.editActivity.bind(this);
     }
 
     componentDidMount() {
@@ -29,16 +29,42 @@ class CreateActivity extends React.Component {
             .catch(error => {
                 console.log(error);
             })
+
+        this.fillActivity();
+
     }
 
-    createActivity() {
+    fillActivity() {
+
+        axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}`)
+            .then(res => {
+                const activity = res.data;
+                document.getElementById("activity-title-input").value = activity.title;
+                document.getElementById("activity-description-input").value = activity.description;
+                const categories = activity.categories;
+                const selected = []
+                for (const category of this.state.categories){
+                    if(categories.indexOf(category.value) !== -1){
+                        selected.push(category)
+                    }
+                }
+                this.setState({selected_categories: selected})
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    }
+
+    editActivity() {
+
         const title = document.getElementById("activity-title-input").value;
         const description = document.getElementById("activity-description-input").value;
         // Extract ids of selected categories
         const category_ids = this.state.selected_categories.map((category)=>{
             return category.value;
         })
-        axios.post("http://localhost:8000/api/activities/",
+        axios.put(`http://localhost:8000/api/activities/${this.props.match.params.id}/`,
             {
                 title: title,
                 description: description,
@@ -49,24 +75,25 @@ class CreateActivity extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }})
             .then(() => {
-                this.props.history.push("/");
+                this.props.history.push("/profile");
             });
     }
 
     render() {
+
         return(
             <div className="container-fluid w-50 m-5 mx-auto">
-                <h1>Ny aktivitet</h1>
+                <h1>Rediger aktivitet</h1>
                 <div className="row">
                     <div className="mt-3 mb-3">
                         <label htmlFor="activity-title-input" className="form-label">Tittel</label>
                         <input id="activity-title-input" type="text" className="form-control"
-                               placeholder="Joggetur Gløshaugen-Heimdal"/>
+                               placeholder="Joggetur Gløshaugen-Heimdal" required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Beskrivelse</label>
-                        <textarea className="form-control" id="activity-description-input" rows="3"
-                        placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
+                        <textarea className="form-control" id="activity-description-input" rows="3" required
+                                  placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-categories-input" className="form-label">Kategorier</label>
@@ -85,13 +112,12 @@ class CreateActivity extends React.Component {
                         />
                     </div>
                 </div>
-
                 <div className="mt-3 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>
                         <button className="btn btn-outline-secondary w-100" onClick={this.props.history.goBack}>Avbryt</button>
                     </div>
                     <div className={"col"}>
-                        <button className="btn btn-success w-100" onClick={this.createActivity}>Legg ut</button>
+                        <button className="btn btn-success w-100" onClick={this.editActivity}>Lagre</button>
                     </div>
                 </div>
             </div>
@@ -100,4 +126,4 @@ class CreateActivity extends React.Component {
 
 }
 
-export default withRouter(CreateActivity);
+export default withRouter(EditActivity);

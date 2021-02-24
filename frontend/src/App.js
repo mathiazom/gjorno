@@ -9,6 +9,7 @@ import './App.css';
 import './login.css';
 import Activities from './components/Activities';
 import CreateActivity from "./components/CreateActivity";
+import EditActivity from "./components/EditActivity";
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
@@ -17,6 +18,7 @@ import EditProfile from './components/EditProfile';
 export default class App extends React.Component {
 
     render() {
+
         return (
             <Router>
                 <div className={"App"}>
@@ -30,6 +32,9 @@ export default class App extends React.Component {
                             </Route>
                             <ProtectedRoute exact path={"/create-activity"}>
                                 <CreateActivity />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/edit-activity/:id"}>
+                                <EditActivity />
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
@@ -50,7 +55,7 @@ export default class App extends React.Component {
 }
 
 // A <Route> wrapper that redirects to login form if not authenticated
-function ProtectedRoute({children}) {
+function ProtectedRoute({path, children}) {
 
     // Display login form if not authenticated (as soon as page is ready)
     const toggleLogin = () => {
@@ -72,6 +77,7 @@ function ProtectedRoute({children}) {
 
     return (
         <Route
+            path={path}
             render={({location}) =>
                 isAuthenticated ? (
                     children
