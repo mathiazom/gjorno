@@ -171,7 +171,7 @@ class LoginForm extends React.Component {
             "is_organization": document.getElementById("organizationSwitch").checked
         };
 
-        axios.post("http://api.gjorno.site/auth/register/", user)
+        axios.post("https://api.gjorno.site/auth/register/", user)
             .then(res => {
                 window.localStorage.setItem("Token", res.data.key);
                 this.props.history.push("/");

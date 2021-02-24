@@ -14,7 +14,7 @@ export default class MyActivities extends React.Component {
      * Collect the activities posted by the logged in user, and stores them in the current state.
      */
     componentDidMount() {
-        axios.get('http://api.gjorno.site/api/my_activities/',
+        axios.get('https://api.gjorno.site/api/my_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`

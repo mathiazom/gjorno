@@ -28,7 +28,7 @@ class EditProfile extends React.Component {
      */
     componentDidMount() {
         updatePageTitle("Rediger profil");
-        axios.get('http://api.gjorno.site/api/current_user/',
+        axios.get('https://api.gjorno.site/api/current_user/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -111,7 +111,7 @@ class EditProfile extends React.Component {
         if (this.state.avatar != null && 'image' in this.state.avatar && this.state.avatar.image != null) {
             data.append("avatar", this.state.avatar.image);
         }
-        axios.put("http://api.gjorno.site/api/current_user/", data, {
+        axios.put("https://api.gjorno.site/api/current_user/", data, {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
