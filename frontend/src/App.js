@@ -7,13 +7,13 @@ import {
 } from "react-router-dom";
 import './App.css';
 import './login.css';
-import Activities from './components/Activities';
-import CreateActivity from "./components/CreateActivity";
-import EditActivity from "./components/EditActivity";
-import Profile from './components/Profile';
-import Navbar from './components/Navbar';
-import LoginForm from './components/LoginForm';
-import EditProfile from './components/EditProfile';
+import Activities from './components/frontpage/Activities';
+import LoginForm from './components/frontpage/LoginForm';
+import Navbar from './components/navbar/Navbar';
+import CreateActivity from "./components/create/CreateActivity";
+import EditActivity from "./components/profile/EditActivity";
+import Profile from './components/profile/Profile';
+import EditProfile from './components/profile/EditProfile';
 
 export default class App extends React.Component {
 

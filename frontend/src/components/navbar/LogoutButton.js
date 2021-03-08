@@ -8,13 +8,12 @@ class LogoutButton extends React.Component {
 
     constructor(props) {
         super(props);
-
         // Bind "this" to get access to "this.props.history"
         this.logout = this.logout.bind(this);
     }
 
     /**
-     * Log the user of. Deletes the token both on the server and in the browser.
+     * Log the user off. Deletes the token in the browser.
     */
     logout() {
         window.localStorage.removeItem("Token");

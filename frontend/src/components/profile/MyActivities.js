@@ -10,6 +10,9 @@ export default class MyActivities extends React.Component {
         }
     }
 
+    /**
+     * Collect the activities posted by the logged in user, and stores them in the current state.
+     */
     componentDidMount() {
         axios.get('http://localhost:8000/api/my_activities/',
             {
@@ -25,6 +28,10 @@ export default class MyActivities extends React.Component {
             })
     }
 
+    /**
+     * We go through all the activities stored in our state from the API,
+     * and we make a MyActivity with the stored data (from the MyActivity-component).
+     */
     renderAllActivities() {
         return this.state.data.map((activity) => (
              <MyActivity data={activity} key={activity.id}/>

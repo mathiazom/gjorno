@@ -11,13 +11,14 @@ class EditActivity extends React.Component {
             categories: [],
             selected_categories: []
         };
-
         // Bind "this" to get access to "this.props.history"
         this.editActivity = this.editActivity.bind(this);
     }
 
+    /**
+     * Collect all different categories on the server.
+     */
     componentDidMount() {
-
         axios.get('http://localhost:8000/api/categories/')
             .then(res => {
                 // Create category dropdown options
@@ -29,13 +30,14 @@ class EditActivity extends React.Component {
             .catch(error => {
                 console.log(error.response);
             })
-
         this.fillActivity();
-
     }
 
+    /**
+     * Collect the activity to be edited. Provides a number (1,2,3...) as ID.
+     * Set the fields in the form to equal the collected data.
+     */
     fillActivity() {
-
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}`)
             .then(res => {
                 const activity = res.data;
@@ -55,8 +57,10 @@ class EditActivity extends React.Component {
             });
     }
 
+    /**
+     * Send the edited activity back to the server, using a PUT.
+     */
     editActivity() {
-
         const title = document.getElementById("activity-title-input").value;
         const description = document.getElementById("activity-description-input").value;
         // Extract ids of selected categories
@@ -81,7 +85,6 @@ class EditActivity extends React.Component {
     }
 
     render() {
-
         return(
             <div className="container-fluid w-50 m-5 mx-auto">
                 <h1>Rediger aktivitet</h1>

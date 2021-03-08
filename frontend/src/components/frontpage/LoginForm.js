@@ -8,15 +8,12 @@ import axios from 'axios';
  */
 class LoginForm extends React.Component {
 
-
     constructor(props) {
         super(props);
-
         // Bind "this" to get access to "this.props.history"
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
     }
-
 
     /**
      * Function changing from Login to Register in the login pop-up.
@@ -41,7 +38,7 @@ class LoginForm extends React.Component {
 
     /**
      * Function for registering a new user. Collecting text in the form-field, and sending them as a POST to the backend.
-     * Returns a token uniqe to the user, and storing it in the users localStorage.
+     * Returns a token unique to the user, and storing it in the users localStorage.
      * 
      * @param {*} event 
      */
@@ -64,7 +61,7 @@ class LoginForm extends React.Component {
             })}
     
     /**
-     * Function for login. POST username and password to the backend, retured the users token if valid.
+     * Function for login. POST username and password to the backend, returned the users token if valid.
      *
      * @param {*} event
      */

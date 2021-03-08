@@ -3,7 +3,12 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 
 class EditProfile extends React.Component {
-
+    
+    /**
+     * Component to edit the information stored about a user.
+     * 
+     * @param {*} props 
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -12,6 +17,10 @@ class EditProfile extends React.Component {
         this.edit = this.edit.bind(this);
     }
 
+    /**
+     * Collect the current user based on the token stored in the websites localStorage.
+     * Set the different fields to contain the data collected.
+     */
     componentDidMount() {
         axios.get('http://localhost:8000/api/current_user/',
             {
@@ -28,6 +37,9 @@ class EditProfile extends React.Component {
             })
     }
 
+    /**
+     * Sends a PUT the the server, with the updated data for the user.
+     */
     edit() {
         const user = { 
             "username": document.getElementById("edit-username").value,
@@ -49,24 +61,19 @@ class EditProfile extends React.Component {
             <div className="container-fluid w-50 m-5 mx-auto">
                 <h1>Rediger profil</h1>
                 <div className="row">
-                    
                     <div className="mt-3 mb-3">
                         <label htmlFor="Username" className="form-label">Brukernavn</label>
                         <input id="edit-username" type="text" className="form-control" required/>
                     </div>
-                    
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Epost</label>
                         <input id="edit-email" type="email" className="form-control"/>
                     </div>
-
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Telefonnummer</label>
                         <input id="edit-phone" type="text" className="form-control" required maxLength={11}/>
                     </div>
-
                 </div>
-
                 <div className="mt-3 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>
                         <button className="btn btn-outline-secondary w-100" onClick={this.props.history.goBack}>Avbryt</button>
