@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * We take in some props (title, description and username) to make the Activity.
+ * 
+ * @param {*} props 
+ */
 const Activity = (props) => {
 
     return (

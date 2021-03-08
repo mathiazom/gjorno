@@ -11,13 +11,11 @@ class CreateActivity extends React.Component {
             categories: [],
             selected_categories: []
         };
-
         // Bind "this" to get access to "this.props.history"
         this.createActivity = this.createActivity.bind(this);
     }
 
     componentDidMount() {
-
         axios.get('http://localhost:8000/api/categories/')
             .then(res => {
                 // Create category dropdown options
@@ -31,6 +29,10 @@ class CreateActivity extends React.Component {
             })
     }
 
+    /**
+     * Function for creating a new activity.
+     * Takes values from html-form and sends a POST to the API
+     */
     createActivity() {
         const title = document.getElementById("activity-title-input").value;
         const description = document.getElementById("activity-description-input").value;

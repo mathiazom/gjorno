@@ -8,15 +8,12 @@ import axios from 'axios';
  */
 class LoginForm extends React.Component {
 
-
     constructor(props) {
         super(props);
-
         // Bind "this" to get access to "this.props.history"
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
     }
-
 
     /**
      * Function changing from Login to Register in the login pop-up.

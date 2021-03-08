@@ -10,6 +10,10 @@ export default class ProfileInfo extends React.Component {
         }
     }
 
+    /**
+     * Collect information from the API about the current, loged in user.
+     * We store the data in our state.
+     */
     componentDidMount() {
         axios.get('http://localhost:8000/api/current_user/',
             {

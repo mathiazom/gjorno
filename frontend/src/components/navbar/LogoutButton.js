@@ -8,7 +8,6 @@ class LogoutButton extends React.Component {
 
     constructor(props) {
         super(props);
-
         // Bind "this" to get access to "this.props.history"
         this.logout = this.logout.bind(this);
     }

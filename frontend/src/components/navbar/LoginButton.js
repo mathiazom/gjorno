@@ -6,7 +6,7 @@ import React from 'react';
 const LoginButton = () => {
 
     /**
-     * Function to display the login and registration form.
+     * Display the login and registration form using a checkbox.
      */
     const login = () => {
         document.getElementById("show").checked = true;
