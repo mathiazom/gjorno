@@ -38,7 +38,7 @@ class LoginForm extends React.Component {
 
     /**
      * Function for registering a new user. Collecting text in the form-field, and sending them as a POST to the backend.
-     * Returns a token uniqe to the user, and storing it in the users localStorage.
+     * Returns a token unique to the user, and storing it in the users localStorage.
      * 
      * @param {*} event 
      */
@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
             })}
     
     /**
-     * Function for login. POST username and password to the backend, retured the users token if valid.
+     * Function for login. POST username and password to the backend, returned the users token if valid.
      *
      * @param {*} event
      */

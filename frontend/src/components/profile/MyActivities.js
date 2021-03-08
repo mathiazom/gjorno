@@ -11,7 +11,7 @@ export default class MyActivities extends React.Component {
     }
 
     /**
-     * Collect the activities posted by the loged in user, and stores them in the current state.
+     * Collect the activities posted by the logged in user, and stores them in the current state.
      */
     componentDidMount() {
         axios.get('http://localhost:8000/api/my_activities/',

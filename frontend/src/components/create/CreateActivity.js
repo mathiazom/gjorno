@@ -15,6 +15,9 @@ class CreateActivity extends React.Component {
         this.createActivity = this.createActivity.bind(this);
     }
 
+    /**
+     * Retrieve all available categories
+     */
     componentDidMount() {
         axios.get('http://localhost:8000/api/categories/')
             .then(res => {

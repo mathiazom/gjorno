@@ -13,7 +13,7 @@ class LogoutButton extends React.Component {
     }
 
     /**
-     * Log the user of. Deletes the token both on the server and in the browser.
+     * Log the user off. Deletes the token in the browser.
     */
     logout() {
         window.localStorage.removeItem("Token");

@@ -11,7 +11,7 @@ export default class ProfileInfo extends React.Component {
     }
 
     /**
-     * Collect information from the API about the current, loged in user.
+     * Collect information from the API about the current, logged in user.
      * We store the data in our state.
      */
     componentDidMount() {
