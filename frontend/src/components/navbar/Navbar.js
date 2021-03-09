@@ -8,7 +8,7 @@ class Navbar extends React.Component {
 
     render() {
         return(
-            <div id="navbar" className={"p-4 ps-5 pe-5 sticky-top shadow-sm bg-white row align-items-center justify-content-between"}>
+            <div id="navbar" className={"p-4 ps-5 pe-5 w-100 sticky-top shadow-sm bg-white row gx-0 align-items-center justify-content-between"}>
                 <div className={"col-2"}>
                     <BurgerMenu/>
                 </div>
