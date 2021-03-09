@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import axios from "axios";
 
 /**
  * Logout button component.
@@ -16,6 +17,15 @@ class LogoutButton extends React.Component {
      * Log the user off. Deletes the token in the browser.
     */
     logout() {
+        axios.post("http://localhost:8000/auth/logout/",
+            null,
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }})
+            .catch(error => {
+                console.log(error.response);
+            });
         window.localStorage.removeItem("Token");
         this.props.history.push("/");
         location.reload();
