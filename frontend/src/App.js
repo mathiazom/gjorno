@@ -17,15 +17,40 @@ import EditProfile from './components/profile/EditProfile';
 
 export default class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            authenticated: false
+        }
+
+        this.onAuthStateChanged = this.onAuthStateChanged.bind(this)
+    }
+
+    componentDidMount() {
+        this.onAuthStateChanged()
+    }
+
+    onAuthStateChanged() {
+        this.setState({
+            authenticated: window.localStorage.getItem('Token') != null
+        })
+    }
+
     render() {
 
         return (
             <Router>
                 <div className={"App"}>
                     <input type="checkbox" id="show" />
-                    <LoginForm />
+                    <LoginForm
+                        onAuthStateChanged={this.onAuthStateChanged}
+                    />
                     <div className={"main-container"}>
-                        <Navbar/>
+                        <Navbar
+                            authenticated={this.state.authenticated}
+                            onAuthStateChanged={this.onAuthStateChanged}
+                        />
                         <Switch>
                             <Route exact path={"/"}>
                                 <Activities />

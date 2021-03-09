@@ -73,7 +73,8 @@ class LoginForm extends React.Component {
         }).then(res => {
             window.localStorage.setItem("Token", res.data.key)
             this.props.history.push("/");
-            location.reload();
+            this.props.onAuthStateChanged()
+            this.closeLoginForm()
         }).catch(error => {
             console.log(error.response);
     })}

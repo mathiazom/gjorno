@@ -28,7 +28,7 @@ class LogoutButton extends React.Component {
             });
         window.localStorage.removeItem("Token");
         this.props.history.push("/");
-        location.reload();
+        this.props.onAuthStateChanged()
     }
 
     render(){
