@@ -46,23 +46,20 @@ class BasicActivitySerializer(serializers.ModelSerializer):
         if 'has_registration' in internal and internal['has_registration']:
             registration_fields = ['registration_capacity', 'registration_deadline', 'starting_time', 'location']
             errors = {field: [] for field in registration_fields}
+            # Validate existence of registration fields
+            for field in registration_fields:
+                if field not in internal:
+                    errors[field] += ["This field is required when has_registration is true"]
             # Validate time and date fields
             now = datetime.now(tz=pytz.UTC)
             for field in ['registration_deadline', 'starting_time']:
-                if field not in internal:
-                    errors[field] += ["This field is required when has_registration is true"]
-                else:
-                    # Validate that fields are in the future
-                    if internal[field] < now:
+                # Validate that fields are in the future
+                if field in internal and internal[field] < now:
                         errors[field] += ["Should not be in the past"]
             # Validate that deadline is before (or at) starting time
             if {'registration_deadline', 'starting_time'} <= internal.keys():
                 if internal['registration_deadline'] > internal['starting_time']:
                     errors['registration_deadline'] += ["Deadline should not be after starting time"]
-            # Validate other registration fields
-            for field in registration_fields:
-                if field not in internal:
-                    errors[field] += ["This field is required when has_registration is true"]
             # Report fields with errors
             errors = {k: v for (k, v) in errors.items() if len(v) > 0}
             if errors:
