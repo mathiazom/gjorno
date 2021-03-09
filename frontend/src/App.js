@@ -14,6 +14,8 @@ import CreateActivity from "./components/create/CreateActivity";
 import EditActivity from "./components/profile/EditActivity";
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
+import {toast, ToastContainer} from "react-toastify";
+import axios from "axios";
 
 export default class App extends React.Component {
 
@@ -21,20 +23,39 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            authenticated: false
+            authenticated: window.localStorage.getItem('Token') != null
         }
 
         this.onAuthStateChanged = this.onAuthStateChanged.bind(this)
     }
 
-    componentDidMount() {
-        this.onAuthStateChanged()
-    }
-
     onAuthStateChanged() {
+        console.log(window.localStorage.getItem('Token'))
+        console.log("Auth state changed from: " + this.state.authenticated)
+        const oldAuthState = this.state.authenticated
+        const authState = window.localStorage.getItem('Token') != null
         this.setState({
-            authenticated: window.localStorage.getItem('Token') != null
+            authenticated: authState
         })
+        if(oldAuthState === authState){
+            // No real change, no further actions required
+            return;
+        }
+        if(authState){
+            axios.get('http://localhost:8000/api/current_user/',
+                {
+                    headers: {
+                        "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                    }})
+                .then(res => {
+                    toast(`Hei, ${res.data.username} 🤩`);
+                }).catch(error => {
+                    console.log(error.response);
+                });
+        }
+        else{
+            toast("Logget ut 😴");
+        }
     }
 
     render() {
@@ -45,6 +66,19 @@ export default class App extends React.Component {
                     <input type="checkbox" id="show" />
                     <LoginForm
                         onAuthStateChanged={this.onAuthStateChanged}
+                    />
+                    <ToastContainer
+                        className={"w-auto"}
+                        toastClassName={"bg-success text-white fs-5 ps-3 pe-3"}
+                        bodyClassName={"text-wrap text-break mx-auto"}
+                        position={"bottom-center"}
+                        autoClose={1200}
+                        hideProgressBar
+                        closeOnClick
+                        pauseOnFocusLoss={false}
+                        draggable={false}
+                        pauseOnHover={false}
+                        closeButton={false}
                     />
                     <div className={"main-container"}>
                         <Navbar
