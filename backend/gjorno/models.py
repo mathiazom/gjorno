@@ -19,12 +19,19 @@ class Profile(models.Model):
 
 class Activity(models.Model):
     """Model representing an activity created by the user"""
+
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator"
     )
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=240)
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
+
+    has_registration = models.BooleanField(default=False)
+    registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    registration_deadline = models.DateTimeField(blank=True, null=True)
+    starting_time = models.DateTimeField(blank=True, null=True)
+    location = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return self.title
