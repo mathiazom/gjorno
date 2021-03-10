@@ -94,7 +94,8 @@ class ActivityTest(TestCase):
                     "registration_capacity": 10,
                     "registration_deadline": "2022-03-17T15:20:24Z",
                     "starting_time": "2022-03-23T15:20:34Z",
-                    "location": "T-Town"
+                    "location": "T-Town",
+                    "registrations_count": 0
                 }
             )
 
