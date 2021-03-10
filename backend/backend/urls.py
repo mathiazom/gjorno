@@ -18,6 +18,9 @@ from django.urls import path, include
 from rest_framework import routers
 from gjorno.views import \
     ActivitiesView,\
+    RegistrationsView, \
+    ActivityRegisterView, \
+    ActivityUnregisterView, \
     CategoriesView, \
     UsersView, \
     CurrentUserView, \
@@ -33,6 +36,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/current_user/', CurrentUserView.as_view()),
+    path('api/activities/<int:activity>/registrations/', RegistrationsView.as_view({'get': 'list'})),
+    path('api/activities/<int:activity>/register/', ActivityRegisterView.as_view()),
+    path('api/activities/<int:activity>/unregister/', ActivityUnregisterView.as_view()),
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls'))
 ]
