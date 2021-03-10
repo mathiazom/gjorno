@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * We take in some props (title, description and username) to make the Activity.
@@ -27,6 +28,7 @@ const Activity = (props) => {
                     </div>
                     <a href="#" className="btn btn-success mt-3">Legg til i logg</a>
                 </div>
+                <Link to={`/activity-details/${props.data.id}`} className={"btn btn-success w-30"}>Se mer</Link>
             </div>
         </div>
     );

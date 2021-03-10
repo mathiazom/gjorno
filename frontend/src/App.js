@@ -17,6 +17,7 @@ import EditProfile from './components/profile/EditProfile';
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import ActivityDetails from './components/ActivityDetails';
 
 export default class App extends React.Component {
 
@@ -89,6 +90,9 @@ export default class App extends React.Component {
                         <Switch>
                             <Route exact path={"/"}>
                                 <Activities />
+                            </Route>
+                            <Route exact path ={"/activity-details/:id"}>
+                                <ActivityDetails />
                             </Route>
                             <ProtectedRoute exact path={"/create-activity"}>
                                 <CreateActivity />
