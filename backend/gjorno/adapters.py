@@ -15,5 +15,8 @@ class UserWithProfileAdapter(DefaultAccountAdapter):
         user = super().save_user(request, user, form, commit)
         user.save()
         data = form.cleaned_data
-        Profile.objects.create(user=user, phone_number=data.get('phone_number'))
+        Profile.objects.create(
+            user=user, phone_number=data.get('phone_number'),
+            is_organization=data.get('is_organization')
+        )
         return user

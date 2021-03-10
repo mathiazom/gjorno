@@ -12,6 +12,7 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE, related_name="profile", verbose_name="User"
     )
     phone_number = models.CharField(max_length=11)
+    is_organization = models.BooleanField(default=False, null = False)
 
     def __str__(self):
         return self.user.get_full_name()
