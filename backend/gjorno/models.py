@@ -24,7 +24,8 @@ class Activity(models.Model):
         User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator"
     )
     title = models.CharField(max_length=50)
-    description = models.TextField(max_length=240)
+    ingress = models.TextField(max_length=240)
+    description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
 
     has_registration = models.BooleanField(default=False)
