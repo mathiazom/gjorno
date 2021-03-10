@@ -38,6 +38,7 @@ class ActivityTest(TestCase):
         for i in range(1, 5):
             activity = Activity.objects.create(
                 user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
+                ingress="Ruli hekto obl co, ho ido stif frota.",
                 description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             )
             activity.categories.set([1, 3])
@@ -52,6 +53,7 @@ class ActivityTest(TestCase):
                 {
                     "id": i,
                     "title": f"Promenu ĉirkaŭ la lago {i}",
+                    "ingress": "Ruli hekto obl co, ho ido stif frota.",
                     "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                     "categories": [1, 3],
                     "user": self.user.id,
@@ -66,6 +68,7 @@ class ActivityTest(TestCase):
         for i in range(1, 5):
             activity = Activity.objects.create(
                 user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
+                ingress="Ruli hekto obl co, ho ido stif frota.",
                 description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                 has_registration=True, registration_capacity=10, registration_deadline="2022-03-17T15:20:24Z",
                 starting_time="2022-03-23T15:20:34Z", location="T-Town"
@@ -82,6 +85,7 @@ class ActivityTest(TestCase):
                 {
                     "id": i,
                     "title": f"Promenu ĉirkaŭ la lago {i}",
+                    "ingress": "Ruli hekto obl co, ho ido stif frota.",
                     "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                     "categories": [1, 3],
                     "user": self.user.id,
@@ -98,6 +102,7 @@ class ActivityTest(TestCase):
         # Request creation of activity
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3]
         })
@@ -106,6 +111,7 @@ class ActivityTest(TestCase):
         self.assertDictEqual(json.loads(response.content), {
             "id": 1,
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": False,
@@ -119,6 +125,7 @@ class ActivityTest(TestCase):
         # Request creation of activity with registration, but without fields
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True
@@ -138,6 +145,7 @@ class ActivityTest(TestCase):
         # Request creation of activity with registration, but without capacity field
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True,
@@ -159,6 +167,7 @@ class ActivityTest(TestCase):
         # Request creation of activity with registration, but where dates are in the past
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True,
@@ -182,6 +191,7 @@ class ActivityTest(TestCase):
         # Request creation of activity with registration, but where the activity starts before deadline
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True,
@@ -204,6 +214,7 @@ class ActivityTest(TestCase):
         # Request creation of activity with registration, with all fields valid
         response = self.client.post('/api/activities/', {
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True,
@@ -218,6 +229,7 @@ class ActivityTest(TestCase):
         self.assertDictEqual(json.loads(response.content), {
             "id": 1,
             "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": True,
