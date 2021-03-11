@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ActivityHost from "./ActivityHost.js";
 import DetailedActivity from "./DetailedActivity.js";
+import Registration from "./Registration.js";
 import {withRouter} from 'react-router-dom';
 
  class ActivityDetails extends React.Component {
@@ -40,7 +41,8 @@ import {withRouter} from 'react-router-dom';
             <div className="container-fluid w-75 mt-5">
             <div className="row">
                 <div className="col col-md-2 offset-sm-1">
-                    <ActivityHost userdata = {this.state.user}/>
+                    <ActivityHost userdata = {this.state.user} />
+                    <Registration />
                 </div>
                 <div className="col col-md-7 offset-sm-1">
                     <DetailedActivity activity = {this.state.data} />
