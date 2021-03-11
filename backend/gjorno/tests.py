@@ -84,6 +84,7 @@ class ActivityTest(TestCase):
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "has_registration": False,
+                    "is_author": False
                 }
             )
 
@@ -122,7 +123,8 @@ class ActivityTest(TestCase):
                     "registration_deadline": "2022-03-17T15:20:24Z",
                     "starting_time": "2022-03-23T15:20:34Z",
                     "location": "T-Town",
-                    "registrations_count": 0
+                    "registrations_count": 0,
+                    "is_author": False
                 }
             )
 
@@ -292,7 +294,8 @@ class ActivityTest(TestCase):
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
-            "has_registration": False
+            "has_registration": False,
+            "is_author": True
         })
 
     def put_activity(self):
@@ -363,6 +366,7 @@ class ActivityTest(TestCase):
         })
         # Check that update was denied
         self.assertEqual(response.status_code, 403)
+
 
 
 class CategoryTest(TestCase):

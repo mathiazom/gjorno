@@ -28,6 +28,24 @@ class ActivitiesView(viewsets.ModelViewSet):
             return BasicActivitySerializer
         return ActivitySerializer
 
+    # Flag to determine of activity was authored by authorized user
+    @staticmethod
+    def append_author_field(data, user):
+        data['is_author'] = user.id == data['user']
+
+    # Append extra fields when retrieving activity
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, args, kwargs)
+        self.append_author_field(response.data, request.user)
+        return response
+
+    # Append extra fields when retrieving activities
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, args, kwargs)
+        for activity in response.data:
+            self.append_author_field(activity, request.user)
+        return response
+
     # Restrict activity edit to author only
     def update(self, request, *args, **kwargs):
         activity = Activity.objects.get(id=kwargs['pk'])
