@@ -5,7 +5,7 @@ from rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.admin import User
 from datetime import datetime
 import pytz
-from .models import Activity, Profile, Category
+from .models import Activity, Profile, Category, Registration
 
 
 class UserWithProfileSerializer(RegisterSerializer):
@@ -27,9 +27,11 @@ class ActivitySerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")
 
     def to_representation(self, instance):
-        # Simplify response data
         representation = super().to_representation(instance)
-        if not instance.has_registration:
+        # Add or remove registration data
+        if instance.has_registration:
+            representation['registrations_count'] = instance.registrations_count()
+        else:
             for field in ['registration_capacity', 'registration_deadline', 'starting_time', 'location']:
                 representation.pop(field)
         return representation
@@ -45,8 +47,8 @@ class BasicActivitySerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         # Validate incoming data
         internal = super().to_internal_value(data)
+        registration_fields = ['registration_capacity', 'registration_deadline', 'starting_time', 'location']
         if 'has_registration' in internal and internal['has_registration']:
-            registration_fields = ['registration_capacity', 'registration_deadline', 'starting_time', 'location']
             errors = {field: [] for field in registration_fields}
             # Validate existence of registration fields
             for field in registration_fields:
@@ -66,11 +68,23 @@ class BasicActivitySerializer(serializers.ModelSerializer):
             errors = {k: v for (k, v) in errors.items() if len(v) > 0}
             if errors:
                 raise serializers.ValidationError(errors)
+        else:
+            for field in registration_fields:
+                if field in internal:
+                    internal.pop(field)
         return internal
 
     class Meta:
         model = Activity
         exclude = ('user',)
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    """Standard model serializer for Registration"""
+
+    class Meta:
+        model = Registration
+        fields = '__all__'
 
 
 class ProfileSerializer(serializers.ModelSerializer):

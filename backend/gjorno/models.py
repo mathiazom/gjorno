@@ -38,8 +38,27 @@ class Activity(models.Model):
     def __str__(self):
         return self.title
 
+    def registrations_list(self):
+        if not self.has_registration:
+            return []
+        return Registration.objects.filter(activity=self.id)
+
+    def registrations_count(self):
+        return len(self.registrations_list())
+
     class Meta:
         verbose_name_plural = "Activities"
+
+
+class Registration(models.Model):
+    """Representation of a users registration to an organized activity"""
+
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="registrations", verbose_name="Activity"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="registrations", verbose_name="User"
+    )
 
 
 class Category(models.Model):
