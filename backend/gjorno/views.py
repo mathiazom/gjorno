@@ -82,8 +82,8 @@ class RegistrationsView(viewsets.ReadOnlyModelViewSet):
         return super().list(request, args, kwargs)
 
     def get_queryset(self):
-        activity = self.kwargs['activity']
-        return Registration.objects.filter(activity=activity)
+        activity = Activity.objects.get(id=self.kwargs['activity'])
+        return activity.registrations_list()
 
 
 class ActivityRegisterView(generics.CreateAPIView):
