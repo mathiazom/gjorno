@@ -17,7 +17,7 @@ class LogoutButton extends React.Component {
      * Log the user off. Deletes the token in the browser.
     */
     logout() {
-        axios.post("http://localhost:8000/auth/logout/",
+        axios.post("https://api.gjorno.site/auth/logout/",
             null,
             {
                 headers: {

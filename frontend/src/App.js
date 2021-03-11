@@ -51,7 +51,7 @@ export default class App extends React.Component {
             return;
         }
         if (authState) {
-            axios.get('http://localhost:8000/api/current_user/',
+            axios.get('https://api.gjorno.site/api/current_user/',
                 {
                     headers: {
                         "Authorization": `Token ${window.localStorage.getItem("Token")}`
