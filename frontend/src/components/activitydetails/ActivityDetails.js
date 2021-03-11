@@ -20,16 +20,19 @@ import {withRouter} from 'react-router-dom';
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`)
             .then(res => {
                 this.setState({data: res.data})
+                this.getActivityAuthor()
             }).catch(error => {
                 console.log(error.response);
             });
-        
-        axios.get(`http://localhost:8000/api/users/`)
-            .then(res => {
-                this.setState({user: res.data[this.state.data.user-1]})
-            }).catch(error => {
-                console.log(error.response);
-            }); 
+    }
+    
+    getActivityAuthor() {
+        axios.get(`http://localhost:8000/api/users/${this.state.data.user}`)
+        .then(res => {
+            this.setState({user: res.data})
+        }).catch(error => {
+            console.log(error.response);
+        }); 
     }
 
     render() {
