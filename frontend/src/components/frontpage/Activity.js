@@ -13,7 +13,8 @@ const Activity = (props) => {
             <img src={"images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row">
                 <div className={"col-12 col-lg-8 pe-4"}>
-                    <h5 className="card-title text-success">{props.data.title}</h5>
+                    <Link to={`/activity-details/${props.data.id}`} style={{textDecoration: "none"}}>
+                        <h5 className="card-title text-success">{props.data.title}</h5></Link>
                     <p className="card-text">{props.data.description}</p>
                 </div>
                 <div className={"col-12 col-xl-4 text-end d-none d-xl-block pe-5"}> 
@@ -22,9 +23,6 @@ const Activity = (props) => {
                     </div>
                     <div>
                         <a href="#" className="btn btn-success float-right">Legg til i logg</a>
-                    </div>
-                    <div>
-                        <Link to={`/activity-details/${props.data.id}`} className={"btn btn-success mt-3"}>Se mer</Link>
                     </div>
                 </div>
             </div>
