@@ -52,8 +52,16 @@ class ActivitiesView(viewsets.ModelViewSet):
 
 class RegistrationsView(viewsets.ReadOnlyModelViewSet):
     """View for the registrations of a given activity"""
+    permission_classes = [IsAuthenticated]
     serializer_class = RegistrationSerializer
     lookup_field = 'activity'
+
+    def list(self, request, *args, **kwargs):
+        # Only allow activity author to see registrations
+        activity = Activity.objects.get(id=self.kwargs['activity'])
+        if activity.user.id != self.request.user.id:
+            return Response("User is not authorized to see registrations", status=status.HTTP_403_FORBIDDEN)
+        return super().list(request, args, kwargs)
 
     def get_queryset(self):
         activity = self.kwargs['activity']
