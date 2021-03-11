@@ -75,16 +75,18 @@ class ActivityRegisterView(generics.CreateAPIView):
     lookup_field = 'activity'
 
     def create(self, request, *args, **kwargs):
-        user_id = self.request.user.id
+        user = self.request.user
         activity = Activity.objects.get(id=self.kwargs['activity'])
         if not activity.has_registration:
             return Response("Activity does not allow registration", status=status.HTTP_403_FORBIDDEN)
-        if Registration.objects.filter(user=user_id, activity=activity.id):
+        if user.profile.is_organization:
+            return Response("Registration of an organization is not allowed", status=status.HTTP_403_FORBIDDEN)
+        if Registration.objects.filter(user=user.id, activity=activity.id):
             return Response("User is already registered to this activity", status=status.HTTP_403_FORBIDDEN)
         if activity.registrations_count() >= activity.registration_capacity:
             return Response("Registration capacity is already reached", status=status.HTTP_403_FORBIDDEN)
         serializer = self.get_serializer(data={
-            "user": user_id,
+            "user": user.id,
             "activity": activity.id
         })
         if serializer.is_valid():
