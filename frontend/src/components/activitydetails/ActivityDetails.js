@@ -1,5 +1,7 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import ActivityHost from "./ActivityHost.js";
+import DetailedActivity from "./DetailedActivity.js";
 import {withRouter} from 'react-router-dom';
 
  class ActivityDetails extends React.Component {
@@ -39,20 +41,16 @@ import {withRouter} from 'react-router-dom';
 
     render() {
         return(
-                <div className="card activity-card w-75 mx-auto mt-4 mb-4">
-                <img src={"/images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
-                <div className="card-body d-flex row">
-                    <div className={"col-12 col-lg-8 pe-4"}>
-                        <h5 className="card-title text-success"> {this.state.data.title}</h5>
-                        <p className="card-text">{this.state.data.description}</p>
-                    </div>
-                    <div className={"col-12 col-xl-4 text-end d-none d-xl-block pe-5"}>
-                        <div className={"text-secondary"}>
-                            <p>Publisert av <span className={"text-success"}><b>{this.state.data.username}</b></span></p>
-                        </div>
-                    </div>
+            <div className="container-fluid w-75 mt-5">
+            <div className="row">
+                <div className="col-md-3">
+                    <ActivityHost userdata = {this.state.user}/>
+                </div>
+                <div className="col mt-5 mt-md-0">
+                    <DetailedActivity activity = {this.state.data} />
                 </div>
             </div>
+        </div>
         );
     }
 }

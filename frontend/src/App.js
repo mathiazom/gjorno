@@ -17,7 +17,7 @@ import EditProfile from './components/profile/EditProfile';
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import ActivityDetails from './components/ActivityDetails';
+import ActivityDetails from './components/activitydetails/ActivityDetails';
 
 export default class App extends React.Component {
 
