@@ -24,16 +24,9 @@ import {withRouter} from 'react-router-dom';
                 console.log(error.response);
             });
         
-        axios.get("http://localhost:8000/api/users/")
+        axios.get(`http://localhost:8000/api/users/`)
             .then(res => {
-                const temp = res.data;
-                for (const user in temp) {
-                    if (temp[user].username == this.state.data.username) {
-                        console.log(res.data[user])
-                        this.setState({user: res.data[user]});
-                        console.log(this.state.user)
-                    }
-                }
+                this.setState({user: res.data[this.state.data.user-1]})
             }).catch(error => {
                 console.log(error.response);
             }); 
@@ -43,10 +36,10 @@ import {withRouter} from 'react-router-dom';
         return(
             <div className="container-fluid w-75 mt-5">
             <div className="row">
-                <div className="col-md-3">
+                <div className="col col-md-2 offset-sm-1">
                     <ActivityHost userdata = {this.state.user}/>
                 </div>
-                <div className="col mt-5 mt-md-0">
+                <div className="col col-md-7 offset-sm-1">
                     <DetailedActivity activity = {this.state.data} />
                 </div>
             </div>

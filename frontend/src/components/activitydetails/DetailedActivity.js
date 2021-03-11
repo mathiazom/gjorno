@@ -7,7 +7,13 @@ export default class DetailedActivity extends React.Component {
 
     render() {
         return(
-            <p>{this.props.activity.title}</p>
+            <div>
+                <h2 className="text-success">{this.props.activity.title}</h2>
+                <p>Ingress</p>
+                <section>
+                    <p>{this.props.activity.description}</p>
+                </section>
+            </div>
         );
     }
 }
