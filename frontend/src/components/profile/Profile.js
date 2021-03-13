@@ -1,6 +1,7 @@
 import React from 'react';
 import MyActivities from './MyActivities';
 import ProfileInfo from './ProfileInfo';
+import MyRegisteredActivities from './MyRegisteredActivities';
 
 const Profile = () => {
     return(
@@ -11,6 +12,7 @@ const Profile = () => {
                 </div>
                 <div className="col mt-5 mt-md-0">
                     <MyActivities />
+                    <MyRegisteredActivities />                    
                 </div>
             </div>
         </div>
