@@ -38,13 +38,14 @@ class Activity(models.Model):
     def __str__(self):
         return self.title
 
-    def registrations_list(self):
+    def registered_users(self):
         if not self.has_registration:
             return []
-        return Registration.objects.filter(activity=self.id)
+        users = Registration.objects.filter(activity=self.id).values_list('user')
+        return User.objects.filter(id__in=users)
 
     def registrations_count(self):
-        return len(self.registrations_list())
+        return len(self.registered_users())
 
     class Meta:
         verbose_name_plural = "Activities"
