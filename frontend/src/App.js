@@ -1,7 +1,7 @@
 import React from 'react';
 import '@fortawesome/fontawesome-free/js/all.js';
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
     Redirect
@@ -71,8 +71,8 @@ export default class App extends React.Component {
     render() {
 
         return (
-            <Router>
-                <ScrollToTop />
+            <Router basename={"/"}>
+                <ScrollToTop/>
                 <div className={"App"}>
                     <input type="checkbox" id="show" />
                     <LoginForm

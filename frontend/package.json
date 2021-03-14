@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "homepage": "https://gjorno.site/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +12,7 @@
     "axois": "^0.0.1-security",
     "bootstrap": "^4.6.0",
     "date-fns": "^2.19.0",
+    "gh-pages": "^3.1.0",
     "react": "^17.0.1",
     "react-datepicker": "^3.6.0",
     "react-dom": "^17.0.1",
@@ -22,6 +24,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build --repo https://github.com/Mathiazom/gjorno-frontend.git",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
