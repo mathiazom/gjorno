@@ -18,7 +18,7 @@
 4. Activity registration
     * [Register logged in user to activity](#register-logged-in-user-to-an-activity)
     * [Unregister logged in user from activity](#unregister-logged-in-user-from-an-activity)
-    * [Retrieve all registrations for an activity](#retrieve-all-registrations-for-an-activity)
+    * [Retrieve all users registered for an activity](#retrieve-all-users-registered-for-an-activity)
 5. Categories
     * [Retrieve all categories](#retrieve-all-categories)
 
@@ -357,7 +357,7 @@ Response to valid request:
 > User was successfully unregistered
 
 
-## Retrieve all registrations for an activity
+## Retrieve all users registered for an activity
 #### `GET localhost:8000/api/activities/{activity_id}/registrations/`
 🔑 Requires the `Authorization` header (see [Authorization](#authorization))
 
@@ -368,16 +368,18 @@ Expects no request body
 Example response to valid request:
 ```json
 [
-    {
-        "id": 8,
-        "activity": 1,
-        "user": 32
-    },
-    {
-        "id": 10,
-        "activity": 1,
-        "user": 19
-    }
+  {
+      "phone_number": "+4942414114",
+      "username": "wilhelm",
+      "email": "wilhelm@gruber.de",
+      "is_organization": false
+  },
+  {
+      "phone_number": "+4326854241",
+      "username": "famousfoxglove",
+      "email": "famousfox@glove.at",
+      "is_organization": false
+  }
 ]
 ```
 
