@@ -74,27 +74,3 @@ pages:
     expire_in: 30 days
   only:
     - master
-
-pages:
-  image: alpine:latest
-  stage: Deploy
-  variables:
-    GIT_STRATEGY: none        # Do not clone git repo
-  script:
-    # Rename the CRA `build` folder to `public`
-    - mv build public
-  artifacts:
-    paths:
-      - public
-
-build:
-  image: node:latest
-  stage: Build
-  variables:
-    PUBLIC_URL: http://tdt4140.pages.stud.idi.ntnu.no/landsby-1/gruppe-15/gjorno
-  script:
-    - yarn install
-    - yarn build
-  artifacts:
-    paths:
-      - build/
