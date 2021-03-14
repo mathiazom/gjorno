@@ -3,6 +3,10 @@ stages:
   - Testing
   - Artifacts
 
+default:
+  tags:
+    - docker
+
 ESLint:
   image: node
   stage: Linting

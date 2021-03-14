@@ -12,6 +12,7 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE, related_name="profile", verbose_name="User"
     )
     phone_number = models.CharField(max_length=11)
+    is_organization = models.BooleanField(default=False, null = False)
 
     def __str__(self):
         return self.user.get_full_name()
@@ -19,18 +20,45 @@ class Profile(models.Model):
 
 class Activity(models.Model):
     """Model representing an activity created by the user"""
+
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="created_activities", verbose_name="Creator"
     )
     title = models.CharField(max_length=50)
-    description = models.TextField(max_length=240)
+    ingress = models.TextField(max_length=240, null=False, blank=False)
+    description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
+
+    has_registration = models.BooleanField(default=False)
+    registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    registration_deadline = models.DateTimeField(blank=True, null=True)
+    starting_time = models.DateTimeField(blank=True, null=True)
+    location = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return self.title
 
+    def registrations_list(self):
+        if not self.has_registration:
+            return []
+        return Registration.objects.filter(activity=self.id)
+
+    def registrations_count(self):
+        return len(self.registrations_list())
+
     class Meta:
         verbose_name_plural = "Activities"
+
+
+class Registration(models.Model):
+    """Representation of a users registration to an organized activity"""
+
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="registrations", verbose_name="Activity"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="registrations", verbose_name="User"
+    )
 
 
 class Category(models.Model):
