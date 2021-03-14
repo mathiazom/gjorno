@@ -38,6 +38,7 @@ class CreateActivity extends React.Component {
      */
     createActivity() {
         const title = document.getElementById("activity-title-input").value;
+        const ingress = document.getElementById("activity-ingress-input").value;
         const description = document.getElementById("activity-description-input").value;
         // Extract ids of selected categories
         const category_ids = this.state.selected_categories.map((category)=>{
@@ -46,6 +47,7 @@ class CreateActivity extends React.Component {
         axios.post("http://localhost:8000/api/activities/",
             {
                 title: title,
+                ingress: ingress,
                 description: description,
                 categories: category_ids
             },
@@ -69,6 +71,11 @@ class CreateActivity extends React.Component {
                         <label htmlFor="activity-title-input" className="form-label">Tittel</label>
                         <input id="activity-title-input" type="text" className="form-control"
                                placeholder="Joggetur Gløshaugen-Heimdal" required/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="activity-ingress-input" className="form-label">Ingress</label>
+                        <textarea className="form-control" id="activity-ingress-input" rows="2" required
+                                  placeholder={"Fin joggetur på 8km med flatt terreng."}/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Beskrivelse</label>
