@@ -163,3 +163,9 @@
   color: #072819;
   text-decoration: none;
 }
+
+/** DATE TIME PICKER */
+
+.react-datepicker-wrapper{
+  display: block !important;
+}

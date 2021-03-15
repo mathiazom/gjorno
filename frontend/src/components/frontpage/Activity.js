@@ -13,8 +13,8 @@ const Activity = (props) => {
             <img src={"images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row">
                 <div className={"col-12 col-lg-8 pe-4"}>
-                    <Link to={`/activity-details/${props.data.id}`} style={{textDecoration: "none"}}>
-                        <h5 className="card-title text-success">{props.data.title}</h5></Link>
+                <Link to={`/activity-details/${props.data.id}`} style={{textDecoration: "none"}}>
+                <h5 className="card-title text-success">{props.data.title}</h5></Link>
                     <p className="card-text">{props.data.ingress}</p>
                 </div>
                 <div className={"col-12 col-xl-4 text-end d-none d-xl-block pe-5"}> 
