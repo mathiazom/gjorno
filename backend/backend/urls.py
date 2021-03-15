@@ -24,13 +24,15 @@ from gjorno.views import \
     CategoriesView, \
     UsersView, \
     CurrentUserView, \
-    MyActivitiesView
+    MyActivitiesView, \
+    MyRegisteredActivitiesView
 
 router = routers.DefaultRouter()
 router.register("activities", ActivitiesView, 'activities')
 router.register("categories", CategoriesView, 'categories')
 router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
+router.register("my_registered_activities", MyRegisteredActivitiesView, 'my_registered_activities')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

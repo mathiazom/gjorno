@@ -152,6 +152,14 @@ class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user).order_by('-id')
 
+class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users registered activities """
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Activity.objects.filter(id__in=self.activity_ids).order_by('-id')
+
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """
