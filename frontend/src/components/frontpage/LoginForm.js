@@ -92,10 +92,10 @@ class LoginForm extends React.Component {
                         <input id="reg-username" className={"rounded"} type="text" placeholder="Brukernavn" />
                         <input id="reg-password1" className={"rounded"} type="password" placeholder="Passord" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
                         <input id="reg-password2" className={"rounded"} type="password" placeholder="Gjenta passord" />
-                        <div className="registration-checkbox">
+                        <div className="registration-checkbox mt-2 mb-2">
                             <label className="switch">
                                 <input id="organizationSwitch" type="checkbox"/>
-                                <span className="slider round"></span>
+                                <span className="slider round" />
                             </label>
                             Organisasjon
                         </div>
