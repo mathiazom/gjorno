@@ -42,6 +42,7 @@ class EditActivity extends React.Component {
             .then(res => {
                 const activity = res.data;
                 document.getElementById("activity-title-input").value = activity.title;
+                document.getElementById("activity-ingress-input").value = activity.ingress;
                 document.getElementById("activity-description-input").value = activity.description;
                 const categories = activity.categories;
                 const selected = []
@@ -63,6 +64,7 @@ class EditActivity extends React.Component {
     editActivity() {
         const title = document.getElementById("activity-title-input").value;
         const description = document.getElementById("activity-description-input").value;
+        const ingress = document.getElementById("activity-ingress-input").value;
         // Extract ids of selected categories
         const category_ids = this.state.selected_categories.map((category)=>{
             return category.value;
@@ -70,6 +72,7 @@ class EditActivity extends React.Component {
         axios.put(`http://localhost:8000/api/activities/${this.props.match.params.id}/`,
             {
                 title: title,
+                ingress: ingress,
                 description: description,
                 categories: category_ids
             },
@@ -94,10 +97,15 @@ class EditActivity extends React.Component {
                         <input id="activity-title-input" type="text" className="form-control"
                                placeholder="Joggetur Gløshaugen-Heimdal" required/>
                     </div>
+                     <div className="mb-3">
+                        <label htmlFor="activity-ingress-input" className="form-label">Ingress</label>
+                        <textarea className="form-control" id="activity-ingress-input" rows="2" required
+                                  placeholder={"Fin joggetur på 8km med flatt terreng."}/>
+                    </div>
                     <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Beskrivelse</label>
-                        <textarea className="form-control" id="activity-description-input" rows="3" required
-                                  placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
+                        <textarea className="form-control" id="activity-description-input" rows="5" required
+                                  placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt, med noen små bakker. Anbefaler å ligge på rundt 7 km/t, men dette er ikke kritisk."}/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="activity-categories-input" className="form-label">Kategorier</label>

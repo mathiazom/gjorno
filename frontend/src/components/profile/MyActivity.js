@@ -19,8 +19,10 @@ export default class MyActivity extends React.Component {
             <div className="card w-100 mt-4 mb-4 ps-3 pe-3">
                 <div className="card-body d-flex row">
                     <div className={"col pt-2 pb-2"}>
+                    <Link to={`/activity-details/${this.props.data.id}`} style={{textDecoration: "none"}}>
                         <h5 className="card-title text-success">{this.props.data.title}</h5>
-                        <p className="card-text">{this.props.data.description}</p>
+                    </Link>
+                        <p className="card-text">{this.props.data.ingress}</p>
                     </div>
                     <div className={"col-2 d-none d-md-flex justify-content-end align-items-center"}>
                         <Link to={`/edit-activity/${this.props.data.id}`} className={"btn btn-success"}><i className="fas fa-pen"/></Link>
