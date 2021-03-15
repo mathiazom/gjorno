@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import MultiSelect from "react-multi-select-component";
+import CategorySelect from "../common/CategorySelect";
 import DateTimePicker from "../common/DateTimePicker";
 
 class EditActivity extends React.Component {
@@ -163,18 +163,11 @@ class EditActivity extends React.Component {
                     {/*Categories */}
                     <div className="mb-3">
                         <label htmlFor="activity-categories-input" className="form-label">Kategorier</label>
-                        <MultiSelect
+                        <CategorySelect
                             id="activity-categories-input"
-                            options={this.state.categories}
-                            value={this.state.selected_categories}
+                            categories={this.state.categories}
+                            selected_categories={this.state.selected_categories}
                             onChange={(selected)=>this.setState({selected_categories: selected})}
-                            hasSelectAll={false}
-                            focusSearchOnOpen={false}
-                            overrideStrings={{
-                                "selectSomeItems": "Velg",
-                                "allItemsAreSelected": "Alle kategorier",
-                                "search": "Søk"
-                            }}
                         />
                     </div>
                     {/*Registration checkbox */}

@@ -1,15 +1,13 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import MultiSelect from "react-multi-select-component";
 import DateTimePicker from "../common/DateTimePicker"
+import CategorySelect from "../common/CategorySelect";
 
 class CreateActivity extends React.Component {
 
     constructor(props) {
         super(props);
-        const tomorrow = new Date()
-        tomorrow.setDate(tomorrow.getDate() + 1)
         this.state = {
             categories: [],
             selected_categories: [],
@@ -123,30 +121,18 @@ class CreateActivity extends React.Component {
                     </div>
                     {/*Description */}
                     <div className="mb-3">
-                        <label htmlFor="activity-ingress-input" className="form-label">Ingress</label>
-                        <textarea className="form-control" id="activity-ingress-input" rows="2" required
-                                  placeholder={"Fin joggetur på 8km med flatt terreng."}/>
-                    </div>
-                    <div className="mb-3">
                         <label htmlFor="activity-description-input" className="form-label">Beskrivelse</label>
                         <textarea className="form-control" id="activity-description-input" rows="3" required
-                        placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
+                                  placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     </div>
                     {/*Categories */}
                     <div className="mb-3">
                         <label htmlFor="activity-categories-input" className="form-label">Kategorier</label>
-                        <MultiSelect
+                        <CategorySelect
                             id="activity-categories-input"
-                            options={this.state.categories}
-                            value={this.state.selected_categories}
+                            categories={this.state.categories}
+                            selected_categories={this.state.selected_categories}
                             onChange={(selected)=>this.setState({selected_categories: selected})}
-                            hasSelectAll={false}
-                            focusSearchOnOpen={false}
-                            overrideStrings={{
-                                "selectSomeItems": "Velg",
-                                "allItemsAreSelected": "Alle kategorier",
-                                "search": "Søk"
-                            }}
                         />
                     </div>
                     {/*Registration checkbox */}
