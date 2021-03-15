@@ -28,22 +28,27 @@ class ActivitiesView(viewsets.ModelViewSet):
             return BasicActivitySerializer
         return ActivitySerializer
 
-    # Flag to determine of activity was authored by authorized user
+    
     @staticmethod
-    def append_author_field(data, user):
-        data['is_author'] = user.id == data['user']
+    def append_user_specific_fields(data, request):
+        # Flag to determine if activity was authored by authorized user
+        data['is_author'] = request.user.id == data['user']
+        # Flag to determine if user is registered to activity
+        data['is_registered'] = Registration.objects.filter(user = request.user.id, activity=data['id']).exists()
+
+
 
     # Append extra fields when retrieving activity
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, args, kwargs)
-        self.append_author_field(response.data, request.user)
+        self.append_user_specific_fields(response.data, request)
         return response
 
     # Append extra fields when retrieving activities
     def list(self, request, *args, **kwargs):
         response = super().list(request, args, kwargs)
         for activity in response.data:
-            self.append_author_field(activity, request.user)
+            self.append_user_specific_fields(activity, request)
         return response
 
     # Restrict activity edit to author only
@@ -151,6 +156,15 @@ class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user).order_by('-id')
+
+class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users registered activities """
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        activity_ids = Registration.objects.filter(user=self.request.user.id).values_list('activity')
+        return Activity.objects.filter(id__in=activity_ids).order_by('-id')
 
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):

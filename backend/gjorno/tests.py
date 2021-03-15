@@ -95,7 +95,8 @@ class ActivityTest(ActivityBaseTest):
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "has_registration": False,
-                    "is_author": False
+                    "is_author": False,
+                    "is_registered": False
                 }
             )
 
@@ -135,7 +136,8 @@ class ActivityTest(ActivityBaseTest):
                     "starting_time": "2022-03-23T15:20:34Z",
                     "location": "T-Town",
                     "registrations_count": 0,
-                    "is_author": False
+                    "is_author": False,
+                    "is_registered": False
                 }
             )
 
@@ -306,7 +308,8 @@ class ActivityTest(ActivityBaseTest):
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "has_registration": False,
-            "is_author": True
+            "is_author": True,
+            "is_registered": False
         })
 
     def put_activity(self):
