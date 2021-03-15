@@ -2,14 +2,19 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import MultiSelect from "react-multi-select-component";
+import DateTimePicker from "../common/DateTimePicker"
 
 class CreateActivity extends React.Component {
 
     constructor(props) {
         super(props);
+        const tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
         this.state = {
             categories: [],
-            selected_categories: []
+            selected_categories: [],
+            deadline_datetime: null,
+            start_datetime: null
         };
         // Bind "this" to get access to "this.props.history"
         this.createActivity = this.createActivity.bind(this);
@@ -19,6 +24,7 @@ class CreateActivity extends React.Component {
      * Retrieve all available categories
      */
     componentDidMount() {
+
         axios.get('http://localhost:8000/api/categories/')
             .then(res => {
                 // Create category dropdown options
@@ -51,8 +57,8 @@ class CreateActivity extends React.Component {
                 categories: category_ids,
                 has_registration: true,
                 registration_capacity: document.getElementById("registration-capacity-input").value,
-                registration_deadline: document.getElementById("reg-deadline").value,
-                starting_time: document.getElementById("start-date").value,
+                registration_deadline: this.state.deadline_datetime.toISOString(),
+                starting_time: this.state.start_datetime.toISOString(),
                 location: document.getElementById("activity-location-input").value
             },
             {
@@ -98,6 +104,7 @@ class CreateActivity extends React.Component {
     }
 
     render() {
+
         return(
             <div className="container-fluid w-50 m-5 mx-auto">
                 <h1>Ny aktivitet</h1>
@@ -143,27 +150,35 @@ class CreateActivity extends React.Component {
                         />
                     </div>
                     {/*Registration checkbox */}
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" onClick={this.displayRegistrationForm} id="registration-checkbox" required/>
-                        <label className="form-check-label" htmlFor="flexCheckDefault">Registrering</label>
+                    <div className={"mt-2"}>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" onClick={this.displayRegistrationForm} id="registration-checkbox"/>
+                            <label className="form-check-label" htmlFor="registration-checkbox">Registrering</label>
+                        </div>
                     </div>
                     {/*Capacity */}
                     <div id="registration-capacity" style={{display:"none"}} className="mb-3">
                         <br/>
                         <label className="form-label">Antall plasser</label>
-                        <input type="number" className="form-control" id="registration-capacity-input" required/>
+                        <input type="number" min={1} className="form-control" id="registration-capacity-input" required/>
                     </div>
                     {/*Reg deadline date */}
                     <div id="registration-deadline" style={{display:"none"}} className="mb-3">
-                        <label htmlFor="reg-date" className="form-label">Påmelding stenger</label>
+                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
                         <br/>
-                        <input type="datetime-local" className="form-control" id="reg-deadline" name="registration-closes" required/>
+                        <DateTimePicker
+                            selected={this.state.deadline_datetime}
+                            onChange={date => this.setState({deadline_datetime:date})}
+                        />
                     </div>
                     {/*Date */}
                     <div id="starting_time" style={{display:"none"}} className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Tidspunkt</label>
+                        <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
                         <br/>
-                        <input type="datetime-local" className="form-control" id="start-date" name="start-time" required/>
+                        <DateTimePicker
+                            selected={this.state.start_datetime}
+                            onChange={date => this.setState({start_datetime:date})}
+                        />
                     </div>
                     {/*Location */}
                     <div id="location" style={{display:"none"}} className="mb-3">
@@ -172,7 +187,7 @@ class CreateActivity extends React.Component {
                                placeholder="Gløshaugen" required/>
                     </div>
                 </div>
-                <div className="mt-3 row">
+                <div className="mt-5 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>
                         <button className="btn btn-outline-secondary w-100" onClick={this.props.history.goBack}>Avbryt</button>
                     </div>

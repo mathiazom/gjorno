@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import MultiSelect from "react-multi-select-component";
+import DateTimePicker from "../common/DateTimePicker";
 
 class EditActivity extends React.Component {
 
@@ -9,7 +10,9 @@ class EditActivity extends React.Component {
         super(props);
         this.state = {
             categories: [],
-            selected_categories: []
+            selected_categories: [],
+            deadline_datetime: null,
+            start_datetime: null
         };
         // Bind "this" to get access to "this.props.history"
         this.editActivity = this.editActivity.bind(this);
@@ -45,13 +48,12 @@ class EditActivity extends React.Component {
                 document.getElementById("activity-ingress-input").value = activity.ingress;
                 document.getElementById("activity-description-input").value = activity.description;
                 const elements = ["registration-capacity", "registration-deadline", "starting_time", "location"];
-                if (activity.has_registration == true) {
+                if (activity.has_registration) {
                     elements.forEach(item => document.getElementById(item).style.display = "block");
                     document.getElementById("registration-checkbox").checked = true;
                     document.getElementById("registration-capacity-input").value = activity.registration_capacity;
-                    // slice to remove the Z at the end of the date-string
-                    document.getElementById("reg-deadline").value = activity.registration_deadline.slice(0, -1);
-                    document.getElementById("start-date").value = activity.starting_time.slice(0, -1);
+                    this.setState({deadline_datetime: new Date(activity.registration_deadline)})
+                    this.setState({start_datetime: new Date(activity.starting_time)})
                     document.getElementById("activity-location-input").value = activity.location;
                 } else {
                     elements.forEach(item => document.getElementById(item).style.display = "none");
@@ -87,8 +89,8 @@ class EditActivity extends React.Component {
                 categories: category_ids,
                 has_registration: true,
                 registration_capacity: document.getElementById("registration-capacity-input").value,
-                registration_deadline: document.getElementById("reg-deadline").value,
-                starting_time: document.getElementById("start-date").value,
+                registration_deadline: this.state.deadline_datetime.toISOString(),
+                starting_time: this.state.start_datetime.toISOString(),
                 location: document.getElementById("activity-location-input").value
             },
             {
@@ -176,27 +178,35 @@ class EditActivity extends React.Component {
                         />
                     </div>
                     {/*Registration checkbox */}
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" onClick={this.displayRegistrationForm} id="registration-checkbox" required/>
-                        <label className="form-check-label" htmlFor="flexCheckDefault">Registrering</label>
+                    <div className={"mt-2"}>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" onClick={this.displayRegistrationForm} id="registration-checkbox"/>
+                            <label className="form-check-label" htmlFor="registration-checkbox">Registrering</label>
+                        </div>
                     </div>
                     {/*Capacity */}
                     <div id="registration-capacity" style={{display:"none"}} className="mb-3">
                         <br/>
                         <label className="form-label">Antall plasser</label>
-                        <input type="number" className="form-control" id="registration-capacity-input" required/>
+                        <input type="number" min={1} className="form-control" id="registration-capacity-input" required/>
                     </div>
                     {/*Reg deadline date */}
                     <div id="registration-deadline" style={{display:"none"}} className="mb-3">
-                        <label htmlFor="reg-date" className="form-label">Påmelding stenger</label>
+                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
                         <br/>
-                        <input type="datetime-local" className="form-control" id="reg-deadline" name="registration-closes" required/>
+                        <DateTimePicker
+                            selected={this.state.deadline_datetime}
+                            onChange={date => this.setState({deadline_datetime:date})}
+                        />
                     </div>
                     {/*Date */}
                     <div id="starting_time" style={{display:"none"}} className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Tidspunkt</label>
+                        <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
                         <br/>
-                        <input type="datetime-local" className="form-control" id="start-date" name="start-time" required/>
+                        <DateTimePicker
+                            selected={this.state.start_datetime}
+                            onChange={date => this.setState({start_datetime:date})}
+                        />
                     </div>
                     {/*Location */}
                     <div id="location" style={{display:"none"}} className="mb-3">
@@ -205,7 +215,7 @@ class EditActivity extends React.Component {
                                placeholder="Gløshaugen" required/>
                     </div>
                 </div>
-                <div className="mt-3 row">
+                <div className="mt-4 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>
                         <button className="btn btn-outline-secondary w-100" onClick={this.props.history.goBack}>Avbryt</button>
                     </div>
