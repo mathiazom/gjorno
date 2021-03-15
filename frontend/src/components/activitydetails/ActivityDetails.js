@@ -13,8 +13,6 @@ import {withRouter} from 'react-router-dom';
             data: [],
             user: []
         };
-        // Bind "this" to get access to "this.props.history"
-        //this.activityDetails = this.activityDetails.bind(this);
     }
 
     componentDidMount() {
