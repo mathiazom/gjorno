@@ -57,7 +57,11 @@ class ActivitiesView(viewsets.ModelViewSet):
         if activity.user.id != self.request.user.id:
             return Response("User is not activity author", status=status.HTTP_403_FORBIDDEN)
         # If activity has registration, make sure capacity change is not removing registrations
-        if activity.has_registration or ('has_registration' in request.data and request.data['has_registration']):
+        has_registration = activity.has_registration
+        if 'has_registration' in request.data:
+            # Request changes has_registration
+            has_registration = request.data['has_registration']
+        if has_registration:
             if int(request.data['registration_capacity']) < activity.registrations_count():
                 return Response("Cannot decrease capacity below current number of registrations",
                                 status=status.HTTP_403_FORBIDDEN)
