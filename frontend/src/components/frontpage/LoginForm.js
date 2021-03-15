@@ -2,6 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
+
+
 /**
  * Component for the login form. Contain both login and registration.
  * Is opened by the LoginButton.
@@ -90,6 +92,13 @@ class LoginForm extends React.Component {
                         <input id="reg-username" className={"rounded"} type="text" placeholder="Brukernavn" />
                         <input id="reg-password1" className={"rounded"} type="password" placeholder="Passord" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
                         <input id="reg-password2" className={"rounded"} type="password" placeholder="Gjenta passord" />
+                        <div className="registration-checkbox">
+                            <label className="switch">
+                                <input id="organizationSwitch" type="checkbox"/>
+                                <span className="slider round"></span>
+                            </label>
+                            Organisasjon
+                        </div>
                     </div>
                     <button type="submit" onClick={this.register}>Registrer deg</button>
                 </form>
