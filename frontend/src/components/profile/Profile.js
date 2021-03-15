@@ -2,6 +2,7 @@ import React from 'react';
 import MyActivities from './MyActivities';
 import ProfileInfo from './ProfileInfo';
 import MyRegisteredActivities from './MyRegisteredActivities';
+import SavedActivities from './SavedActivities';
 
 const Profile = () => {
     return(
@@ -12,7 +13,8 @@ const Profile = () => {
                 </div>
                 <div className="col mt-5 mt-md-0">
                     <MyActivities />
-                    <MyRegisteredActivities />                    
+                    <MyRegisteredActivities />
+                    <SavedActivities />
                 </div>
             </div>
         </div>
