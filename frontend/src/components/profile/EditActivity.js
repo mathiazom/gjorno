@@ -96,7 +96,7 @@ class EditActivity extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }})
             .then(() => {
-                this.props.history.push("/");
+                this.props.history.push("/profile");
             }).catch(error => {
                 console.log(error.response);
             });
@@ -106,7 +106,8 @@ class EditActivity extends React.Component {
                 title: document.getElementById("activity-title-input").value,
                 ingress: document.getElementById("activity-ingress-input").value,
                 description: document.getElementById("activity-title-input").value,
-                categories: category_ids
+                categories: category_ids,
+                has_registration: false
             },
             {
                 headers: {

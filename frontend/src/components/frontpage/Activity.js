@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 /**
  * We take in some props (title, description and username) to make the Activity.
