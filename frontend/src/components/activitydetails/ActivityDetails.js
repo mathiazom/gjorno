@@ -35,12 +35,18 @@ import {withRouter} from 'react-router-dom';
     }
 
     render() {
+        let join;
+        if (this.state.data.has_registration == true) {
+            join = <Registration activity = {this.state.data}/>
+         } else {
+            join = <a href="#" className="btn btn-success float-right">Legg i logg</a>
+         }
         return(
             <div className="container-fluid w-75 mt-5">
             <div className="row">
                 <div className="col col-md-2 offset-sm-1">
                     <ActivityHost userdata = {this.state.user} />
-                    <Registration />
+                    {join}
                 </div>
                 <div className="col col-md-7 offset-sm-1">
                     <DetailedActivity activity = {this.state.data} />
