@@ -60,7 +60,6 @@
   flex-direction: column;
   padding: 0 50px;
   height: 100%;
-  text-align: center;
 }
 
 .container input {
@@ -273,6 +272,7 @@ input[type="color"]:focus,
   display: inline-block;
   width: 45px;
   height: 26px;
+  margin-right: 10px;
 }
 
 .switch input { 
