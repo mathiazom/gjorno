@@ -54,7 +54,7 @@ export default class SavedActivities extends React.Component {
                 <h2>Lagrede aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mt-4 mb-4 ps-3 pe-3">Vis alle</button>
+                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
                 </div>
             </div>
         );

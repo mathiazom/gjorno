@@ -29,7 +29,7 @@ export default class MyActivities extends React.Component {
     }
 
     /**
-     * 
+     * We only render 3 activities. If there are more we take the last three.
      * @returns 
      */
     renderAllActivities() {
@@ -54,7 +54,7 @@ export default class MyActivities extends React.Component {
                 <h2>Aktivitetslogg</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mt-4 mb-4 ps-3 pe-3">Vis alle</button>
+                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
                 </div>
             </div>
         );
