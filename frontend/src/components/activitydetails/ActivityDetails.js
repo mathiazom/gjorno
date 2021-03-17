@@ -16,7 +16,10 @@ import {withRouter} from 'react-router-dom';
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`)
+        axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`,
+            { headers: {
+                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+            }})
             .then(res => {
                 this.setState({data: res.data})
                 this.getActivityAuthor()
@@ -39,10 +42,10 @@ import {withRouter} from 'react-router-dom';
         if (this.state.data.has_registration == true) {
             join = <Registration activity = {this.state.data}/>
          } else {
-            join = <a href="#" className="btn btn-success float-right">Legg i logg</a>
+            join = <a href="#" className="btn btn-success w-100 mt-3">Legg i logg</a>
          }
         return(
-            <div className="container-fluid w-75 mt-5">
+            <div className="container-fluid w-80 mt-5">
             <div className="row">
                 <div className="col col-md-2 offset-sm-1">
                     <ActivityHost userdata = {this.state.user} />
