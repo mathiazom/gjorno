@@ -120,15 +120,15 @@ export default class Registration extends React.Component {
                         <button id={"registration-button"} className={"btn btn-danger w-100 mt-3 mb-1"}
                                 onClick={this.unregister}>Meld av</button>
                         :
-                        ((new Date() < getDateFromString(this.props.activity.registration_deadline))
-                        &&
-                        (this.props.activity.registrations_count < this.props.activity.registration_capacity))
-                        ? (
+                        new Date() < getDateFromString(this.props.activity.registration_deadline)
+                        ? this.props.activity.registrations_count < this.props.activity.registration_capacity ? (
                                 <button id={"registration-button"} className={"btn btn-success w-100 mt-3 mb-1"}
                                         onClick={this.register}>Meld på</button>
                             )
                             :
-                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Meld på</button>
+                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er full</button>
+                            :
+                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er avsluttet</button>
                     }
                 </div>
             </div>
