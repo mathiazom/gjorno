@@ -28,6 +28,7 @@ class Activity(models.Model):
     ingress = models.TextField(max_length=240, null=False, blank=False)
     description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
+    image = models.ImageField(upload_to='uploads/', blank=True)
 
     has_registration = models.BooleanField(default=False)
     registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)

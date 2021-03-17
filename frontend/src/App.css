@@ -31,6 +31,15 @@
   }
 }
 
+/* ACTIVITY DETAILS */
+
+.activity-details-banner {
+  max-height: 600px;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 40px;
+}
+
 /* BURGERS */
 
 /*

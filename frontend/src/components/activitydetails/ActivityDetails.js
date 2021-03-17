@@ -10,7 +10,7 @@ class ActivityDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            activity: [],
             user: []
         };
         this.getActivity = this.getActivity.bind(this);
@@ -32,7 +32,7 @@ class ActivityDetails extends React.Component {
                 headers: headers
             })
             .then(res => {
-                this.setState({data: res.data})
+                this.setState({activity: res.data})
                 this.getActivityAuthor()
             })
             .catch(error => {
@@ -42,7 +42,7 @@ class ActivityDetails extends React.Component {
 
     getActivityAuthor() {
         axios
-            .get(`http://localhost:8000/api/users/${this.state.data.user}`)
+            .get(`http://localhost:8000/api/users/${this.state.activity.user}`)
             .then(res => {
                 this.setState({user: res.data})
             })
@@ -53,32 +53,36 @@ class ActivityDetails extends React.Component {
 
     render() {
         let join;
-        if (this.state.data.has_registration === true) {
-            join = <Registration activity={this.state.data} onUpdate={this.getActivity}
+        if (this.state.activity.has_registration === true) {
+            join = <Registration activity={this.state.activity} onUpdate={this.getActivity}
                                  authenticated={this.props.authenticated}/>
         } else if (this.props.authenticated) {
-            if (this.state.data.is_author === false){
+            if (this.state.activity.is_author === false){
               join = <a href="#" className="btn btn-success w-100 mt-3">Legg i logg</a>
             } else {
               join = (
-                  <Link to={`/edit-activity/${this.state.data.id}`}>
+                  <Link to={`/edit-activity/${this.state.activity.id}`}>
                       <button id={"edit-button"} className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger</button>
                   </Link>
               )
             }
         }
+        let img = this.state.activity.image;
         return (
-            <div className="container-fluid w-80 mt-5 mb-5">
-                <div className="row">
-                    <div className="col col-md-2 offset-sm-1">
-                        <ActivityHost userdata={this.state.user}/>
-                        {join}
-                    </div>
-                    <div className="col col-md-7 offset-sm-1">
-                        <DetailedActivity activity={this.state.data}/>
+            <>
+                {img == null || <img src={img} className="img-fluid activity-details-banner" alt={"Aktivitetsbilde"}/>}
+                <div className="container-fluid w-100 mt-5" style={{marginBottom:"300px"}}>
+                    <div className="row">
+                        <div className="col col-md-2 offset-sm-1">
+                            <ActivityHost userdata={this.state.user}/>
+                            {join}
+                        </div>
+                        <div className="col col-md-7 offset-sm-1">
+                            <DetailedActivity activity={this.state.activity}/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

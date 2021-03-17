@@ -19,6 +19,8 @@ import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
+import ScrollToTop from "./components/common/ScrollToTop";
+
 
 export default class App extends React.Component {
 
@@ -63,6 +65,7 @@ export default class App extends React.Component {
 
         return (
             <Router>
+                <ScrollToTop/>
                 <div className={"App"}>
                     <input type="checkbox" id="show" />
                     <LoginForm
