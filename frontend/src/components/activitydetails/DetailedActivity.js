@@ -8,8 +8,8 @@ export default class DetailedActivity extends React.Component {
     render() {
         return(
             <div>
-                <h2 className="text-success">{this.props.activity.title}</h2>
-                <p className={"fw-bold"}>{this.props.activity.ingress}</p>
+                <h1 className="text-success">{this.props.activity.title}</h1>
+                <h3 className={"fw-bold"}>{this.props.activity.ingress}</h3>
                 <section>
                     <p className="text-break">{this.props.activity.description}</p>
                 </section>
