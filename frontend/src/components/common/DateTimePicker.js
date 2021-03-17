@@ -21,6 +21,7 @@ export default class DateTimePicker extends React.Component{
 
         return (
             <DatePicker
+                id={this.props.id}
                 className={"form-control"}
                 showTimeSelect
                 selected={this.props.selected}

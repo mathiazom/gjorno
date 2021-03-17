@@ -9,19 +9,21 @@ export default class CategorySelect extends React.Component{
     render() {
 
         return (
-            <MultiSelect
-                id="activity-categories-input"
-                options={this.props.categories}
-                value={this.props.selected_categories}
-                onChange={this.props.onChange}
-                hasSelectAll={false}
-                focusSearchOnOpen={false}
-                overrideStrings={{
-                    "selectSomeItems": "Velg",
-                    "allItemsAreSelected": "Alle kategorier",
-                    "search": "Søk"
-                }}
-            />
+            <div id={this.props.id}>
+                <MultiSelect
+                    className={this.props.className}
+                    options={this.props.categories}
+                    value={this.props.selected_categories}
+                    onChange={this.props.onChange}
+                    hasSelectAll={false}
+                    focusSearchOnOpen={false}
+                    overrideStrings={{
+                        "selectSomeItems": "Velg",
+                        "allItemsAreSelected": "Alle kategorier",
+                        "search": "Søk"
+                    }}
+                />
+            </div>
         )
 
     }

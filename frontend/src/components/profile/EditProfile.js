@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ImageUpload from "../common/ImageUpload";
+import {stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
 
 class EditProfile extends React.Component {
 
@@ -14,10 +15,9 @@ class EditProfile extends React.Component {
         super(props);
         this.state = {
             data: [],
-            uploaded_image: null
+            image: null
         };
         this.edit = this.edit.bind(this);
-        this.onImageUploaded = this.onImageUploaded.bind(this);
     }
 
     /**
@@ -41,24 +41,57 @@ class EditProfile extends React.Component {
         })
     }
 
-    /**
-     * Handle new image upload
-     * @param file: image file
-     */
-    onImageUploaded(file) {
-        this.setState({uploaded_image:file})
+    profileInputFormRules() {
+
+        const usernameInput = document.getElementById("edit-username");
+        const phoneInput = document.getElementById("edit-phone");
+        const emailInput = document.getElementById("edit-email");
+
+        return [
+            {
+                inputEl: usernameInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(usernameInput.value),
+                        msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: phoneInput,
+                rules: [
+                    {
+                        isValid: phoneInput.value.length <= 11,
+                        msg: "Ugyldig telefonnummer"
+                    }
+                ]
+            },{
+                inputEl: emailInput,
+                rules: [
+                    {
+                        isValid: stringIsBlank(emailInput.value) ||
+                                 stringIsEmail(emailInput.value),
+                        msg: "Ugyldig e-post"
+                    }
+                ]
+            },
+        ]
+
     }
 
     /**
      * Sends a PUT the the server, with the updated data for the user.
      */
     edit() {
+        if(!validateForm(this.profileInputFormRules())){
+            // At least one invalid input value, abort
+            return;
+        }
         const data = new FormData();
         data.append("username",document.getElementById("edit-username").value);
         data.append("phone_number", document.getElementById("edit-phone").value);
         data.append("email", document.getElementById("edit-email").value);
-        if (this.state.uploaded_image != null) {
-            data.append("avatar", this.state.uploaded_image);
+        if (this.state.image != null) {
+            data.append("avatar", this.state.image);
         } else {
             // Send an empty file to clear any existing avatar
             data.append("avatar", new File([], ''))
@@ -83,22 +116,23 @@ class EditProfile extends React.Component {
                     <div className="mt-3 mb-4">
                         <label htmlFor="Username" className="form-label h5 mb-3">Brukernavn</label>
                         <input id="edit-username" type="text" className="form-control" required/>
-                    </div>
+                        <div className={"invalid-feedback"}/></div>
                     {/* Email */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Epost</label>
                         <input id="edit-email" type="email" className="form-control"/>
-                    </div>
+                        <div className={"invalid-feedback"}/></div>
                     {/* Phone number */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Telefonnummer</label>
                         <input id="edit-phone" type="text" className="form-control" required maxLength={11}/>
-                    </div>
+                        <div className={"invalid-feedback"}/></div>
                     {/*Image */}
                     <div className="mb-4">
                         <label htmlFor="profile-avatar-image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <ImageUpload id="profile-avatar-image-upload" image={this.state.data.avatar} onImageUploaded={this.onImageUploaded} />
-                    </div>
+                        <ImageUpload id="profile-avatar-image-upload" image={this.state.data.avatar} 
+                                     omImageChanged={(image) => this.setState({image: image})} />
+                        <div className={"invalid-feedback"}/></div>
                 </div>
                 <div className="mt-3 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>

@@ -3,8 +3,8 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import DateTimePicker from "../common/DateTimePicker"
 import CategorySelect from "../common/CategorySelect";
-// import GalleryModal from "./GalleryModal";
 import ImageUpload from "./ImageUpload";
+import {validateForm, stringIsBlank} from "./Utils";
 
 class ActivityForm extends React.Component {
 
@@ -12,15 +12,12 @@ class ActivityForm extends React.Component {
         super(props);
         this.state = {
             categories: [],
-            uploaded_image: null,
-            selected_gallery_image: null,
-            selected_categories: [],
-            deadline_datetime: null,
-            start_datetime: null
+            image: null,
+            selectedCategories: [],
+            deadlineDatetime: null,
+            startDatetime: null
         };
         this.submit = this.submit.bind(this);
-        this.onImageUploaded = this.onImageUploaded.bind(this);
-        this.onGalleryImageSelected = this.onGalleryImageSelected.bind(this);
     }
 
     /**
@@ -70,12 +67,16 @@ class ActivityForm extends React.Component {
 
         const activity = this.props.activity;
 
+        document.getElementById("activity-title-input").value = activity.title;
+        document.getElementById("activity-ingress-input").value = activity.ingress;
+        document.getElementById("activity-description-input").value = activity.description;
+
         if (activity.has_registration) {
             document.getElementById("registration-inputs").style.display = "block";
             document.getElementById("registration-checkbox").checked = true;
             document.getElementById("registration-capacity-input").value = activity.registration_capacity;
-            this.setState({deadline_datetime: new Date(activity.registration_deadline)})
-            this.setState({start_datetime: new Date(activity.starting_time)})
+            this.setState({deadlineDatetime: new Date(activity.registration_deadline)})
+            this.setState({startDatetime: new Date(activity.starting_time)})
             document.getElementById("activity-location-input").value = activity.location;
         } else {
             document.getElementById("registration-inputs").style.display = "none";
@@ -86,27 +87,145 @@ class ActivityForm extends React.Component {
                 selected.push(category)
             }
         }
-        this.setState({selected_categories: selected})
+        this.setState({selectedCategories: selected})
 
     }
 
     /**
-     * Handle new image upload
-     * @param file: image file
+     * Validation rules for the base inputs
      */
-    onImageUploaded(file) {
-        this.setState({uploaded_image:file})
+    baseInputFormRules() {
+
+        const titleInput = document.getElementById("activity-title-input");
+        const ingressInput = document.getElementById("activity-ingress-input");
+        const descriptionInput = document.getElementById("activity-description-input");
+        const categoriesInput = document.getElementById("activity-categories-input");
+        const activityImageUpload = document.getElementById("activity-image-upload");
+
+        return [
+            {
+                inputEl: titleInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(titleInput.value),
+                        msg: "Tittel er obligatorisk"
+                    },
+                    {
+                        isValid: titleInput.value.length <= 50,
+                        msg: "Tittel kan ikke være lengre enn 50 tegn"
+                    }
+                ]
+            }, {
+                inputEl: ingressInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(ingressInput.value),
+                        msg: "Ingress er obligatorisk"
+                    },
+                    {
+                        isValid: ingressInput.value.length <= 240,
+                        msg: "Ingress kan ikke være lengre enn 240 tegn"
+                    }
+                ]
+            }, {
+                inputEl: descriptionInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(descriptionInput.value),
+                        msg: "Beskrivelse er obligatorisk"
+                    }
+                ]
+            }, {
+                inputEl: categoriesInput,
+                rules: [
+                    {
+                        isValid: this.state.selectedCategories.length > 0,
+                        msg: "Velg minst én kategori"
+                    }
+                ]
+            }, {
+                inputEl: activityImageUpload,
+                rules: [
+                    {
+                        isValid: this.state.image == null ||
+                            ('image' in this.state.image && this.state.image.image != null
+                            || 'gallery_image' in this.state.image && this.state.image.gallery_image != null),
+                        msg: "Velg et gyldig bilde, eller fjern det"
+                    }
+                ]
+            }
+        ];
+
     }
 
     /**
-     * Set activity image from gallery
-     * @param id: id of selected image
+     * Validation rules for both base and registration inputs
      */
-    onGalleryImageSelected(id) {
-        this.setState({
-            selected_gallery_image: id
-        });
+    baseAndRegistrationInputFormRules() {
+
+        const capacityInput = document.getElementById("registration-capacity-input");
+        const locationInput = document.getElementById("activity-location-input");
+        const deadlineInput = document.getElementById("registration-deadline-input");
+        const startingTimeInput = document.getElementById("starting-time-input");
+
+        return this.baseInputFormRules().concat([
+            {
+                inputEl: capacityInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(capacityInput.value),
+                        msg: "Antall plasser er obligatorisk"
+                    },
+                    {
+                        isValid: stringIsBlank(capacityInput.value) || capacityInput.value > 0,
+                        msg: "Antall plasser må være større enn 0"
+                    }
+                ]
+            }, {
+                inputEl: deadlineInput,
+                feedbackEl: document.getElementById("registration-deadline-feedback"),
+                rules: [
+                    {
+                        isValid: this.state.deadlineDatetime != null,
+                        msg: "Påmeldingsfrist er obligatorisk"
+                    },
+                    {
+                        isValid: this.state.startDatetime == null ||
+                            this.state.deadlineDatetime == null ||
+                            this.state.deadlineDatetime < this.state.startDatetime,
+                        msg: "Påmeldingsfrist kan ikke være etter starttidspunkt"
+                    }, {
+                        isValid: this.state.deadlineDatetime == null ||
+                            this.state.deadlineDatetime >= new Date(),
+                        msg: "Påmeldingsfrist kan ikke være i fortiden"
+                    }
+                ]
+            }, {
+                inputEl: startingTimeInput,
+                feedbackEl: document.getElementById("starting-time-feedback"),
+                rules: [
+                    {
+                        isValid: this.state.startDatetime != null,
+                        msg: "Starttidspunkt er obligatorisk"
+                    }, {
+                        isValid: this.state.startDatetime == null ||
+                            this.state.startDatetime >= new Date(),
+                        msg: "Starttidspunkt kan ikke være i fortiden"
+                    }
+                ]
+            }, {
+                inputEl: locationInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(locationInput.value),
+                        msg: "Sted er obligatorisk"
+                    }
+                ]
+            }
+        ]);
+
     }
+
 
     /**
      * Create FormData object with the base input values (i.e. not registration)
@@ -116,14 +235,14 @@ class ActivityForm extends React.Component {
         data.append("title", document.getElementById("activity-title-input").value);
         data.append("ingress", document.getElementById("activity-ingress-input").value);
         data.append("description", document.getElementById("activity-description-input").value);
-        this.state.selected_categories.forEach(category => data.append("categories", category.value));
-        if (this.state.selected_gallery_image != null) {
-            data.append("gallery_image", this.state.selected_gallery_image);
-        } else if (this.state.uploaded_image != null) {
-            data.append("image", this.state.uploaded_image);
-        } else {
-            // Send an empty file to clear any existing image
-            data.append("image", new File([], ''))
+        this.state.selectedCategories.forEach(category => data.append("categories", category.value));
+        const image = this.state.image;
+        if (image != null){
+            if ('image' in image){
+                data.append("image", image.image);
+            }else if ('gallery_image' in image){
+                data.append("gallery_image", image.gallery_image);
+            }
         }
         return data;
     }
@@ -135,8 +254,8 @@ class ActivityForm extends React.Component {
         const data = this.retrieveBaseInputData();
         data.append("has_registration", "true");
         data.append("registration_capacity", document.getElementById("registration-capacity-input").value);
-        data.append("registration_deadline", this.state.deadline_datetime.toISOString());
-        data.append("starting_time", this.state.start_datetime.toISOString());
+        data.append("registration_deadline", this.state.deadlineDatetime.toISOString());
+        data.append("starting_time", this.state.startDatetime.toISOString());
         data.append("location", document.getElementById("activity-location-input").value);
         return data;
     }
@@ -156,8 +275,16 @@ class ActivityForm extends React.Component {
     submit() {
         const registration = document.getElementById("registration-checkbox").checked ? true : false;
         if (registration) {
+            if (!validateForm(this.baseAndRegistrationInputFormRules())) {
+                // At least one invalid input value, abort
+                return;
+            }
             this.props.onSubmit(this.retrieveBaseAndRegistrationInputData());
         } else {
+            if (!validateForm(this.baseInputFormRules())) {
+                // At least one invalid input value, abort
+                return;
+            }
             const data = this.retrieveBaseInputData();
             data.append("has_registration", "false");
             this.props.onSubmit(data);
@@ -168,25 +295,27 @@ class ActivityForm extends React.Component {
 
         return (
             <>
-                <div className="row" id="activity-form">
+                <form className="row needs-validation" id="activity-form" noValidate>
                     {/*Title */}
                     <div className="mt-3 mb-4">
                         <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel</label>
                         <input id="activity-title-input" type="text" className="form-control"
-                               placeholder="Joggetur" required value={this.props.activity?.title}/>
+                               placeholder="Joggetur" />
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Ingress */}
                     <div className="mb-4">
                         <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress</label>
-                        <input className="form-control" id="activity-ingress-input" type="text" required
-                               placeholder={"Joggetur fra Gløshaugen til Heimdal."} value={this.props.activity?.ingress}/>
+                        <input className="form-control" id="activity-ingress-input" type="text"
+                               placeholder={"Joggetur fra Gløshaugen til Heimdal."} />
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Description */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse</label>
-                        <textarea className="form-control" id="activity-description-input" rows="3" required
-                                  value={this.props.activity?.description}
+                        <textarea className="form-control" id="activity-description-input" rows="3"
                                   placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Categories */}
                     <div className="mb-4">
@@ -194,14 +323,18 @@ class ActivityForm extends React.Component {
                         <CategorySelect
                             id="activity-categories-input"
                             categories={this.state.categories}
-                            selected_categories={this.state.selected_categories}
-                            onChange={(selected) => this.setState({selected_categories: selected})}
+                            selectedCategories={this.state.selectedCategories}
+                            onChange={(selected) => this.setState({selectedCategories: selected})}
                         />
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Image */}
                     <div className="mb-4">
                         <label htmlFor="activity-image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <ImageUpload id="activity-image-upload" image={this.props.activity?.image} onImageUploaded={this.onImageUploaded} onGalleryImageSelected={this.onGalleryImageSelected} withGallery/>
+                        <ImageUpload id="activity-image-upload" image={this.props.activity?.image}
+                                     onImageChanged={(image) => this.setState({"image": image})}
+                                     withGallery/>
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Registration checkbox */}
                     <div className={"mt-3"}>
@@ -219,35 +352,40 @@ class ActivityForm extends React.Component {
                         <div id="registration-capacity" className="mb-3">
                             <br/>
                             <label className="form-label">Antall plasser</label>
-                            <input type="number" min={1} className="form-control" id="registration-capacity-input"
-                                   required/>
+                            <input type="number" min={1} className="form-control" id="registration-capacity-input"/>
+                            <div className={"invalid-feedback"}/>
                         </div>
                         {/*Reg deadline date */}
                         <div id="registration-deadline" className="mb-3">
                             <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
                             <br/>
                             <DateTimePicker
-                                selected={this.state.deadline_datetime}
-                                onChange={date => this.setState({deadline_datetime: date})}
+                                id={"registration-deadline-input"}
+                                selected={this.state.deadlineDatetime}
+                                onChange={date => this.setState({deadlineDatetime: date})}
                             />
+                            <div id="registration-deadline-feedback" className={"invalid-feedback"}/>
                         </div>
                         {/*Date */}
                         <div id="starting_time" className="mb-3">
                             <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
                             <br/>
                             <DateTimePicker
-                                selected={this.state.start_datetime}
-                                onChange={date => this.setState({start_datetime: date})}
+                                id={"starting-time-input"}
+                                selected={this.state.startDatetime}
+                                onChange={date => this.setState({startDatetime: date})}
                             />
+                            <div id="starting-time-feedback" className={"invalid-feedback"}/>
                         </div>
                         {/*Location */}
                         <div id="location" className="mb-3">
                             <label htmlFor="activity-location" className="form-label">Sted</label>
                             <input id="activity-location-input" type="text" className="form-control"
-                                   placeholder="Gløshaugen" required/>
+                                   placeholder="Gløshaugen"/>
+                            <div className={"invalid-feedback"}/>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="mt-5 row">
                     <div className={"d-none d-md-block col-4 pe-4"}>
                         <button className="btn btn-outline-secondary w-100"
