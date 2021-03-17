@@ -33,9 +33,19 @@ export default class MyActivities extends React.Component {
      * and we make a MyActivity with the stored data (from the MyActivity-component).
      */
     renderAllActivities() {
-        return this.state.data.map((activity) => (
-             <MyActivity data={activity} key={activity.id}/>
-        ));
+        if (this.state.data.length <= 3) {
+            return this.state.data.map((activity) => (
+                <MyActivity data={activity} key={activity.id} />
+           ));
+        } else {
+            const l = this.state.data.length;
+            const list = [
+                this.state.data[l-1],
+                this.state.data[l-2],
+                this.state.data[l-3]
+            ];
+            return (list.map((activity) => (<MyActivity data={activity} key={activity.id} />)));
+        }
     }
 
     render() {
@@ -44,7 +54,7 @@ export default class MyActivities extends React.Component {
                 <h2>Mine aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mt-4 mb-4 ps-3 pe-3">Vis alle</button>
+                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
                 </div>
             </div>
         );
