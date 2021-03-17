@@ -41,16 +41,15 @@ export default class Registration extends React.Component {
         const temp = this.props.activity.registration_deadline;
         const deadline = new Date(temp.slice(0,4), temp.slice(5,7)-1, temp.slice(8,10), temp.slice(11,13), temp.slice(14,16));
         if (now < deadline) {
-            axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/register/`, 
-                {
-                    activity: this.props.activity.id,
-                    user: this.state.data.id
-                },
-                { headers: {
+            axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/register/`,
+            null,
+            {
+                headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
-            }
-            ).catch(error => {
+            }).then(res => {
+                console.log(res.data);
+            }).catch(error => {
                 console.log(error.response);
             });
             window.location.reload();
@@ -66,8 +65,7 @@ export default class Registration extends React.Component {
             { headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
-        }
-        ).catch(error => {
+        }).catch(error => {
             console.log(error.response);
         });
         window.location.reload()
@@ -77,24 +75,29 @@ export default class Registration extends React.Component {
         return (
             <div className="card profileInfo mt-2">
                 <div className="card-body">
+                    <h5 className="card-title">Aktivitet info</h5>
                     {/*<p>{usernames}</p>  We could have a button if the current user is the owner to see all users in a pop-up. */}
                     {/*const usernames = this.state.participants.map(function(participant){ return participant["username"] + "\n"});*/}
-                    <label className="card-text mt-2">
-                        Påmeldte: {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
+                    <b>Påmeldte</b><br/>
+                    <label className="card-text mb-2">
+                        {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
                     </label>
-                    <label className="card-text mt-2">
-                        Frist for påmelding: {this.props.activity.registration_deadline.slice(0,10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11,16)}
+                    <br/><b>Frist for påmelding</b><br/>
+                    <label className="card-text mb-2">
+                        {this.props.activity.registration_deadline.slice(0,10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11,16)}
                     </label>
-                    <label className="card-text mt-2">
-                        Dato: {this.props.activity.starting_time.slice(0,10).replace(/-/g, ".")}
+                    <br/><b>Dato</b><br/>
+                    <label className="card-text mb-2">
+                        {this.props.activity.starting_time.slice(0,10).replace(/-/g, ".")}
                     </label>
-                    <label className="card-text mt-2">
-                        Tidspunkt: {this.props.activity.starting_time.slice(11,16)}
+                    <br/><b>Tidspunkt</b><br/>
+                    <label className="card-text mb-2">
+                        {this.props.activity.starting_time.slice(11,16)}
                     </label>
-                    <label className="card-text mt-2">
-                        Sted: {this.props.activity.location}
+                    <br/><b>Sted</b><br/>
+                    <label className="card-text mb-2">
+                        {this.props.activity.location}
                     </label>
-                    {console.log(this.props.activity)}
                     {
                         this.props.activity.is_registered == true ? 
                             <button className={"btn btn-danger w-100 mt-3 mb-1"} onClick={this.unregister}>Meld av</button>
