@@ -36,7 +36,7 @@ export default class Profile extends React.Component {
                     </div>
                     <div className="col mt-5 mt-md-0">
                         <MyActivities />
-                        <MyRegisteredActivities username={this.state.data.username}/>
+                        <MyRegisteredActivities />
                         <SavedActivities />
                     </div>
                 </div>

@@ -44,7 +44,7 @@ export default class MyActivities extends React.Component {
                 this.state.data[l-3]
             ];
             return (list.map((activity) => (
-                activity.username == this.props.username ? null : <MyRegisteredActivity data={activity} key={activity.id} />
+                <MyRegisteredActivity data={activity} key={activity.id} />
             )));
         }
     }
