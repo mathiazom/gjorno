@@ -52,7 +52,7 @@ export default class MyActivities extends React.Component {
     render() {
         return (
             <div className="container-fluid w-100 p-0 ps-md-5">
-                <h2>Påmedlte aktiviteter</h2>
+                <h2>Påmeldte aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
                     <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
