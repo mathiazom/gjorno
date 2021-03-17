@@ -1,40 +1,19 @@
 import React from 'react';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 export default class ProfileInfo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            data: []
-        }
     }
-
-    /**
-     * Collect information from the API about the current, logged in user.
-     * We store the data in our state.
-     */
-    componentDidMount() {
-        axios.get('http://localhost:8000/api/current_user/',
-            {
-                headers: {
-                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
-                }})
-            .then(res => {
-                this.setState({data: res.data});
-            }).catch(error => {
-                console.log(error.response);
-            });
-    }
-
+            
     render() {
         return (
             <div className="card profileInfo" >
                 <img className="card-img-top" src="/images/profil.png" alt="profile"/>
                 <div className="card-body">
-                    <h4 className="card-title">{this.state.data.username}</h4>
-                    <p className="card-text mb-2">{this.state.data.email}</p>
-                    <p className="card-text">Telefon: {this.state.data.phone_number}</p>
+                    <h4 className="card-title" id="profile-username">{this.props.data.username}</h4>
+                    <p className="card-text mb-2">{this.props.data.email}</p>
+                    <p className="card-text">Telefon: {this.props.data.phone_number}</p>
                     <Link to={"/profile/edit/"} className="btn btn-success">Rediger profil</Link>
                 </div>
             </div>

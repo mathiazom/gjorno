@@ -1,8 +1,8 @@
 import React from 'react';
-//import axios from 'axios';
-import SavedActivity from './SavedActivity';
+import MyRegisteredActivity from './MyRegisteredActivity';
+import axios from 'axios';
 
-export default class SavedActivities extends React.Component {
+export default class MyActivities extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,10 +11,10 @@ export default class SavedActivities extends React.Component {
     }
 
     /**
-     * Collect the activities posted by the logged in user, and stores them in the current state.
+     * Get all the activities registered to the user.
      */
     componentDidMount() {
-        /*axios.get('http://localhost:8000/api/my_saved/',
+        axios.get('/api/my_registered_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -25,17 +25,16 @@ export default class SavedActivities extends React.Component {
             })
             .catch(error => {
                 console.log(error.response);
-            })*/
+        });
     }
 
     /**
-     * We go through all the activities stored in our state from the API,
-     * and we make a SavedActiviy with the stored data (from the SavedActiviy-component).
+     * We only render 3 activities. If there are more we take the last three.
      */
     renderAllActivities() {
         if (this.state.data.length <= 3) {
             return this.state.data.map((activity) => (
-                <SavedActivity data={activity} key={activity.id} />
+                activity.username == this.props.username ? null : <MyRegisteredActivity data={activity} key={activity.id} />
            ));
         } else {
             const l = this.state.data.length;
@@ -44,14 +43,16 @@ export default class SavedActivities extends React.Component {
                 this.state.data[l-2],
                 this.state.data[l-3]
             ];
-            return (list.map((activity) => (<SavedActivity data={activity} key={activity.id} />)));
+            return (list.map((activity) => (
+                activity.username == this.props.username ? null : <MyRegisteredActivity data={activity} key={activity.id} />
+            )));
         }
     }
 
     render() {
         return (
             <div className="container-fluid w-100 p-0 ps-md-5">
-                <h2>Lagrede aktiviteter</h2>
+                <h2>Påmedlte aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
                     <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
