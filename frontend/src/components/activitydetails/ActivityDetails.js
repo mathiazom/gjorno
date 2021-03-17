@@ -37,7 +37,7 @@ class ActivityDetails extends React.Component {
             headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
         }
         axios
-            .get(`http://localhost:8000/api/activities/${this.props.match.params.id}/?register_view`, {
+            .get(`https://api.gjorno.site/api/activities/${this.props.match.params.id}/?register_view`, {
                 headers: headers
             })
             .then(res => {
@@ -67,7 +67,7 @@ class ActivityDetails extends React.Component {
 
     getActivityAuthor() {
         axios
-            .get(`http://localhost:8000/api/users/${this.state.activity.user}`)
+            .get(`https://api.gjorno.site/api/users/${this.state.activity.user}`)
             .then(res => {
                 this.setState({author: res.data})
             })

@@ -15,7 +15,7 @@ export default class Registration extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8000/api/current_user/',
+        axios.get('https://api.gjorno.site/api/current_user/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -24,7 +24,7 @@ export default class Registration extends React.Component {
             .then(res => {
                 this.setState({user: res.data});
                 if (this.props.activity?.is_author) {
-                    axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/registrations/`,
+                    axios.get(`https://api.gjorno.site/api/activities/${this.props.activity.id}/registrations/`,
                         {
                             headers: {
                                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -45,7 +45,7 @@ export default class Registration extends React.Component {
         const regButton = document.getElementById("registration-button")
         // Disable registration button while sending and processing request
         regButton.disabled = true;
-        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/register/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.props.activity.id}/register/`,
             null,
             {
                 headers: {
@@ -68,7 +68,7 @@ export default class Registration extends React.Component {
         const regButton = document.getElementById("registration-button")
         // Disable registration button while sending and processing request
         regButton.disabled = true;
-        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/unregister/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.props.activity.id}/unregister/`,
             {
                 activity: this.props.activity.id,
                 user: this.state.user.id

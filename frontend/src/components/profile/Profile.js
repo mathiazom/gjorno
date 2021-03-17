@@ -32,7 +32,7 @@ export default class Profile extends React.Component {
      * Retrieve current user data
      */
     getCurrentUser() {
-        axios.get('/api/current_user/',
+        axios.get('https://api.gjorno.site/api/current_user/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
