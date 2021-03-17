@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React from 'react';
+import {getDateFromString} from "../common/Utils";
 
 export default class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            user: [],
             participants: []
         }
         this.register = this.register.bind(this);
@@ -17,60 +18,77 @@ export default class Registration extends React.Component {
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
-                }})
+                }
+            })
             .then(res => {
-                this.setState({data: res.data});
-                if (res.data.username == this.props.activity.username) {
+                this.setState({user: res.data});
+                if (res.data.username === this.props.activity.username) {
                     axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/registrations/`,
-                    { headers: {
-                        "Authorization": `Token ${window.localStorage.getItem("Token")}`
-                    }}
+                        {
+                            headers: {
+                                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                            }
+                        }
                     ).then(res =>
                         this.setState({participants: res.data}),
-                        ).catch(error => {
-                            console.log(error.response);
+                    ).catch(error => {
+                        console.log(error.response);
                     });
                 }
             }).catch(error => {
-                console.log(error.response);
+            console.log(error.response);
         });
     }
 
     register() {
-        const now = new Date();
-        const temp = this.props.activity.registration_deadline;
-        const deadline = new Date(temp.slice(0,4), temp.slice(5,7)-1, temp.slice(8,10), temp.slice(11,13), temp.slice(14,16));
-        if (now < deadline) {
-            axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/register/`,
+        const regButton = document.getElementById("registration-button")
+        // Disable registration button while sending and processing request
+        regButton.disabled = true;
+        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/register/`,
             null,
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             }).then(res => {
-                console.log(res.data);
+                if (res.status === 201) {
+                    // Refresh activity data to see updated count
+                    this.props.onUpdate();
+                }
             }).catch(error => {
                 console.log(error.response);
+            }).finally(() => {
+                // Re-enable registration button
+                regButton.disabled = false;
             });
-            window.location.reload();
-        }
     }
 
     unregister() {
-        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/unregister/`, 
+        const regButton = document.getElementById("registration-button")
+        // Disable registration button while sending and processing request
+        regButton.disabled = true;
+        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/unregister/`,
             {
                 activity: this.props.activity.id,
-                user: this.state.data.id
+                user: this.state.user.id
             },
-            { headers: {
-                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }
+            }).then(res => {
+            if (res.status === 200) {
+                // Refresh activity data to see updated count
+                this.props.onUpdate();
             }
         }).catch(error => {
             console.log(error.response);
+        }).finally(() => {
+            // Re-enable registration button
+            regButton.disabled = false;
         });
-        window.location.reload()
     }
-    
+
     render() {
         return (
             <div className="card profileInfo mt-2">
@@ -84,25 +102,31 @@ export default class Registration extends React.Component {
                     </label>
                     <br/><b>Frist for påmelding</b><br/>
                     <label className="card-text mb-2">
-                        {this.props.activity.registration_deadline.slice(0,10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11,16)}
+                        {this.props.activity.registration_deadline.slice(0, 10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11, 16)}
                     </label>
                     <br/><b>Dato</b><br/>
                     <label className="card-text mb-2">
-                        {this.props.activity.starting_time.slice(0,10).replace(/-/g, ".")}
+                        {this.props.activity.starting_time.slice(0, 10).replace(/-/g, ".")}
                     </label>
                     <br/><b>Tidspunkt</b><br/>
                     <label className="card-text mb-2">
-                        {this.props.activity.starting_time.slice(11,16)}
+                        {this.props.activity.starting_time.slice(11, 16)}
                     </label>
                     <br/><b>Sted</b><br/>
                     <label className="card-text mb-2">
                         {this.props.activity.location}
                     </label>
-                    {
-                        this.props.activity.is_registered == true ? 
-                            <button className={"btn btn-danger w-100 mt-3 mb-1"} onClick={this.unregister}>Meld av</button>
+                    {this.props.activity.is_registered === true ?
+                        <button id={"registration-button"} className={"btn btn-danger w-100 mt-3 mb-1"}
+                                onClick={this.unregister}>Meld av</button>
+                        :
+                        new Date() < getDateFromString(this.props.activity.registration_deadline) ? (
+                                <button id={"registration-button"} className={"btn btn-success w-100 mt-3 mb-1"}
+                                        onClick={this.register}>Meld på</button>
+                            )
                             :
-                            <button className={"btn btn-success w-100 mt-3 mb-1"} onClick={this.register}>Meld på</button> 
+                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Fristen har gått
+                                ut</button>
                     }
                 </div>
             </div>
