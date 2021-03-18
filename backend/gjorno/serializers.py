@@ -25,6 +25,7 @@ class ActivitySerializer(serializers.ModelSerializer):
     """Modified Activity serializer that includes author's username"""
 
     username = serializers.CharField(source="user.username")
+    is_organization = serializers.BooleanField(source="user.profile.is_organization")
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

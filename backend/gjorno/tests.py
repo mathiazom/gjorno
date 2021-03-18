@@ -94,6 +94,7 @@ class ActivityTest(ActivityBaseTest):
                     "categories": [1, 3],
                     "user": self.user.id,
                     "username": "zamenhof59",
+                    "is_organization": False,
                     "has_registration": False,
                     "is_author": False,
                     "is_registered": False
@@ -130,6 +131,7 @@ class ActivityTest(ActivityBaseTest):
                     "categories": [1, 3],
                     "user": self.user.id,
                     "username": "zamenhof59",
+                    "is_organization": False,
                     "has_registration": True,
                     "registration_capacity": 10,
                     "registration_deadline": "2022-03-17T15:20:24Z",
@@ -303,6 +305,7 @@ class ActivityTest(ActivityBaseTest):
             "id": activity_id,
             "user": self.user.id,
             "username": self.user.username,
+            "is_organization": False,
             "title": "Promenu ĉirkaŭ la lago",
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
@@ -473,6 +476,7 @@ class MyActivitiesTest(TestCase):
 
     def setUp(self):
         self.user = User.objects.create(username="zamenhof59")
+        self.profile = Profile.objects.create(user=self.user, phone_number="+4712345678")
         token = Token.objects.create(user=self.user)
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
@@ -510,6 +514,7 @@ class MyActivitiesTest(TestCase):
                     "categories": [1, 3],
                     "user": self.user.id,
                     "username": "zamenhof59",
+                    "is_organization": False,
                     "has_registration": False
                 }
             ]
