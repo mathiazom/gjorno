@@ -12,6 +12,8 @@ from .serializers import \
     UserAndProfileSerializer, \
     CategorySerializer, RegistrationSerializer
 from .models import Activity, Category, Registration
+from datetime import datetime
+import pytz
 
 
 class ActivitiesView(viewsets.ModelViewSet):
@@ -108,8 +110,12 @@ class ActivityRegisterView(generics.CreateAPIView):
             return Response("Activity does not allow registration", status=status.HTTP_403_FORBIDDEN)
         if user.profile.is_organization:
             return Response("Registration of an organization is not allowed", status=status.HTTP_403_FORBIDDEN)
+        if user.id == activity.user.id:
+            return Response("Registration of the activity author is not allowed", status=status.HTTP_403_FORBIDDEN)
         if Registration.objects.filter(user=user.id, activity=activity.id):
             return Response("User is already registered to this activity", status=status.HTTP_403_FORBIDDEN)
+        if activity.registration_deadline < datetime.now(tz=pytz.UTC):
+            return Response("Can not register to activity after the deadline", status=status.HTTP_403_FORBIDDEN)
         if activity.registrations_count() >= activity.registration_capacity:
             return Response("Registration capacity is already reached", status=status.HTTP_403_FORBIDDEN)
         serializer = self.get_serializer(data={
@@ -118,7 +124,7 @@ class ActivityRegisterView(generics.CreateAPIView):
         })
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response("User was successfully registered", status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

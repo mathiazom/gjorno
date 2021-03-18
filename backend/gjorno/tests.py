@@ -412,18 +412,18 @@ class ActivityRegistrationsTest(ActivityBaseTest):
         self.assertEqual(response.status_code, 403)
 
     def register_user(self):
-        return self.client.post(f'/api/activities/{self.activity_with_registration.id}/register/')
+        return self.client2.post(f'/api/activities/{self.activity_with_registration.id}/register/')
 
     def test_register_user(self):
         """Request registration of user to activity"""
         response = self.register_user()
         # Check that request was accepted
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
 
     def test_unregister_user(self):
         """Request removal of user registration to activity"""
         self.register_user()
-        response = self.client.post(f'/api/activities/{self.activity_with_registration.id}/unregister/')
+        response = self.client2.post(f'/api/activities/{self.activity_with_registration.id}/unregister/')
         # Check that request was accepted
         self.assertEqual(response.status_code, 200)
 
@@ -464,7 +464,7 @@ class ActivityRegistrationsTest(ActivityBaseTest):
             starting_time="2022-03-23T15:20:34Z",
             location="Laguna Roponda"
         )
-        self.client.post(f'/api/activities/{activity.id}/register/')
+        self.client2.post(f'/api/activities/{activity.id}/register/')
         response = self.client2.post(f'/api/activities/{activity.id}/register/')
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
