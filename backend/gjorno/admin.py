@@ -6,7 +6,7 @@ from .models import Activity, Registration, Category, Profile
 
 class ProfileAdmin(admin.ModelAdmin):
     """Admin config for Profile model"""
-    list_display = ('user', 'phone_number',)
+    list_display = ('user', 'phone_number','is_organization')
 
 
 class ActivityAdmin(admin.ModelAdmin):
