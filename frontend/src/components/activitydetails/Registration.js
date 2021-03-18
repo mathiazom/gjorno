@@ -51,7 +51,7 @@ export default class Registration extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             }).then(res => {
-                if (res.status === 201) {
+                if (res.status === 200) {
                     // Refresh activity data to see updated count
                     this.props.onUpdate();
                 }
