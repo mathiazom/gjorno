@@ -1,4 +1,5 @@
 import React from 'react';
+import '@fortawesome/fontawesome-free/js/all.js';
 import {
     BrowserRouter as Router,
     Switch,
