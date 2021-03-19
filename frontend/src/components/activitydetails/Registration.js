@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import {getDateFromString} from "../common/Utils";
+import {Link} from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class Registration extends React.Component {
             })
             .then(res => {
                 this.setState({user: res.data});
-                if (res.data.username === this.props.activity.username) {
+                if (res.data.is_author) {
                     axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/registrations/`,
                         {
                             headers: {
@@ -51,16 +52,16 @@ export default class Registration extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             }).then(res => {
-                if (res.status === 200) {
-                    // Refresh activity data to see updated count
-                    this.props.onUpdate();
-                }
-            }).catch(error => {
-                console.log(error.response);
-            }).finally(() => {
-                // Re-enable registration button
-                regButton.disabled = false;
-            });
+            if (res.status === 200) {
+                // Refresh activity data to see updated count
+                this.props.onUpdate();
+            }
+        }).catch(error => {
+            console.log(error.response);
+        }).finally(() => {
+            // Re-enable registration button
+            regButton.disabled = false;
+        });
     }
 
     unregister() {
@@ -90,6 +91,48 @@ export default class Registration extends React.Component {
     }
 
     render() {
+
+        let actionButton;
+
+        if (this.props.authenticated) {
+            if (this.props.activity.is_author) {
+                actionButton = (
+                    <Link to={`/edit-activity/${this.props.activity.id}`}>
+                        <button id={"edit-button"} className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger
+                        </button>
+                    </Link>
+                )
+            } else if (this.props.activity.is_registered) {
+                actionButton = (
+                    <button id={"registration-button"} className={"btn btn-danger w-100 mt-3 mb-1"}
+                            onClick={this.unregister}>Meld av</button>
+                )
+            } else {
+                if (new Date() < getDateFromString(this.props.activity.registration_deadline)) {
+                    if (this.props.activity.registrations_count < this.props.activity.registration_capacity){
+                        actionButton = (
+                            <button id={"registration-button"} className={"btn btn-success w-100 mt-3 mb-1"}
+                                    onClick={this.register}>Meld på</button>
+                        )
+                    }else{
+                        actionButton = (
+                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er full</button>
+                        )
+                    }
+                } else{
+                    actionButton = (
+                        <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er
+                            avsluttet</button>
+                    )
+                }
+            }
+        }else{
+            actionButton = (
+                <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmelding krever innlogging</button>
+            )
+        }
+
+
         return (
             <div className="card profileInfo mt-2">
                 <div className="card-body">
@@ -116,23 +159,7 @@ export default class Registration extends React.Component {
                     <label className="card-text mb-2">
                         {this.props.activity.location}
                     </label>
-                    {this.props.authenticated &&
-                        (this.props.activity.is_registered === true ?
-                            <button id={"registration-button"} className={"btn btn-danger w-100 mt-3 mb-1"}
-                                    onClick={this.unregister}>Meld av</button>
-                            :
-                            new Date() < getDateFromString(this.props.activity.registration_deadline)
-                                ? this.props.activity.registrations_count < this.props.activity.registration_capacity ? (
-                                    <button id={"registration-button"} className={"btn btn-success w-100 mt-3 mb-1"}
-                                            onClick={this.register}>Meld på</button>
-                                )
-                                :
-                                <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er
-                                    full</button>
-                                :
-                                <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er
-                                    avsluttet</button>)
-                    }
+                    {actionButton}
                 </div>
             </div>
         );
