@@ -93,7 +93,9 @@ export default class App extends React.Component {
                                 <Activities />
                             </Route>
                             <Route exact path ={"/activity-details/:id"}>
-                                <ActivityDetails />
+                                <ActivityDetails
+                                    authenticated={this.state.authenticated}
+                                />
                             </Route>
                             <ProtectedRoute exact path={"/create-activity"}>
                                 <CreateActivity />
