@@ -33,8 +33,6 @@ export default class App extends React.Component {
     }
 
     onAuthStateChanged() {
-        console.log(window.localStorage.getItem('Token'))
-        console.log("Auth state changed from: " + this.state.authenticated)
         const oldAuthState = this.state.authenticated
         const authState = window.localStorage.getItem('Token') != null
         this.setState({

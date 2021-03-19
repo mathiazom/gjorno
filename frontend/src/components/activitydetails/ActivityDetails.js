@@ -3,7 +3,7 @@ import axios from 'axios';
 import ActivityHost from "./ActivityHost.js";
 import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 class ActivityDetails extends React.Component {
 
@@ -28,7 +28,9 @@ class ActivityDetails extends React.Component {
             headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
         }
         axios
-            .get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`, headers)
+            .get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`, {
+                headers: headers
+            })
             .then(res => {
                 this.setState({data: res.data})
                 this.getActivityAuthor()
@@ -55,7 +57,15 @@ class ActivityDetails extends React.Component {
             join = <Registration activity={this.state.data} onUpdate={this.getActivity}
                                  authenticated={this.props.authenticated}/>
         } else if (this.props.authenticated) {
-            join = <a href="#" className="btn btn-success w-100 mt-3">Legg i logg</a>
+            if (this.state.data.is_author === false){
+              join = <a href="#" className="btn btn-success w-100 mt-3">Legg i logg</a>
+            } else {
+              join = (
+                  <Link to={`/edit-activity/${this.state.data.id}`}>
+                      <button id={"edit-button"} className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger</button>
+                  </Link>
+              )
+            }
         }
         return (
             <div className="container-fluid w-80 mt-5 mb-5">
