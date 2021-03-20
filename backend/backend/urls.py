@@ -24,6 +24,7 @@ from gjorno.views import \
     ActivityRegisterView, \
     ActivityUnregisterView, \
     CategoriesView, \
+    ImagesView, \
     UsersView, \
     CurrentUserView, \
     MyActivitiesView, \
@@ -32,6 +33,7 @@ from gjorno.views import \
 router = routers.DefaultRouter()
 router.register("activities", ActivitiesView, 'activities')
 router.register("categories", CategoriesView, 'categories')
+router.register("images", ImagesView, 'images')
 router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
 router.register("my_registered_activities", MyRegisteredActivitiesView, 'my_registered_activities')

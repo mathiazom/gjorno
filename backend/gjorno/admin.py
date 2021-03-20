@@ -1,12 +1,12 @@
 """Admin site configurations"""
 
 from django.contrib import admin
-from .models import Activity, Registration, Category, Profile
+from .models import Activity, Registration, Category, Image, Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
     """Admin config for Profile model"""
-    list_display = ('user', 'phone_number','is_organization')
+    list_display = ('user', 'phone_number', 'is_organization')
 
 
 class ActivityAdmin(admin.ModelAdmin):
@@ -24,7 +24,13 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 
+class ImageAdmin(admin.ModelAdmin):
+    """Admin config for Image model"""
+    list_display = ('title', 'image')
+
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Image, ImageAdmin)

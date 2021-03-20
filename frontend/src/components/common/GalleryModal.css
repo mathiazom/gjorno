@@ -1,0 +1,5 @@
+.gallery-modal-image:hover{
+    cursor: pointer;
+    filter: brightness(80%);
+    transition: filter 0.3s;
+}

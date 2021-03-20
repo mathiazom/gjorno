@@ -22,7 +22,7 @@ class EditActivity extends React.Component {
                 this.setState({activity: res.data})
             })
             .catch(error => {
-                console.log(error);
+                console.log(error.response);
             });
     }
 

@@ -11,8 +11,10 @@ from .serializers import \
     ActivitySerializer, \
     BasicActivitySerializer, \
     UserAndProfileSerializer, \
-    CategorySerializer, RegistrationSerializer
-from .models import Activity, Category, Registration
+    CategorySerializer, \
+    ImageSerializer, \
+    RegistrationSerializer
+from .models import Activity, Category, Registration, Image
 from datetime import datetime
 import pytz
 
@@ -180,3 +182,9 @@ class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class ImagesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all predefined images. """
+    serializer_class = ImageSerializer
+    queryset = Image.objects.all()
