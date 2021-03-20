@@ -1,14 +1,17 @@
 """
 Unit tests for models and related views
 """
+from pathlib import Path
 
+from django.conf import settings
+from django.core.files import File
 from django.test import TestCase
 from django.contrib.auth.admin import User
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework.utils import json
 
-from .models import Activity, Registration, Category, Profile
+from .models import Activity, Registration, Category, Image, Profile
 
 
 class ActivityBaseTest(TestCase):
@@ -162,6 +165,31 @@ class ActivityTest(ActivityBaseTest):
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
             "image": None,
+            "has_registration": False,
+            "registration_capacity": None,
+            "registration_deadline": None,
+            "starting_time": None,
+            "location": None
+        })
+
+    def test_post_activity_with_gallery_image(self):
+        image = Image.objects.create(title="RR", image=File(open("gjorno/test_media/rr.jpg", "rb")))
+        response = self.client.post('/api/activities/', {
+            "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
+            "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            "categories": [1, 3],
+            "gallery_image": image.id
+        })
+        # Check that activity was created successfully
+        self.assertEqual(response.status_code, 201)
+        self.assertDictEqual(json.loads(response.content), {
+            "id": response.data['id'],
+            "title": "Promenu ĉirkaŭ la lago",
+            "ingress": "Ruli hekto obl co, ho ido stif frota.",
+            "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            "categories": [1, 3],
+            "image": "http://testserver" + image.image.url,
             "has_registration": False,
             "registration_capacity": None,
             "registration_deadline": None,
@@ -476,6 +504,7 @@ class ActivityRegistrationsTest(ActivityBaseTest):
         response = self.client2.post(f'/api/activities/{activity.id}/register/')
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
+
 
 class MyActivitiesTest(TestCase):
 
