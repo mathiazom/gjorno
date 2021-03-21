@@ -75,7 +75,6 @@ export default class ImageUpload extends React.Component{
      * @param src: image location (url)
      */
     onImageUploaded(src) {
-        console.log(src);
         document.getElementById("image-preview").src = src;
         document.getElementById("image-preview-container").classList.add("show");
         this.setState({image_preview: true});

@@ -57,7 +57,6 @@ class EditProfile extends React.Component {
         data.append("username",document.getElementById("edit-username").value);
         data.append("phone_number", document.getElementById("edit-phone").value);
         data.append("email", document.getElementById("edit-email").value);
-        console.log(this.state.uploaded_image);
         if (this.state.uploaded_image != null) {
             data.append("avatar", this.state.uploaded_image);
         } else {
