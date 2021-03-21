@@ -1,6 +1,7 @@
 """
 Unit tests for models and related views
 """
+import tempfile
 from pathlib import Path
 
 from django.conf import settings
@@ -173,29 +174,32 @@ class ActivityTest(ActivityBaseTest):
         })
 
     def test_post_activity_with_gallery_image(self):
-        image = Image.objects.create(title="RR", image=File(open("gjorno/test_media/rr.jpg", "rb")))
-        response = self.client.post('/api/activities/', {
-            "title": "Promenu ĉirkaŭ la lago",
-            "ingress": "Ruli hekto obl co, ho ido stif frota.",
-            "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
-            "categories": [1, 3],
-            "gallery_image": image.id
-        })
-        # Check that activity was created successfully
-        self.assertEqual(response.status_code, 201)
-        self.assertDictEqual(json.loads(response.content), {
-            "id": response.data['id'],
-            "title": "Promenu ĉirkaŭ la lago",
-            "ingress": "Ruli hekto obl co, ho ido stif frota.",
-            "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
-            "categories": [1, 3],
-            "image": "http://testserver" + image.image.url,
-            "has_registration": False,
-            "registration_capacity": None,
-            "registration_deadline": None,
-            "starting_time": None,
-            "location": None
-        })
+        with File(open("media/test/rr.jpg", "rb")) as test_image_file:
+            # Pretend that file has a different path to make media folder a little tidier
+            test_image_file.name = "test/rr.jpg"
+            test_image = Image.objects.create(title="RR", image=test_image_file)
+            response = self.client.post('/api/activities/', {
+                "title": "Promenu ĉirkaŭ la lago",
+                "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                "categories": [1, 3],
+                "gallery_image": test_image.id
+            })
+            # Check that activity was created successfully
+            self.assertEqual(response.status_code, 201)
+            self.assertDictEqual(json.loads(response.content), {
+                "id": response.data['id'],
+                "title": "Promenu ĉirkaŭ la lago",
+                "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                "categories": [1, 3],
+                "image": "http://testserver" + test_image.image.url,
+                "has_registration": False,
+                "registration_capacity": None,
+                "registration_deadline": None,
+                "starting_time": None,
+                "location": None
+            })
 
     def test_post_activity_with_registration_missing_all_fields(self):
         """Request creation of activity with registration, but without fields"""

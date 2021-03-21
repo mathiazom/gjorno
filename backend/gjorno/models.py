@@ -28,7 +28,7 @@ class Activity(models.Model):
     ingress = models.TextField(max_length=240, null=False, blank=False)
     description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
-    image = models.ImageField(upload_to='uploads/', blank=True)
+    image = models.ImageField(upload_to='uploads/activities/', blank=True)
 
     has_registration = models.BooleanField(default=False)
     registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
@@ -77,4 +77,4 @@ class Category(models.Model):
 class Image(models.Model):
     """Predefined generic image"""
     title = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='uploads/', blank=True)
+    image = models.ImageField(upload_to='uploads/gallery/', blank=True)

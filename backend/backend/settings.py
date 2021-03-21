@@ -9,9 +9,8 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,10 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "gjorno", "site_static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "gjorno", "static")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "site_static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "gjorno", "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 # we whitelist localhost:3000 because that's where frontend will be served
