@@ -13,9 +13,10 @@ class Profile(models.Model):
     )
     phone_number = models.CharField(max_length=11)
     is_organization = models.BooleanField(default=False, null=False)
+    avatar = models.ImageField(upload_to='uploads/avatars/', blank=True, null=True)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.username
 
 
 class Activity(models.Model):
@@ -28,7 +29,7 @@ class Activity(models.Model):
     ingress = models.TextField(max_length=240, null=False, blank=False)
     description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
-    image = models.ImageField(upload_to='uploads/activities/', blank=True)
+    image = models.ImageField(upload_to='uploads/activities/', blank=True, null=True)
 
     has_registration = models.BooleanField(default=False)
     registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)

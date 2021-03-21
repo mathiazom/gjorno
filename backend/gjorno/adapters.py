@@ -17,6 +17,7 @@ class UserWithProfileAdapter(DefaultAccountAdapter):
         data = form.cleaned_data
         Profile.objects.create(
             user=user, phone_number=data.get('phone_number'),
-            is_organization=data.get('is_organization')
+            is_organization=data.get('is_organization'),
+            avatar=data.get('avatar')
         )
         return user

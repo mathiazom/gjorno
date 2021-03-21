@@ -111,7 +111,8 @@ class UserAndProfileSerializer(serializers.ModelSerializer):
     """Serializer for combining user and profile information"""
 
     phone_number = serializers.CharField(source="profile.phone_number", max_length=11)
-    is_organization = serializers.BooleanField(source="profile.is_organization",default=False)
+    is_organization = serializers.BooleanField(source="profile.is_organization", default=False)
+    avatar = serializers.ImageField(source="profile.avatar", allow_null=True)
 
     def update(self, instance, validated_data):
         instance.profile.__dict__.update(validated_data.pop('profile'))
@@ -120,7 +121,7 @@ class UserAndProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("is_organization","phone_number", "username", "email")
+        fields = ("username", "email", "phone_number", "is_organization", "avatar")
 
 
 class CategorySerializer(serializers.ModelSerializer):

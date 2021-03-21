@@ -3,7 +3,8 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import DateTimePicker from "../common/DateTimePicker"
 import CategorySelect from "../common/CategorySelect";
-import GalleryModal from "./GalleryModal";
+// import GalleryModal from "./GalleryModal";
+import ImageUpload from "./ImageUpload";
 
 class ActivityForm extends React.Component {
 
@@ -11,14 +12,14 @@ class ActivityForm extends React.Component {
         super(props);
         this.state = {
             categories: [],
-            gallery_images: [],
+            uploaded_image: null,
             selected_gallery_image: null,
             selected_categories: [],
             deadline_datetime: null,
-            start_datetime: null,
-            image_preview: true
+            start_datetime: null
         };
         this.submit = this.submit.bind(this);
+        this.onImageUploaded = this.onImageUploaded.bind(this);
         this.onGalleryImageSelected = this.onGalleryImageSelected.bind(this);
     }
 
@@ -28,12 +29,6 @@ class ActivityForm extends React.Component {
     componentDidMount() {
 
         this.retrieveCategories();
-
-        this.retrieveGalleryImages();
-
-        this.attachImageInputListener();
-
-        this.attachImageRemoveButtonListener();
 
     }
 
@@ -49,20 +44,6 @@ class ActivityForm extends React.Component {
                     return {label: category.title, value: category.id}
                 });
                 this.setState({categories: categories});
-            })
-            .catch(error => {
-                console.log(error.response);
-            })
-    }
-
-    /**
-     * Retrieve all available categories
-     */
-    retrieveGalleryImages() {
-        axios
-            .get('http://localhost:8000/api/images/')
-            .then(res => {
-                this.setState({gallery_images: res.data});
             })
             .catch(error => {
                 console.log(error.response);
@@ -86,30 +67,15 @@ class ActivityForm extends React.Component {
 
         const activity = this.props.activity;
 
-        document.getElementById("activity-title-input").value = activity.title;
-        document.getElementById("activity-ingress-input").value = activity.ingress;
-        document.getElementById("activity-description-input").value = activity.description;
-
-        if (activity.image != null) {
-            const imagePreview = document.getElementById("image-preview");
-            const imagePreviewBtn = document.getElementById("image-preview-toggle");
-            const imageRemoveBtn = document.getElementById("image-remove");
-            imagePreview.src = activity.image;
-            imagePreviewBtn.style.display = "inline-block";
-            imageRemoveBtn.style.display = "inline-block";
-            imagePreviewBtn.click();
-        }
-
-        const elements = ["registration-capacity", "registration-deadline", "starting_time", "location"];
         if (activity.has_registration) {
-            elements.forEach(item => document.getElementById(item).style.display = "block");
+            document.getElementById("registration-inputs").style.display = "block";
             document.getElementById("registration-checkbox").checked = true;
             document.getElementById("registration-capacity-input").value = activity.registration_capacity;
             this.setState({deadline_datetime: new Date(activity.registration_deadline)})
             this.setState({start_datetime: new Date(activity.starting_time)})
             document.getElementById("activity-location-input").value = activity.location;
         } else {
-            elements.forEach(item => document.getElementById(item).style.display = "none");
+            document.getElementById("registration-inputs").style.display = "none";
         }
         const selected = []
         for (const category of this.state.categories) {
@@ -122,30 +88,11 @@ class ActivityForm extends React.Component {
     }
 
     /**
-     * Add 'change' event listener to image file input
+     * Handle new image upload
+     * @param file: image file
      */
-    attachImageInputListener() {
-        const imageUpload = document.getElementById('image-upload');
-        imageUpload.oninput = () => {
-            const image = imageUpload.files[0];
-            const imageReader = new FileReader();
-            imageReader.onload = (e) => {
-                this.onImageSelected(e.target.result)
-            }
-            imageReader.readAsDataURL(image);
-        }
-    }
-
-    /**
-     * Handle preview and image buttons when an image has been selected (upload or gallery)
-     * @param src: image location (url)
-     */
-    onImageSelected(src) {
-        document.getElementById("image-preview").src = src;
-        document.getElementById("image-preview-container").classList.add("show");
-        this.setState({image_preview: true});
-        document.getElementById("image-preview-toggle").style.display = "inline-block";
-        document.getElementById("image-remove").style.display = "inline-block";
+    onImageUploaded(file) {
+        this.setState({uploaded_image:file})
     }
 
     /**
@@ -156,30 +103,6 @@ class ActivityForm extends React.Component {
         this.setState({
             selected_gallery_image: id
         });
-        // Get source url of image with given id
-        const src = this.state.gallery_images.find((image) => image.id === id).image;
-        // Reset image upload field
-        document.getElementById('image-upload').value = "";
-        this.onImageSelected(src);
-    }
-
-    /**
-     * Define behaviour of button to remove image
-     */
-    attachImageRemoveButtonListener() {
-        const imageUpload = document.getElementById('image-upload');
-        const imagePreview = document.getElementById("image-preview");
-        const imagePreviewCont = document.getElementById("image-preview-container");
-        const imagePreviewBtn = document.getElementById("image-preview-toggle");
-        const imageRemoveBtn = document.getElementById("image-remove");
-        imageRemoveBtn.onclick = () => {
-            imageUpload.value = "";
-            imagePreviewCont.classList.remove("show");
-            this.setState({image_preview: false, selected_gallery_image: null});
-            imagePreview.src = "";
-            imagePreviewBtn.style.display = "none";
-            imageRemoveBtn.style.display = "none";
-        }
     }
 
     /**
@@ -191,11 +114,13 @@ class ActivityForm extends React.Component {
         data.append("ingress", document.getElementById("activity-ingress-input").value);
         data.append("description", document.getElementById("activity-description-input").value);
         this.state.selected_categories.forEach(category => data.append("categories", category.value));
-        const imageUpload = document.getElementById('image-upload');
-        if (imageUpload.files.length > 0) {
-            data.append("image", document.getElementById('image-upload').files[0]);
-        } else if (this.state.selected_gallery_image != null) {
+        if (this.state.selected_gallery_image != null) {
             data.append("gallery_image", this.state.selected_gallery_image);
+        } else if (this.state.uploaded_image != null) {
+            data.append("image", this.state.uploaded_image);
+        } else {
+            // Send an empty file to clear any existing image
+            data.append("image", new File([], ''))
         }
         return data;
     }
@@ -218,11 +143,10 @@ class ActivityForm extends React.Component {
      * Then we display the rest of the form.
      */
     displayRegistrationForm() {
-        const elements = ["registration-capacity", "registration-deadline", "starting_time", "location"];
         if (document.getElementById("registration-checkbox").checked) {
-            elements.forEach(item => document.getElementById(item).style.display = "block");
+            document.getElementById("registration-inputs").style.display = "block";
         } else {
-            elements.forEach(item => document.getElementById(item).style.display = "none");
+            document.getElementById("registration-inputs").style.display = "none";
         }
     }
 
@@ -246,18 +170,19 @@ class ActivityForm extends React.Component {
                     <div className="mt-3 mb-4">
                         <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel</label>
                         <input id="activity-title-input" type="text" className="form-control"
-                               placeholder="Joggetur" required/>
+                               placeholder="Joggetur" required value={this.props.activity?.title}/>
                     </div>
                     {/*Ingress */}
                     <div className="mb-4">
                         <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress</label>
                         <input className="form-control" id="activity-ingress-input" type="text" required
-                               placeholder={"Joggetur fra Gløshaugen til Heimdal."}/>
+                               placeholder={"Joggetur fra Gløshaugen til Heimdal."} value={this.props.activity?.ingress}/>
                     </div>
                     {/*Description */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse</label>
                         <textarea className="form-control" id="activity-description-input" rows="3" required
+                                  value={this.props.activity?.description}
                                   placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     </div>
                     {/*Categories */}
@@ -272,30 +197,8 @@ class ActivityForm extends React.Component {
                     </div>
                     {/*Image */}
                     <div className="mb-4">
-                        <label htmlFor="image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <input className="form-control" type="file" id="image-upload" accept="image/*"/>
-                        <div id={"image-preview-container"} className={"collapse"}>
-                            <img id={"image-preview"} className={"mt-3 rounded img-fluid"} alt={"Ugyldig bilde"}/>
-                        </div>
-                        <p className={"mt-3"}>
-                            <button id={"image-preview-toggle"} className="btn btn-outline-secondary me-2"
-                                    type="button"
-                                    data-bs-toggle="collapse" style={{display: "none"}}
-                                    data-bs-target="#image-preview-container" aria-expanded="false"
-                                    aria-controls="image-preview-container"
-                                    onClick={() => this.setState({image_preview: !this.state.image_preview})}>
-                                {this.state.image_preview === true ? "Skjul forhåndsvisning" : "Vis forhåndsvisning"}
-                            </button>
-                            <button id={"image-remove"} className="btn btn-outline-danger"
-                                    style={{display: "none"}}>Fjern bilde
-                            </button>
-                        </p>
-                        <button type="button" className="btn btn-outline-success" data-bs-toggle="modal"
-                                data-bs-target="#galleryModal">
-                            Velg fra bildegalleri
-                        </button>
-                        <GalleryModal id={"galleryModal"} images={this.state.gallery_images}
-                                      onImageSelected={this.onGalleryImageSelected}/>
+                        <label htmlFor="activity-image-upload" className="form-label h5 mb-3">Bilde</label>
+                        <ImageUpload id="activity-image-upload" image={this.props.activity?.image} onImageUploaded={this.onImageUploaded} onGalleryImageSelected={this.onGalleryImageSelected} withGallery/>
                     </div>
                     {/*Registration checkbox */}
                     <div className={"mt-3"}>
@@ -307,36 +210,39 @@ class ActivityForm extends React.Component {
                                 påmelding</label>
                         </div>
                     </div>
-                    {/*Capacity */}
-                    <div id="registration-capacity" style={{display: "none"}} className="mb-3">
-                        <br/>
-                        <label className="form-label">Antall plasser</label>
-                        <input type="number" min={1} className="form-control" id="registration-capacity-input"
-                               required/>
-                    </div>
-                    {/*Reg deadline date */}
-                    <div id="registration-deadline" style={{display: "none"}} className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
-                        <br/>
-                        <DateTimePicker
-                            selected={this.state.deadline_datetime}
-                            onChange={date => this.setState({deadline_datetime: date})}
-                        />
-                    </div>
-                    {/*Date */}
-                    <div id="starting_time" style={{display: "none"}} className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
-                        <br/>
-                        <DateTimePicker
-                            selected={this.state.start_datetime}
-                            onChange={date => this.setState({start_datetime: date})}
-                        />
-                    </div>
-                    {/*Location */}
-                    <div id="location" style={{display: "none"}} className="mb-3">
-                        <label htmlFor="activity-location" className="form-label">Sted</label>
-                        <input id="activity-location-input" type="text" className="form-control"
-                               placeholder="Gløshaugen" required/>
+                    {/*Registration options */}
+                    <div id={"registration-inputs"}>
+                        {/*Capacity */}
+                        <div id="registration-capacity" className="mb-3">
+                            <br/>
+                            <label className="form-label">Antall plasser</label>
+                            <input type="number" min={1} className="form-control" id="registration-capacity-input"
+                                   required/>
+                        </div>
+                        {/*Reg deadline date */}
+                        <div id="registration-deadline" className="mb-3">
+                            <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
+                            <br/>
+                            <DateTimePicker
+                                selected={this.state.deadline_datetime}
+                                onChange={date => this.setState({deadline_datetime: date})}
+                            />
+                        </div>
+                        {/*Date */}
+                        <div id="starting_time" className="mb-3">
+                            <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
+                            <br/>
+                            <DateTimePicker
+                                selected={this.state.start_datetime}
+                                onChange={date => this.setState({start_datetime: date})}
+                            />
+                        </div>
+                        {/*Location */}
+                        <div id="location" className="mb-3">
+                            <label htmlFor="activity-location" className="form-label">Sted</label>
+                            <input id="activity-location-input" type="text" className="form-control"
+                                   placeholder="Gløshaugen" required/>
+                        </div>
                     </div>
                 </div>
                 <div className="mt-5 row">
