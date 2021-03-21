@@ -4,8 +4,8 @@ import './GalleryModal.css';
 const GalleryRow = (props) => {
     return props.images.map(image => {
             return (
-                <div className={"col"} key={image.id}>
-                    <img src={image.image} className={"img-fluid h-100 rounded gallery-modal-image"} title={image.title}
+                <div className={"col-6 p-1"} key={image.id}>
+                    <img src={image.image} className={"img-fluid rounded gallery-modal-image"} title={image.title}
                          alt={image.title} onClick={props.onClick.bind(this,image.id)}/>
                 </div>
             );
@@ -38,7 +38,7 @@ export default class GalleryModal extends React.Component {
     renderGalleryImages() {
         const rows = this.partitionList(this.props.images, GALLERY_COLUMNS);
         return rows.map((row) => (
-            <div className={"row mb-3"} key={row[0].id}>
+            <div className={"row mb-3 d-flex align-items-center"} key={row[0].id}>
                 <GalleryRow images={row} onClick={this.onImageSelected} />
             </div>
         ));
@@ -49,13 +49,13 @@ export default class GalleryModal extends React.Component {
         return (
             <div className="modal fade" id={this.props.id} tabIndex="-1" aria-labelledby="galleryModalLabel"
                  aria-hidden="true">
-                <div className="modal-dialog modal-dialog-scrollable">
+                <div className="modal-dialog modal-dialog-scrollable" style={{maxWidth: "800px"}}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="galleryModalLabel">Bildegalleri</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                         </div>
-                        <div id="gallery-body" className="modal-body d-inline-block">
+                        <div id="gallery-body" className="modal-body ms-3 me-3">
                             {this.renderGalleryImages()}
                         </div>
                         <div className="modal-footer">
