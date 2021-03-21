@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
@@ -22,6 +24,7 @@ from gjorno.views import \
     ActivityRegisterView, \
     ActivityUnregisterView, \
     CategoriesView, \
+    ImagesView, \
     UsersView, \
     CurrentUserView, \
     MyActivitiesView, \
@@ -30,6 +33,7 @@ from gjorno.views import \
 router = routers.DefaultRouter()
 router.register("activities", ActivitiesView, 'activities')
 router.register("categories", CategoriesView, 'categories')
+router.register("images", ImagesView, 'images')
 router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
 router.register("my_registered_activities", MyRegisteredActivitiesView, 'my_registered_activities')
@@ -44,3 +48,6 @@ urlpatterns = [
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls'))
 ]
+
+# Include media paths
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

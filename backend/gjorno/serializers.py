@@ -5,7 +5,7 @@ from rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.admin import User
 from datetime import datetime
 import pytz
-from .models import Activity, Profile, Category, Registration
+from .models import Activity, Profile, Category, Registration, Image
 
 
 class UserWithProfileSerializer(RegisterSerializer):
@@ -35,6 +35,7 @@ class ActivitySerializer(serializers.ModelSerializer):
         else:
             for field in ['registration_capacity', 'registration_deadline', 'starting_time', 'location']:
                 representation.pop(field)
+
         return representation
 
     class Meta:
@@ -46,8 +47,19 @@ class BasicActivitySerializer(serializers.ModelSerializer):
     """Activity serializer that excludes the user object"""
 
     def to_internal_value(self, data):
-        # Validate incoming data
         internal = super().to_internal_value(data)
+
+        # Replace possible gallery image id with actual image file
+        if 'gallery_image' in data:
+            internal['image'] = Image.objects.get(id=data['gallery_image']).image
+
+        # Validate registration fields
+        self.validate_registration(internal)
+
+        return internal
+
+    @staticmethod
+    def validate_registration(internal):
         registration_fields = ['registration_capacity', 'registration_deadline', 'starting_time', 'location']
         if 'has_registration' in internal and internal['has_registration']:
             errors = {field: [] for field in registration_fields}
@@ -60,7 +72,7 @@ class BasicActivitySerializer(serializers.ModelSerializer):
             for field in ['registration_deadline', 'starting_time']:
                 # Validate that fields are in the future
                 if field in internal and internal[field] < now:
-                        errors[field] += ["Should not be in the past"]
+                    errors[field] += ["Should not be in the past"]
             # Validate that deadline is before (or at) starting time
             if {'registration_deadline', 'starting_time'} <= internal.keys():
                 if internal['registration_deadline'] > internal['starting_time']:
@@ -73,7 +85,6 @@ class BasicActivitySerializer(serializers.ModelSerializer):
             for field in registration_fields:
                 if field in internal:
                     internal.pop(field)
-        return internal
 
     class Meta:
         model = Activity
@@ -117,4 +128,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+        fields = "__all__"
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    """Standard model serializer for Category"""
+
+    class Meta:
+        model = Image
         fields = "__all__"

@@ -12,7 +12,7 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE, related_name="profile", verbose_name="User"
     )
     phone_number = models.CharField(max_length=11)
-    is_organization = models.BooleanField(default=False, null = False)
+    is_organization = models.BooleanField(default=False, null=False)
 
     def __str__(self):
         return self.user.get_full_name()
@@ -28,6 +28,7 @@ class Activity(models.Model):
     ingress = models.TextField(max_length=240, null=False, blank=False)
     description = models.TextField()
     categories = models.ManyToManyField(blank=False, to="gjorno.Category")
+    image = models.ImageField(upload_to='uploads/activities/', blank=True)
 
     has_registration = models.BooleanField(default=False)
     registration_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
@@ -71,3 +72,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+
+
+class Image(models.Model):
+    """Predefined generic image"""
+    title = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='uploads/gallery/', blank=True)

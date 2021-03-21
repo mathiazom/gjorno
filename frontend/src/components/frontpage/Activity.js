@@ -10,7 +10,7 @@ const Activity = (props) => {
 
     return (
         <div className="card activity-card w-75 mx-auto mt-4 mb-4">
-            <img src={"images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
+            <img src={props.data.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row">
                 <div className={"col-12 col-lg-8 pe-4"}>
                 <Link to={`/activity-details/${props.data.id}`} style={{textDecoration: "none"}}>

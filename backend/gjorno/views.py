@@ -6,12 +6,15 @@ from django.contrib.auth.admin import User
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+import json
 from .serializers import \
     ActivitySerializer, \
     BasicActivitySerializer, \
     UserAndProfileSerializer, \
-    CategorySerializer, RegistrationSerializer
-from .models import Activity, Category, Registration
+    CategorySerializer, \
+    ImageSerializer, \
+    RegistrationSerializer
+from .models import Activity, Category, Registration, Image
 from datetime import datetime
 import pytz
 
@@ -38,8 +41,6 @@ class ActivitiesView(viewsets.ModelViewSet):
         # Flag to determine if user is registered to activity
         data['is_registered'] = Registration.objects.filter(user = request.user.id, activity=data['id']).exists()
 
-
-
     # Append extra fields when retrieving activity
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, args, kwargs)
@@ -62,7 +63,7 @@ class ActivitiesView(viewsets.ModelViewSet):
         has_registration = activity.has_registration
         if 'has_registration' in request.data:
             # Request changes has_registration
-            has_registration = request.data['has_registration']
+            has_registration = json.loads(request.data['has_registration'])
         if has_registration:
             if int(request.data['registration_capacity']) < activity.registrations_count():
                 return Response("Cannot decrease capacity below current number of registrations",
@@ -181,3 +182,9 @@ class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class ImagesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all predefined images. """
+    serializer_class = ImageSerializer
+    queryset = Image.objects.all()

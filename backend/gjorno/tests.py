@@ -1,14 +1,18 @@
 """
 Unit tests for models and related views
 """
+import tempfile
+from pathlib import Path
 
+from django.conf import settings
+from django.core.files import File
 from django.test import TestCase
 from django.contrib.auth.admin import User
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework.utils import json
 
-from .models import Activity, Registration, Category, Profile
+from .models import Activity, Registration, Category, Image, Profile
 
 
 class ActivityBaseTest(TestCase):
@@ -92,6 +96,7 @@ class ActivityTest(ActivityBaseTest):
                     "ingress": "Ruli hekto obl co, ho ido stif frota.",
                     "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                     "categories": [1, 3],
+                    "image": None,
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "is_organization": False,
@@ -129,6 +134,7 @@ class ActivityTest(ActivityBaseTest):
                     "ingress": "Ruli hekto obl co, ho ido stif frota.",
                     "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                     "categories": [1, 3],
+                    "image": None,
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "is_organization": False,
@@ -159,12 +165,41 @@ class ActivityTest(ActivityBaseTest):
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
+            "image": None,
             "has_registration": False,
             "registration_capacity": None,
             "registration_deadline": None,
             "starting_time": None,
             "location": None
         })
+
+    def test_post_activity_with_gallery_image(self):
+        with File(open("media/test/rr.jpg", "rb")) as test_image_file:
+            # Pretend that file has a different path to make media folder a little tidier
+            test_image_file.name = "test/rr.jpg"
+            test_image = Image.objects.create(title="RR", image=test_image_file)
+            response = self.client.post('/api/activities/', {
+                "title": "Promenu ĉirkaŭ la lago",
+                "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                "categories": [1, 3],
+                "gallery_image": test_image.id
+            })
+            # Check that activity was created successfully
+            self.assertEqual(response.status_code, 201)
+            self.assertDictEqual(json.loads(response.content), {
+                "id": response.data['id'],
+                "title": "Promenu ĉirkaŭ la lago",
+                "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                "categories": [1, 3],
+                "image": "http://testserver" + test_image.image.url,
+                "has_registration": False,
+                "registration_capacity": None,
+                "registration_deadline": None,
+                "starting_time": None,
+                "location": None
+            })
 
     def test_post_activity_with_registration_missing_all_fields(self):
         """Request creation of activity with registration, but without fields"""
@@ -277,6 +312,7 @@ class ActivityTest(ActivityBaseTest):
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
+            "image": None,
             "has_registration": True,
             "registration_capacity": 12,
             "registration_deadline": "2022-03-15T15:20:24Z",
@@ -310,6 +346,7 @@ class ActivityTest(ActivityBaseTest):
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
+            "image": None,
             "has_registration": False,
             "is_author": True,
             "is_registered": False
@@ -339,7 +376,7 @@ class ActivityTest(ActivityBaseTest):
             "ingress": "Ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
-            "has_registration": True,
+            "has_registration": "true",
             "registration_capacity": len(self.users) + 1,
             "registration_deadline": "2022-03-17T15:20:24Z",
             "starting_time": "2023-03-23T15:20:34Z",
@@ -375,7 +412,7 @@ class ActivityTest(ActivityBaseTest):
             "ingress": "Ruli hekto obl co, ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
-            "has_registration": True,
+            "has_registration": "true",
             "registration_capacity": len(self.users) - 1,
             "registration_deadline": "2022-03-17T15:20:24Z",
             "starting_time": "2022-03-23T15:20:34Z",
@@ -472,6 +509,7 @@ class ActivityRegistrationsTest(ActivityBaseTest):
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
 
+
 class MyActivitiesTest(TestCase):
 
     def setUp(self):
@@ -512,6 +550,7 @@ class MyActivitiesTest(TestCase):
                     "ingress": self.activity1.ingress,
                     "description": self.activity1.description,
                     "categories": [1, 3],
+                    "image": None,
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "is_organization": False,
