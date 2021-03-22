@@ -4,6 +4,7 @@ import ProfileInfo from './ProfileInfo';
 import MyRegisteredActivities from './registered/MyRegisteredActivities';
 import SavedActivities from './saved/SavedActivities';
 import axios from 'axios';
+import './Profile.css';
 
 export default class Profile extends React.Component {
     constructor(props) {

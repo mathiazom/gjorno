@@ -588,7 +588,7 @@ class UserProfileTest(TestCase):
 
     def test_profile_string(self):
         """Make sure string is correct"""
-        self.assertEqual(str(self.profile), "Ludwig Zamenhof")
+        self.assertEqual(str(self.profile), "zamenhof59")
 
     def test_retrieve_current_user(self):
         """Request data about currently logged in user"""
@@ -599,5 +599,6 @@ class UserProfileTest(TestCase):
             "username": self.user.username,
             "email": self.user.email,
             "phone_number": "+4283356789",
-            "is_organization": False
+            "is_organization": False,
+            "avatar": None
         })

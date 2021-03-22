@@ -1,4 +1,5 @@
 import React from 'react';
+import '../profile/Profile.css';
 
 export default class ActivityHost extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ export default class ActivityHost extends React.Component {
     render() {
         return (
             <div className="card profileInfo" >
-                <img className="card-img-top" src="/images/profil.png" alt="profile"/>
+                <img className="card-img-top img-fluid profile-image" src={this.props.userdata.avatar || "/images/profil.png"} alt="profile"/>
                 <div className="card-body">
                     <h4 className="card-title">{this.props.userdata.username}</h4>
                     <p className="card-text mb-2">{this.props.userdata.email}</p>
