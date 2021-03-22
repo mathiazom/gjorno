@@ -30,6 +30,9 @@ class ActivityForm extends React.Component {
 
         this.retrieveCategories();
 
+        // Show registration inputs if activity has registration, hide otherwise
+        this.displayRegistrationForm();
+
     }
 
     /**
