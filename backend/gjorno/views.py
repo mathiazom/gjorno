@@ -13,8 +13,9 @@ from .serializers import \
     UserAndProfileSerializer, \
     CategorySerializer, \
     ImageSerializer, \
-    RegistrationSerializer
-from .models import Activity, Category, Registration, Image
+    RegistrationSerializer, \
+    FavoriteSerializer
+from .models import Activity, Category, Registration, Image, Favorite
 from datetime import datetime
 import pytz
 
@@ -40,6 +41,8 @@ class ActivitiesView(viewsets.ModelViewSet):
         data['is_author'] = request.user.id == data['user']
         # Flag to determine if user is registered to activity
         data['is_registered'] = Registration.objects.filter(user = request.user.id, activity=data['id']).exists()
+        # Flag to determine if user favorited activity
+        data['is_favorited'] = Favorite.objects.filter(user = request.user.id, activity=data['id']).exists()
 
     # Append extra fields when retrieving activity
     def retrieve(self, request, *args, **kwargs):
@@ -145,6 +148,45 @@ class ActivityUnregisterView(generics.CreateAPIView):
         return Response("User was successfully unregistered", status=status.HTTP_200_OK)
 
 
+class ActivityFavoriteView(generics.CreateAPIView):
+    """View for user favoriting activity"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = FavoriteSerializer
+    lookup_field = 'activity'
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        activity = Activity.objects.get(id=self.kwargs['activity'])
+
+        if Favorite.objects.filter(user=user.id, activity=activity.id):
+            return Response("User already favorited this activity", status=status.HTTP_403_FORBIDDEN)
+            
+        serializer = self.get_serializer(data={
+            "user": user.id,
+            "activity": activity.id
+        })
+        if serializer.is_valid():
+            serializer.save()
+            return Response("Activity successfully favorited", status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ActivityUnfavoriteView(generics.CreateAPIView):
+    """View for unregistering user from activity"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = FavoriteSerializer
+    lookup_field = 'activity'
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user.id
+        activity = self.kwargs['activity']
+        favorite = Favorite.objects.filter(user=user, activity=activity)
+        if not favorite:
+            return Response("User has not favorited this activity", status=status.HTTP_403_FORBIDDEN)
+        favorite.delete()
+        return Response("Activity successfully unfavorited", status=status.HTTP_200_OK)
+
+
 class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
@@ -176,6 +218,15 @@ class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         activity_ids = Registration.objects.filter(user=self.request.user.id).values_list('activity')
         return Activity.objects.filter(id__in=activity_ids).order_by('-id')
+
+class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users favorited activities """
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        activity_ids = self.request.user.favorites.values_list('activity').order_by('-timestamp')
+        return Activity.objects.filter(id__in=activity_ids)
 
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):

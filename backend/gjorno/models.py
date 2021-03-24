@@ -4,6 +4,7 @@ The basic models that make up the database schema
 
 from django.db import models
 from django.contrib.auth.admin import User
+from django.utils import timezone
 
 
 class Profile(models.Model):
@@ -71,6 +72,18 @@ class Registration(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="registrations", verbose_name="User"
     )
+
+
+class Favorite(models.Model):
+    """Representation of a users favorite to an activity"""
+
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="favorites", verbose_name="Activity"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="favorites", verbose_name="User"
+    )
+    timestamp = models.DateTimeField(default=timezone.now)
 
 
 class Category(models.Model):
