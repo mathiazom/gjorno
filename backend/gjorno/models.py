@@ -36,6 +36,15 @@ class Activity(models.Model):
     starting_time = models.DateTimeField(blank=True, null=True)
     location = models.CharField(max_length=150, blank=True, null=True)
 
+    price = models.FloatField(blank=True, null=True)
+    
+    class Activity_level(models.IntegerChoices):
+        LOW = 1
+        MID = 2
+        HIGH = 3
+    
+    activity_level = models.IntegerField(choices=Activity_level.choices, blank=True, null=True)
+
     def __str__(self):
         return self.title
 
