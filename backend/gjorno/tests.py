@@ -41,7 +41,9 @@ class ActivityBaseTest(TestCase):
         self.activity = Activity.objects.create(
             user=self.user, title="Promenu ĉirkaŭ la lago",
             ingress="Ruli hekto obl co, ho ido stif frota.",
-            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota."
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            price=500.0,
+            activity_level=1
         )
         self.tokenOrganization = Token.objects.create(user=self.organization)
         self.clientOrganization = APIClient()
@@ -55,9 +57,12 @@ class ActivityBaseTest(TestCase):
             registration_capacity=12,
             registration_deadline="2022-03-17T15:20:24Z",
             starting_time="2022-03-23T15:20:34Z",
-            location="Laguna Roponda"
+            location="Laguna Roponda",
+            price=500.0,
+            activity_level=1
         )
         self.activity_with_registration.categories.set([1, 3])
+        
 
 
 class ActivityTest(ActivityBaseTest):
@@ -102,7 +107,9 @@ class ActivityTest(ActivityBaseTest):
                     "is_organization": False,
                     "has_registration": False,
                     "is_author": False,
-                    "is_registered": False
+                    "is_registered": False,
+                    "price":activity.price,
+                    "activity_level":activity.activity_level
                 }
             )
 
@@ -116,7 +123,7 @@ class ActivityTest(ActivityBaseTest):
                 ingress="Ruli hekto obl co, ho ido stif frota.",
                 description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                 has_registration=True, registration_capacity=10, registration_deadline="2022-03-17T15:20:24Z",
-                starting_time="2022-03-23T15:20:34Z", location="T-Town"
+                starting_time="2022-03-23T15:20:34Z", location="T-Town", price=None, activity_level=None
             )
             activity.categories.set([1, 3])
             activities.append(activity)
@@ -145,7 +152,9 @@ class ActivityTest(ActivityBaseTest):
                     "location": "T-Town",
                     "registrations_count": 0,
                     "is_author": False,
-                    "is_registered": False
+                    "is_registered": False,
+                    "price":None,
+                    "activity_level":None
                 }
             )
 
@@ -170,7 +179,9 @@ class ActivityTest(ActivityBaseTest):
             "registration_capacity": None,
             "registration_deadline": None,
             "starting_time": None,
-            "location": None
+            "location": None, 
+            "price":None,
+            "activity_level":None
         })
 
     def test_post_activity_with_gallery_image(self):
@@ -183,7 +194,7 @@ class ActivityTest(ActivityBaseTest):
                 "ingress": "Ruli hekto obl co, ho ido stif frota.",
                 "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
                 "categories": [1, 3],
-                "gallery_image": test_image.id
+                "gallery_image": test_image.id,
             })
             # Check that activity was created successfully
             self.assertEqual(response.status_code, 201)
@@ -198,7 +209,9 @@ class ActivityTest(ActivityBaseTest):
                 "registration_capacity": None,
                 "registration_deadline": None,
                 "starting_time": None,
-                "location": None
+                "location": None,
+                "price":None,
+                "activity_level":None
             })
 
     def test_post_activity_with_registration_missing_all_fields(self):
@@ -317,7 +330,9 @@ class ActivityTest(ActivityBaseTest):
             "registration_capacity": 12,
             "registration_deadline": "2022-03-15T15:20:24Z",
             "starting_time": "2022-03-16T15:20:34Z",
-            "location": "T-Town"
+            "location": "T-Town",
+            "price":None,
+            "activity_level":None
         })
 
     def test_post_activity_without_registration_but_with_fields(self):
@@ -331,7 +346,9 @@ class ActivityTest(ActivityBaseTest):
             "registration_capacity": 12,
             "registration_deadline": "2022-03-15T15:20:24Z",
             "starting_time": "2022-03-16T15:20:34Z",
-            "location": "T-Town"
+            "location": "T-Town",
+            "price":500.0,
+            "activity_level":1
         })
         # Check that creation was successful
         self.assertEqual(response.status_code, 201)
@@ -349,7 +366,9 @@ class ActivityTest(ActivityBaseTest):
             "image": None,
             "has_registration": False,
             "is_author": True,
-            "is_registered": False
+            "is_registered": False,
+            "price":500.0,
+            "activity_level":1
         })
 
     def put_activity(self):
@@ -554,7 +573,9 @@ class MyActivitiesTest(TestCase):
                     "user": self.user.id,
                     "username": "zamenhof59",
                     "is_organization": False,
-                    "has_registration": False
+                    "has_registration": False,
+                    "price":self.activity1.price,
+                    "activity_level":self.activity1.activity_level
                 }
             ]
         )
