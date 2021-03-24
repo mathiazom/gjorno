@@ -41,7 +41,9 @@ class ActivityBaseTest(TestCase):
         self.activity = Activity.objects.create(
             user=self.user, title="Promenu ĉirkaŭ la lago",
             ingress="Ruli hekto obl co, ho ido stif frota.",
-            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota."
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            price=500.0,
+            activity_level=1
         )
         self.tokenOrganization = Token.objects.create(user=self.organization)
         self.clientOrganization = APIClient()
@@ -55,9 +57,12 @@ class ActivityBaseTest(TestCase):
             registration_capacity=12,
             registration_deadline="2022-03-17T15:20:24Z",
             starting_time="2022-03-23T15:20:34Z",
-            location="Laguna Roponda"
+            location="Laguna Roponda",
+            price=500.0,
+            activity_level=1
         )
         self.activity_with_registration.categories.set([1, 3])
+        
 
 
 class ActivityTest(ActivityBaseTest):
