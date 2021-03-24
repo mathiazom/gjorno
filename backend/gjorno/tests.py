@@ -107,6 +107,7 @@ class ActivityTest(ActivityBaseTest):
                     "is_organization": False,
                     "has_registration": False,
                     "is_author": False,
+                    "is_favorited": False,
                     "is_registered": False,
                     "price":activity.price,
                     "activity_level":activity.activity_level
@@ -152,6 +153,7 @@ class ActivityTest(ActivityBaseTest):
                     "location": "T-Town",
                     "registrations_count": 0,
                     "is_author": False,
+                    "is_favorited": False,
                     "is_registered": False,
                     "price":None,
                     "activity_level":None
@@ -366,6 +368,7 @@ class ActivityTest(ActivityBaseTest):
             "image": None,
             "has_registration": False,
             "is_author": True,
+            "is_favorited": False,
             "is_registered": False,
             "price":500.0,
             "activity_level":1

@@ -5,7 +5,7 @@ from rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.admin import User
 from datetime import datetime
 import pytz
-from .models import Activity, Profile, Category, Registration, Image
+from .models import Activity, Profile, Category, Registration, Image, Favorite
 
 
 class UserWithProfileSerializer(RegisterSerializer):
@@ -96,6 +96,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Registration
+        fields = '__all__'
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    """Standard model serializer for Registration"""
+
+    class Meta:
+        model = Favorite
         fields = '__all__'
 
 
