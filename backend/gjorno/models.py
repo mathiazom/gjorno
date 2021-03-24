@@ -38,12 +38,12 @@ class Activity(models.Model):
 
     price = models.FloatField(blank=True, null=True)
     
-    class Activity_level(models.IntegerChoices):
+    class ActivityLevel(models.IntegerChoices):
         LOW = 1
         MID = 2
         HIGH = 3
     
-    activity_level = models.IntegerField(choices=Activity_level.choices, blank=True, null=True)
+    activity_level = models.IntegerField(choices=ActivityLevel.choices, blank=True, null=True)
 
     def __str__(self):
         return self.title
