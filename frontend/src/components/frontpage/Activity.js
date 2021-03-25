@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 /**
@@ -8,8 +9,52 @@ import { Link } from 'react-router-dom';
  */
 const Activity = (props) => {
 
+    const favorite = () => {
+        axios.post(`http://localhost:8000/api/activities/${props.data.id}/favorite/`,
+        {
+            activity: props.data.id,
+            user: props.data.id
+        },
+        {
+            headers: {
+                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+            }
+        }).then(res => {
+            console.log(res.status)
+            if (res.status === 201) {
+                // Refresh activity data to see updated count
+                props.onUpdate();
+                console.log("heia")
+            }
+            }).catch(error => {
+                console.log(error.response);
+        })
+    }
+
+    const unfavorite = () => {
+        axios.post(`http://localhost:8000/api/activities/${props.data.id}/unfavorite/`,
+        {
+            activity: props.data.id,
+        },
+        {
+            headers: {
+                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+            }
+        }).then(res => {
+            console.log(res.status)
+            if (res.status === 200) {
+                // Refresh activity data to see updated count
+                props.onUpdate();
+            }
+            }).catch(error => {
+                console.log(error.response);
+        })
+    }
+
     return (
         <div className="card activity-card w-75 mx-auto mt-4 mb-4">
+            {console.log(props.authenticated && !props.data.is_favorited)}
+            {console.log(props.authenticated && props.data.is_favorited)}
             <img src={props.data.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row">
                 <div className={"col-12 col-lg-8 pe-4"}>
@@ -36,6 +81,8 @@ const Activity = (props) => {
                     </div>
                     <div>
                         <a href="#" className="btn btn-success float-right">Legg til i logg</a>
+                        {(props.data.is_favorited && props.authenticated) && <button className="btn btn-link" onClick={unfavorite}><i className="fas fa-heart"></i></button>}
+                        {(!props.data.is_favorited && props.authenticated) && <button className="btn btn-link" onClick={favorite}><i className="far fa-heart"></i></button>}
                     </div>
                 </div>
             </div>

@@ -91,7 +91,7 @@ export default class App extends React.Component {
                         />
                         <Switch>
                             <Route exact path={"/"}>
-                                <Activities />
+                                <Activities authenticated={this.state.authenticated}/>
                             </Route>
                             <Route exact path ={"/activity-details/:id"}>
                                 <ActivityDetails
