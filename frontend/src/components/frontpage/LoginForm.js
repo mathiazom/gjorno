@@ -50,7 +50,6 @@ class LoginForm extends React.Component {
             "username": document.getElementById("reg-username").value,
             "password1": document.getElementById("reg-password1").value,
             "password2": document.getElementById("reg-password2").value,
-            "phone_number": "11111111",
             "is_organization": document.getElementById("organizationSwitch").checked
         };
         axios.post("http://localhost:8000/auth/register/", user)

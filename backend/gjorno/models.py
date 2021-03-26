@@ -12,7 +12,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="profile", verbose_name="User"
     )
-    phone_number = models.CharField(max_length=11)
+    phone_number = models.CharField(max_length=11, blank=True)
     is_organization = models.BooleanField(default=False, null=False)
     avatar = models.ImageField(upload_to='uploads/avatars/', blank=True, null=True)
 
