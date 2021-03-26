@@ -7,8 +7,8 @@ export default class ImageUpload extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            galleryImages: [],
-            showPreview: true
+            gallery_images: [],
+            show_preview: true
         };
         this.onGalleryImageSelected = this.onGalleryImageSelected.bind(this);
     }
@@ -46,7 +46,7 @@ export default class ImageUpload extends React.Component{
         axios
             .get('http://localhost:8000/api/images/')
             .then(res => {
-                this.setState({galleryImages: res.data});
+                this.setState({gallery_images: res.data});
             })
             .catch(error => {
                 console.log(error.response);
@@ -88,7 +88,7 @@ export default class ImageUpload extends React.Component{
 
         // Show preview with buttons
         document.getElementById("image-preview-container").classList.add("show");
-        this.setState({showPreview: true});
+        this.setState({show_preview: true});
         document.getElementById("image-preview-toggle").style.display = "inline-block";
         document.getElementById("image-remove").style.display = "inline-block";
 
@@ -130,7 +130,7 @@ export default class ImageUpload extends React.Component{
 
             // Hide image preview
             imagePreviewCont.classList.remove("show");
-            this.setState({showPreview: false});
+            this.setState({show_preview: false});
             imagePreview.src = "";
             imagePreviewBtn.style.display = "none";
             imageRemoveBtn.style.display = "none";
@@ -156,8 +156,8 @@ export default class ImageUpload extends React.Component{
                             data-bs-toggle="collapse" style={{display: "none"}}
                             data-bs-target="#image-preview-container" aria-expanded="false"
                             aria-controls="image-preview-container"
-                            onClick={() => this.setState({showPreview: !this.state.showPreview})}>
-                        {this.state.showPreview === true ? "Skjul forhåndsvisning" : "Vis forhåndsvisning"}
+                            onClick={() => this.setState({show_preview: !this.state.show_preview})}>
+                        {this.state.show_preview === true ? "Skjul forhåndsvisning" : "Vis forhåndsvisning"}
                     </button>
                     <button id={"image-remove"} type="button" className="btn btn-outline-danger"
                             style={{display: "none"}}>Fjern bilde

@@ -13,9 +13,9 @@ class ActivityForm extends React.Component {
         this.state = {
             categories: [],
             image: null,
-            selectedCategories: [],
-            deadlineDatetime: null,
-            startDatetime: null
+            selected_categories: [],
+            deadline_datetime: null,
+            start_datetime: null
         };
         this.submit = this.submit.bind(this);
     }
@@ -75,8 +75,8 @@ class ActivityForm extends React.Component {
             document.getElementById("registration-inputs").style.display = "block";
             document.getElementById("registration-checkbox").checked = true;
             document.getElementById("registration-capacity-input").value = activity.registration_capacity;
-            this.setState({deadlineDatetime: new Date(activity.registration_deadline)})
-            this.setState({startDatetime: new Date(activity.starting_time)})
+            this.setState({deadline_datetime: new Date(activity.registration_deadline)})
+            this.setState({start_datetime: new Date(activity.starting_time)})
             document.getElementById("activity-location-input").value = activity.location;
         } else {
             document.getElementById("registration-inputs").style.display = "none";
@@ -87,7 +87,7 @@ class ActivityForm extends React.Component {
                 selected.push(category)
             }
         }
-        this.setState({selectedCategories: selected})
+        this.setState({selected_categories: selected})
 
     }
 
@@ -139,7 +139,7 @@ class ActivityForm extends React.Component {
                 inputEl: categoriesInput,
                 rules: [
                     {
-                        isValid: this.state.selectedCategories.length > 0,
+                        isValid: this.state.selected_categories.length > 0,
                         msg: "Velg minst én kategori"
                     }
                 ]
@@ -186,17 +186,17 @@ class ActivityForm extends React.Component {
                 feedbackEl: document.getElementById("registration-deadline-feedback"),
                 rules: [
                     {
-                        isValid: this.state.deadlineDatetime != null,
+                        isValid: this.state.deadline_datetime != null,
                         msg: "Påmeldingsfrist er obligatorisk"
                     },
                     {
-                        isValid: this.state.startDatetime == null ||
-                            this.state.deadlineDatetime == null ||
-                            this.state.deadlineDatetime < this.state.startDatetime,
+                        isValid: this.state.start_datetime == null ||
+                            this.state.deadline_datetime == null ||
+                            this.state.deadline_datetime < this.state.start_datetime,
                         msg: "Påmeldingsfrist kan ikke være etter starttidspunkt"
                     }, {
-                        isValid: this.state.deadlineDatetime == null ||
-                            this.state.deadlineDatetime >= new Date(),
+                        isValid: this.state.deadline_datetime == null ||
+                            this.state.deadline_datetime >= new Date(),
                         msg: "Påmeldingsfrist kan ikke være i fortiden"
                     }
                 ]
@@ -205,11 +205,11 @@ class ActivityForm extends React.Component {
                 feedbackEl: document.getElementById("starting-time-feedback"),
                 rules: [
                     {
-                        isValid: this.state.startDatetime != null,
+                        isValid: this.state.start_datetime != null,
                         msg: "Starttidspunkt er obligatorisk"
                     }, {
-                        isValid: this.state.startDatetime == null ||
-                            this.state.startDatetime >= new Date(),
+                        isValid: this.state.start_datetime == null ||
+                            this.state.start_datetime >= new Date(),
                         msg: "Starttidspunkt kan ikke være i fortiden"
                     }
                 ]
@@ -235,7 +235,7 @@ class ActivityForm extends React.Component {
         data.append("title", document.getElementById("activity-title-input").value);
         data.append("ingress", document.getElementById("activity-ingress-input").value);
         data.append("description", document.getElementById("activity-description-input").value);
-        this.state.selectedCategories.forEach(category => data.append("categories", category.value));
+        this.state.selected_categories.forEach(category => data.append("categories", category.value));
         const image = this.state.image;
         if (image != null){
             if ('image' in image){
@@ -254,8 +254,8 @@ class ActivityForm extends React.Component {
         const data = this.retrieveBaseInputData();
         data.append("has_registration", "true");
         data.append("registration_capacity", document.getElementById("registration-capacity-input").value);
-        data.append("registration_deadline", this.state.deadlineDatetime.toISOString());
-        data.append("starting_time", this.state.startDatetime.toISOString());
+        data.append("registration_deadline", this.state.deadline_datetime.toISOString());
+        data.append("starting_time", this.state.start_datetime.toISOString());
         data.append("location", document.getElementById("activity-location-input").value);
         return data;
     }
@@ -323,8 +323,8 @@ class ActivityForm extends React.Component {
                         <CategorySelect
                             id="activity-categories-input"
                             categories={this.state.categories}
-                            selectedCategories={this.state.selectedCategories}
-                            onChange={(selected) => this.setState({selectedCategories: selected})}
+                            selected_categories={this.state.selected_categories}
+                            onChange={(selected) => this.setState({selected_categories: selected})}
                         />
                         <div className={"invalid-feedback"}/>
                     </div>
@@ -361,8 +361,8 @@ class ActivityForm extends React.Component {
                             <br/>
                             <DateTimePicker
                                 id={"registration-deadline-input"}
-                                selected={this.state.deadlineDatetime}
-                                onChange={date => this.setState({deadlineDatetime: date})}
+                                selected={this.state.deadline_datetime}
+                                onChange={date => this.setState({deadline_datetime: date})}
                             />
                             <div id="registration-deadline-feedback" className={"invalid-feedback"}/>
                         </div>
@@ -372,8 +372,8 @@ class ActivityForm extends React.Component {
                             <br/>
                             <DateTimePicker
                                 id={"starting-time-input"}
-                                selected={this.state.startDatetime}
-                                onChange={date => this.setState({startDatetime: date})}
+                                selected={this.state.start_datetime}
+                                onChange={date => this.setState({start_datetime: date})}
                             />
                             <div id="starting-time-feedback" className={"invalid-feedback"}/>
                         </div>
