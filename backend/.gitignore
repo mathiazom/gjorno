@@ -1,4 +1,5 @@
 venv/
+heinrich/
 db.sqlite3
 htmlcov/
 .coverage

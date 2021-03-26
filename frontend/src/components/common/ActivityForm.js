@@ -5,6 +5,7 @@ import DateTimePicker from "../common/DateTimePicker"
 import CategorySelect from "../common/CategorySelect";
 import ImageUpload from "./ImageUpload";
 import {validateForm, stringIsBlank} from "./Utils";
+import FormWithValidation from "./FormWithValidation";
 
 class ActivityForm extends React.Component {
 
@@ -165,8 +166,8 @@ class ActivityForm extends React.Component {
 
         const capacityInput = document.getElementById("registration-capacity-input");
         const locationInput = document.getElementById("activity-location-input");
-        const deadlineInput = document.getElementById("registration-deadline-input");
-        const startingTimeInput = document.getElementById("starting-time-input");
+        const deadlineInput = document.getElementById("registration-deadline");
+        const startingTimeInput = document.getElementById("starting-time");
 
         return this.baseInputFormRules().concat([
             {
@@ -237,6 +238,7 @@ class ActivityForm extends React.Component {
         data.append("description", document.getElementById("activity-description-input").value);
         this.state.selected_categories.forEach(category => data.append("categories", category.value));
         const image = this.state.image;
+        console.log(image);
         if (image != null){
             if ('image' in image){
                 data.append("image", image.image);
@@ -294,109 +296,97 @@ class ActivityForm extends React.Component {
     render() {
 
         return (
-            <>
-                <form className="row needs-validation" id="activity-form" noValidate>
-                    {/*Title */}
-                    <div className="mt-3 mb-4">
-                        <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel</label>
-                        <input id="activity-title-input" type="text" className="form-control"
-                               placeholder="Joggetur" />
-                        <div className={"invalid-feedback"}/>
-                    </div>
-                    {/*Ingress */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress</label>
-                        <input className="form-control" id="activity-ingress-input" type="text"
-                               placeholder={"Joggetur fra Gløshaugen til Heimdal."} />
-                        <div className={"invalid-feedback"}/>
-                    </div>
-                    {/*Description */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse</label>
-                        <textarea className="form-control" id="activity-description-input" rows="3"
-                                  placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
-                        <div className={"invalid-feedback"}/>
-                    </div>
-                    {/*Categories */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-categories-input" className="form-label h5 mb-3">Kategorier</label>
-                        <CategorySelect
-                            id="activity-categories-input"
-                            categories={this.state.categories}
-                            selected_categories={this.state.selected_categories}
-                            onChange={(selected) => this.setState({selected_categories: selected})}
-                        />
-                        <div className={"invalid-feedback"}/>
-                    </div>
-                    {/*Image */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <ImageUpload id="activity-image-upload" image={this.props.activity?.image}
-                                     onImageChanged={(image) => this.setState({"image": image})}
-                                     withGallery/>
-                        <div className={"invalid-feedback"}/>
-                    </div>
-                    {/*Registration checkbox */}
-                    <div className={"mt-3"}>
-                        <label className="form-label h5 mb-3">Påmelding</label>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox"
-                                   onClick={this.displayRegistrationForm} id="registration-checkbox"/>
-                            <label className="form-check-label" htmlFor="registration-checkbox">Aktivitet har
-                                påmelding</label>
-                        </div>
-                    </div>
-                    {/*Registration options */}
-                    <div id={"registration-inputs"}>
-                        {/*Capacity */}
-                        <div id="registration-capacity" className="mb-3">
-                            <br/>
-                            <label className="form-label">Antall plasser</label>
-                            <input type="number" min={1} className="form-control" id="registration-capacity-input"/>
-                            <div className={"invalid-feedback"}/>
-                        </div>
-                        {/*Reg deadline date */}
-                        <div id="registration-deadline" className="mb-3">
-                            <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
-                            <br/>
-                            <DateTimePicker
-                                id={"registration-deadline-input"}
-                                selected={this.state.deadline_datetime}
-                                onChange={date => this.setState({deadline_datetime: date})}
-                            />
-                            <div id="registration-deadline-feedback" className={"invalid-feedback"}/>
-                        </div>
-                        {/*Date */}
-                        <div id="starting_time" className="mb-3">
-                            <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
-                            <br/>
-                            <DateTimePicker
-                                id={"starting-time-input"}
-                                selected={this.state.start_datetime}
-                                onChange={date => this.setState({start_datetime: date})}
-                            />
-                            <div id="starting-time-feedback" className={"invalid-feedback"}/>
-                        </div>
-                        {/*Location */}
-                        <div id="location" className="mb-3">
-                            <label htmlFor="activity-location" className="form-label">Sted</label>
-                            <input id="activity-location-input" type="text" className="form-control"
-                                   placeholder="Gløshaugen"/>
-                            <div className={"invalid-feedback"}/>
-                        </div>
-                    </div>
-                </form>
-                <div className="mt-5 row">
-                    <div className={"d-none d-md-block col-4 pe-4"}>
-                        <button className="btn btn-outline-secondary w-100"
-                                onClick={this.props.history.goBack}>Avbryt
-                        </button>
-                    </div>
-                    <div className={"col"}>
-                        <button className="btn btn-success w-100" onClick={this.submit}>{this.props.submitText}</button>
+            <FormWithValidation submit={this.submit} submitText={this.props.submitText}>
+                {/*Title */}
+                <div className="mt-3 mb-4">
+                    <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel</label>
+                    <input id="activity-title-input" type="text" className="form-control"
+                           placeholder="Joggetur" />
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Ingress */}
+                <div className="mb-4">
+                    <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress</label>
+                    <input className="form-control" id="activity-ingress-input" type="text"
+                           placeholder={"Joggetur fra Gløshaugen til Heimdal."} />
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Description */}
+                <div className="mb-4">
+                    <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse</label>
+                    <textarea className="form-control" id="activity-description-input" rows="5"
+                              placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Categories */}
+                <div className="mb-4">
+                    <label htmlFor="activity-categories-input" className="form-label h5 mb-3">Kategorier</label>
+                    <CategorySelect
+                        id="activity-categories-input"
+                        categories={this.state.categories}
+                        selected_categories={this.state.selected_categories}
+                        onChange={(selected) => this.setState({selected_categories: selected})}
+                    />
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Image */}
+                <div className="mb-4">
+                    <label htmlFor="activity-image-upload" className="form-label h5 mb-3">Bilde</label>
+                    <ImageUpload id="activity-image-upload" image={this.props.activity?.image}
+                                 onImageChanged={(image) => this.setState({image: image})}
+                                 withGallery/>
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Registration checkbox */}
+                <div className={"mt-3"}>
+                    <label className="form-label h5 mb-3">Påmelding</label>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox"
+                               onClick={this.displayRegistrationForm} id="registration-checkbox"/>
+                        <label className="form-check-label" htmlFor="registration-checkbox">Aktivitet har
+                            påmelding</label>
                     </div>
                 </div>
-            </>
+                {/*Registration options */}
+                <div id={"registration-inputs"}>
+                    {/*Capacity */}
+                    <div id="registration-capacity" className="mb-3">
+                        <br/>
+                        <label className="form-label">Antall plasser</label>
+                        <input type="number" min={1} className="form-control" id="registration-capacity-input"/>
+                        <div className={"invalid-feedback"}/>
+                    </div>
+                    {/*Reg deadline date */}
+                    <div id="registration-deadline" className="mb-3">
+                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
+                        <br/>
+                        <DateTimePicker
+                            id={"registration-deadline-input"}
+                            selected={this.state.deadline_datetime}
+                            onChange={date => this.setState({deadline_datetime: date})}
+                        />
+                        <div id="registration-deadline-feedback" className={"invalid-feedback"}/>
+                    </div>
+                    {/*Date */}
+                    <div id="starting-time" className="mb-3">
+                        <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
+                        <br/>
+                        <DateTimePicker
+                            id={"starting-time-input"}
+                            selected={this.state.start_datetime}
+                            onChange={date => this.setState({start_datetime: date})}
+                        />
+                        <div id="starting-time-feedback" className={"invalid-feedback"}/>
+                    </div>
+                    {/*Location */}
+                    <div id="location" className="mb-3">
+                        <label htmlFor="activity-location" className="form-label">Sted</label>
+                        <input id="activity-location-input" type="text" className="form-control"
+                               placeholder="Gløshaugen"/>
+                        <div className={"invalid-feedback"}/>
+                    </div>
+                </div>
+            </FormWithValidation>
         );
     }
 }

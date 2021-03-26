@@ -18,9 +18,26 @@ export const stringIsBlank = (str) => {
  * @returns true if string is valid email, false otherwise
  */
 export const stringIsEmail = (str) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    console.log(str.match(re));
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return str.match(re);
+}
+
+/**
+ * Check if given string is a valid phone number
+ * @param str
+ * @returns true if string is valid phone number, false otherwise
+ */
+export const stringIsPhoneNumber = (str) => {
+    return str.match(/^(\+47)?[2-9][0-9]?(?:\d\d){0,3}/);
+}
+
+/**
+ * Format phone number to [+47] XX XX XX XX
+ * @param str
+ * @returns {*}
+ */
+export const formatPhoneNumber = (str) => {
+    return str.replaceAll(" ","").match(/\+?..?/g).join(" ");
 }
 
 /**
@@ -43,11 +60,12 @@ export const stringIsEmail = (str) => {
                         }
                     ]
                 }
-                ...
-            ]
+ ...
+ ]
+ * @param withScroll true (default) if validation should scroll to first invalid element, false otherwise
  * @returns {boolean} true if no rules are violated, false otherwise
  */
-export const validateForm = (formRules) => {
+export const validateForm = (formRules, withScroll=true) => {
 
     let formIsValid = true;
 
@@ -72,14 +90,7 @@ export const validateForm = (formRules) => {
                 inputIsValid = false;
                 // Check if feedback element is provided
                 if (invalidFeedback != null) {
-                    // Display feedback for this rule
-                    invalidFeedback.style.display = "block";
-                    invalidFeedback.innerHTML += rule.msg + "<br />";
-                    if (formIsValid) {
-                        // Scroll to first violation
-                        const scrollTopPadding = document.getElementById("navbar").clientHeight + 100
-                        window.scroll(0,validation.inputEl.offsetTop - scrollTopPadding);
-                    }
+                    displayValidationFeedback(rule.msg, invalidFeedback, withScroll && formIsValid, validation.inputEl);
                 }
             }
         }
@@ -98,4 +109,15 @@ export const validateForm = (formRules) => {
 
     return formIsValid;
 
+}
+
+export const displayValidationFeedback = (msg, feedbackEl, withScroll=false, inputEl=null) => {
+    // Display feedback for this rule
+    feedbackEl.style.display = "block";
+    feedbackEl.innerHTML += msg + "<br />";
+    if (withScroll && inputEl != null) {
+        // Scroll to first violation
+        const scrollTopPadding = document.getElementById("navbar").clientHeight + 100
+        window.scroll(0,inputEl.offsetTop - scrollTopPadding);
+    }
 }

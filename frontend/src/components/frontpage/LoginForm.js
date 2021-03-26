@@ -1,8 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-
-
+import {displayValidationFeedback, stringIsBlank, validateForm} from "../common/Utils";
 
 /**
  * Component for the login form. Contain both login and registration.
@@ -15,27 +14,123 @@ class LoginForm extends React.Component {
         // Bind "this" to get access to "this.props.history"
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+        this.switchToLogin = this.switchToLogin.bind(this);
+        this.switchToRegister = this.switchToRegister.bind(this);
+        this.closeLoginForm = this.closeLoginForm.bind(this);
     }
 
     /**
      * Function changing from Login to Register in the login pop-up.
      */
-    addClass() {
+    switchToRegister() {
         document.getElementById("container").classList.add('right-panel-active');
+        this.clearFeedback();
     }
 
     /**
      * Function changing from Register to Login in the login pop-up.
      */
-    removeClass() {
+    switchToLogin() {
         document.getElementById("container").classList.remove('right-panel-active');
+        this.clearFeedback();
     }
 
     /**
      * Function for closing the login pop-up. Unchecks a checkbox (in App.js).
+     * Also switches back to login panel to avoid register panel on next display of form.
      */
     closeLoginForm() {
         document.getElementById("show").checked = false;
+        this.switchToLogin();
+    }
+
+    /**
+     * Clear all feedback from form inputs, delayed to avoid rough transitions
+     */
+    clearFeedback() {
+        setTimeout(() => {
+            // Clear any feedback
+            const container = document.getElementById("container");
+            console.log(container.getElementsByClassName("is-invalid"))
+            for(const feedback of container.getElementsByClassName("invalid-feedback")){
+                feedback.innerHTML = "";
+            }
+        }, 600);
+    }
+
+    /**
+     * Collection of rules for validating input data from login form
+     */
+    loginFormRules() {
+
+        const usernameInput = document.getElementById("login-username");
+        const passwordInput = document.getElementById("login-password");
+
+        return [
+            {
+                inputEl: usernameInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(usernameInput.value),
+                        msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: passwordInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(passwordInput.value),
+                        msg: "Passord er obligatorisk"
+                    }
+                ]
+            }
+        ]
+
+    }
+
+    /**
+     * Collection of rules for validating input data from registration form
+     */
+    registrationFormRules() {
+
+        const usernameInput = document.getElementById("reg-username");
+        const password1Input = document.getElementById("reg-password1");
+        const password2Input = document.getElementById("reg-password2");
+
+        return [
+            {
+                inputEl: usernameInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(usernameInput.value),
+                        msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: password1Input,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(password1Input.value),
+                        msg: "Passord er obligatorisk"
+                    },{
+                        isValid: stringIsBlank(password1Input.value) || password1Input.value.length >= 8,
+                        msg: "Passordet må være minst 8 tegn"
+                    }
+                ]
+            },{
+                inputEl: password2Input,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(password2Input.value),
+                        msg: "Gjenta passordet over"
+                    }, {
+                        isValid: stringIsBlank(password2Input.value) || password1Input.value === password2Input.value,
+                        msg: "Passordene stemmer ikke overens"
+                    }
+                ]
+            }
+        ]
+
     }
 
     /**
@@ -46,9 +141,14 @@ class LoginForm extends React.Component {
      */
     register(event) {
         event.preventDefault();
-        const user = { 
-            "username": document.getElementById("reg-username").value,
-            "password1": document.getElementById("reg-password1").value,
+        if(!validateForm(this.registrationFormRules(), false)){
+            return;
+        }
+        const usernameInput = document.getElementById("reg-username");
+        const password1Input = document.getElementById("reg-password1");
+        const user = {
+            "username": usernameInput.value,
+            "password1": password1Input.value,
             "password2": document.getElementById("reg-password2").value,
             "is_organization": document.getElementById("organizationSwitch").checked
         };
@@ -59,6 +159,18 @@ class LoginForm extends React.Component {
                 location.reload();
             })
             .catch(error => {
+                const errorResponse = error.response?.request?.response;
+                if (errorResponse === "{\"username\":[\"A user with that username already exists.\"]}"){
+                    displayValidationFeedback(
+                        "Brukernavnet er allerede i bruk",
+                        usernameInput.nextElementSibling
+                    );
+                } else if (errorResponse === "{\"password1\":[\"This password is too common.\"]}"){
+                    displayValidationFeedback(
+                        "Passordet er for vanlig",
+                        password1Input.nextElementSibling
+                    );
+                } else
                 console.log(error.response);
             })}
     
@@ -69,6 +181,9 @@ class LoginForm extends React.Component {
      */
     login(event) {
         event.preventDefault();
+        if(!validateForm(this.loginFormRules(), false)){
+            return;
+        }
         axios.post("http://localhost:8000/auth/login/", {
             "username": document.getElementById("login-username").value,
             "password": document.getElementById("login-password").value,
@@ -78,58 +193,74 @@ class LoginForm extends React.Component {
             this.props.onAuthStateChanged()
             this.closeLoginForm()
         }).catch(error => {
+            const errorResponse = error.response?.request?.response;
+            if(errorResponse === "{\"non_field_errors\":[\"Unable to log in with provided credentials.\"]}"){
+                displayValidationFeedback(
+                    "Ugyldig brukernavn og passord",
+                    document.getElementById("sign-in-button-feedback")
+                )
+            }
             console.log(error.response);
-    })}
+        })
+    }
 
     render() {
         return (
-        <div className="container" id="container">
-            <a className="close" onClick={this.closeLoginForm}/>
-            <div className="form-container sign-up-container">
-                <form action="#">
-                    <h1>Lag konto</h1>
-                    <div className={"mt-3 mb-3"}>
-                        <input id="reg-username" className={"rounded"} type="text" placeholder="Brukernavn" />
-                        <input id="reg-password1" className={"rounded"} type="password" placeholder="Passord" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
-                        <input id="reg-password2" className={"rounded"} type="password" placeholder="Gjenta passord" />
-                        <div className="registration-checkbox mt-2 mb-2">
-                            <label className="switch">
-                                <input id="organizationSwitch" type="checkbox"/>
-                                <span className="slider round" />
-                            </label>
-                            Organisasjon
+            <div className="container" id="container">
+                <a className="close" onClick={this.closeLoginForm}/>
+                <div className="form-container sign-up-container">
+                    <form action="#" className={"needs-validation"} noValidate>
+                        <h1>Lag konto</h1>
+                        <div className={"mt-3 w-100"}>
+                            <div className={"mt-3 mb-3"}>
+                                <input id="reg-username" className={"rounded mt-3 mb-0"} type="text" placeholder="Brukernavn" />
+                                <div className={"invalid-feedback"}/>
+                                <input id="reg-password1" className={"rounded mt-3 mb-0"} type="password" placeholder="Passord" />
+                                <div className={"invalid-feedback"}/>
+                                <input id="reg-password2" className={"rounded mt-3 mb-0"} type="password" placeholder="Gjenta passord" />
+                                <div className={"invalid-feedback"}/>
+                                <div className="registration-checkbox mt-3 mb-3">
+                                    <label className="switch">
+                                        <input id="organizationSwitch" type="checkbox"/>
+                                        <span className="slider round" />
+                                    </label>
+                                    Organisasjon
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <button type="submit" onClick={this.register}>Registrer deg</button>
-                </form>
-            </div>
-            <div className="form-container sign-in-container">
-                <form action="#">
-                    <h1>Logg inn</h1>
-                    <div className={"mt-3"}>
-                        <input id="login-username" className={"rounded"}  type="text" placeholder="Brukernavn" required />
-                        <input id="login-password" className={"rounded"}  type="password" placeholder="Passord" required />
-                    </div>
-                    <a href="#">Glemt passord?</a>
-                    <button onClick={this.login}>Logg inn</button>
-                </form>
-            </div>
-            <div className="overlay-container">
-                <div className="overlay">
-                    <div className="overlay-panel overlay-left">
-                        <h1>Velkommen!</h1>
-                        <p>Logg inn for å kunne delta på aktiviteter!</p>
-                        <button className="ghost" id="signIn" onClick={this.removeClass}>Logg inn</button>
-                    </div>
-                    <div className="overlay-panel overlay-right">
-                        <h1>Heisann!</h1>
-                        <p>Registrer deg for å bli med på aktiviteter!</p>
-                        <button className="ghost" id="signUp" onClick={this.addClass}>Registrer deg</button>
+                        <button className={"mt-3"} type="submit" onClick={this.register}>Registrer deg</button>
+                    </form>
+                </div>
+                <div className="form-container sign-in-container">
+                    <form action="#" className={"needs-validation"} noValidate>
+                        <h1>Logg inn</h1>
+                        <div className={"mt-3 w-100"}>
+                            <input id="login-username" className={"rounded mt-3 mb-0"}  type="text" placeholder="Brukernavn" />
+                            <div className={"collapse invalid-feedback"}/>
+                            <input id="login-password" className={"rounded mt-3 mb-0"}  type="password" placeholder="Passord" />
+                            <div className={"collapse invalid-feedback"}/>
+                        </div>
+                        <button className={"mt-4"} onClick={this.login}>Logg inn</button>
+                        <div id="sign-in-button-feedback" className={"invalid-feedback mt-3 text-center"}/>
+                    </form>
+                </div>
+                <div className="overlay-container">
+                    <div className="overlay">
+                        <div className="overlay-panel overlay-left">
+                            <h1>Velkommen!</h1>
+                            <p>Logg inn for å kunne delta på aktiviteter!</p>
+                            <button className="ghost" id="signIn" onClick={this.switchToLogin}>Logg inn</button>
+                        </div>
+                        <div className="overlay-panel overlay-right">
+                            <h1>Heisann!</h1>
+                            <p>Registrer deg for å bli med på aktiviteter!</p>
+                            <button className="ghost" id="signUp" onClick={this.switchToRegister}>Registrer deg</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>);
-        }
+        );
     }
+}
 
 export default withRouter(LoginForm);
