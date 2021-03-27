@@ -1,15 +1,34 @@
 """Admin site configurations"""
 
 from django.contrib import admin
-from django.contrib.auth.models import Group
-from django.contrib.sites.models import Site
-from allauth.account.models import EmailAddress
+from django.contrib.admin import AdminSite
+from django.contrib.auth.admin import User
+from rest_framework.authtoken.models import Token
 from django.db.models import Count
 
 from .models import Activity, Registration, Category, Image, Profile, Log, Favorite
 
 
-@admin.register(Activity)
+class GjornoAdminSite(AdminSite):
+    index_title = "Innholdsbehandling for gjorno.site"
+
+    def get_app_list(self, request):
+        """
+        Return a sorted list of all the installed apps that have been
+        registered in this site.
+        """
+        app_dict = self._build_app_dict(request)
+
+        # Merge auth and authtoken models
+        app_dict["auth"]["models"] += app_dict.pop("authtoken")["models"]
+
+        return app_dict.values()
+
+
+gjorno_admin_site = GjornoAdminSite()
+
+
+@admin.register(Activity, site=gjorno_admin_site)
 class ActivityAdmin(admin.ModelAdmin):
     """Admin config for Activity model"""
     list_display = ('title', 'user', 'has_registration', 'is_organization', 'total_unique_views', 'total_favorites',
@@ -49,34 +68,32 @@ class ActivityAdmin(admin.ModelAdmin):
     total_registrations.admin_order_field = "total_registrations"
 
 
-@admin.register(Image)
+@admin.register(Image, site=gjorno_admin_site)
 class ImageAdmin(admin.ModelAdmin):
     """Admin config for Image model"""
     list_display = ('title', 'image')
 
 
-@admin.register(Profile)
+@admin.register(Profile, site=gjorno_admin_site)
 class ProfileAdmin(admin.ModelAdmin):
     """Admin config for Profile model"""
     list_display = ('user', 'phone_number', 'is_organization')
 
 
-@admin.register(Favorite)
+@admin.register(Favorite, site=gjorno_admin_site)
 class FavoriteAdmin(admin.ModelAdmin):
     """Admin config for Favorite model"""
     list_display = ('user', 'activity', 'timestamp')
 
 
-@admin.register(Registration)
+@admin.register(Registration, site=gjorno_admin_site)
 class RegistrationAdmin(admin.ModelAdmin):
     """Admin config for Registration model"""
     list_display = ('user', 'activity')
 
 
-admin.site.register(Category)
-admin.site.register(Log)
+gjorno_admin_site.register(Category)
+gjorno_admin_site.register(Log)
 
-# Hide unused models
-admin.site.unregister(Group)
-admin.site.unregister(Site)
-admin.site.unregister(EmailAddress)
+gjorno_admin_site.register(User)
+gjorno_admin_site.register(Token)

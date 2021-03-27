@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +48,11 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'gjorno'
 ]
+
+# admin_interface
+X_FRAME_OPTIONS='SAMEORIGIN'
+
+# allauth
 SITE_ID = 1
 
 REST_FRAMEWORK = {

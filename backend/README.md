@@ -6,11 +6,11 @@ This project uses [Django](https://www.djangoproject.com/), a Python Web framewo
 
 <br>
 
-## Setup
+## ⤴️ Setup
 
-This is a step-by-step guide for setting up your own instance of the backend on your local machine.
+This is a step-by-step guide for se️tting up your own instance of the backend on your local machine.
 
-#### 🌟 Python Virtual Environment
+### 🌟 Python Virtual Environment
 
 A virtual environment is useful when installing `pip` packages for a single project only. The alternative would be to install packages globally for your whole machine, which could get messy.
 
@@ -52,7 +52,7 @@ source /venv/bin/activate
 
 <br>
 
-#### 📦 Installing required modules
+### 📦 Installing required modules
 
 > Make sure you have activated the virtualenv before you start installing modules
 
@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 <br>
 
-#### 🏇 Running Django
+### 🧑‍💻 Database and admin setup
 
 Before running the server, we have to initialize the underlying database
 
@@ -80,7 +80,16 @@ It's also useful to create an admin user
 python manage.py createsuperuser
 ```
 
-Finally the following command will start the Django backend
+Finally we want to apply a custom admin interface theme 🎨
+```
+python manage.py loaddata admin_interface_theme_gjorno.json
+```
+
+<br>
+
+## 🏇 Running Django
+
+To start the server we use the following command
 
 ```
 python manage.py runserver
@@ -88,8 +97,11 @@ python manage.py runserver
 
 It is now ready to handle requests 🥳
 
+
+
+
 <br>
 
-#### 🧙‍♂️ Admin Interface
+## 🧙‍♂️ Admin Interface
 
-Django provides a handy interface for inspecting and moderating backend data, the [Admin site](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/). It's available for superusers at [`localhost:8000/admin`](http://localhost:8000/admin)
+Django provides a handy interface for inspecting and moderating backend data, the [Admin site](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/). It's available for administrators at [`localhost:8000/admin`](http://localhost:8000/admin)
