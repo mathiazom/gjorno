@@ -38,11 +38,11 @@ class ActivityAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        # Define derived fields
+        # Define calculated fields
         queryset = queryset.annotate(
-            total_unique_views=Count("users_viewed"),
-            total_favorites=Count("favorites"),
-            total_registrations=Count("registrations")
+            total_unique_views=Count("users_viewed", distinct=True),
+            total_favorites=Count("favorites", distinct=True),
+            total_registrations=Count("registrations", distinct=True)
         )
         return queryset
 
@@ -68,16 +68,44 @@ class ActivityAdmin(admin.ModelAdmin):
     total_registrations.admin_order_field = "total_registrations"
 
 
+@admin.register(Profile, site=gjorno_admin_site)
+class ProfileAdmin(admin.ModelAdmin):
+    """Admin config for Profile model"""
+    list_display = ('user', 'phone_number', 'is_organization', 'total_activities_viewed', 'total_registrations',
+                    'total_favorites')
+    search_fields = ('title', 'user__username')
+    list_filter = ('is_organization',)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        # Define calculated fields
+        queryset = queryset.annotate(
+            total_activities_viewed=Count("user__activities_viewed", distinct=True),
+            total_favorites=Count("user__favorites", distinct=True),
+            total_registrations=Count("user__registrations", distinct=True)
+        )
+        return queryset
+
+    def total_activities_viewed(self, obj):
+        return obj.total_activities_viewed
+
+    total_activities_viewed.admin_order_field = "total_activities_viewed"
+
+    def total_registrations(self, obj):
+        return obj.total_registrations
+
+    total_registrations.admin_order_field = "total_registrations"
+
+    def total_favorites(self, obj):
+        return obj.total_favorites
+
+    total_favorites.admin_order_field = "total_favorites"
+
+
 @admin.register(Image, site=gjorno_admin_site)
 class ImageAdmin(admin.ModelAdmin):
     """Admin config for Image model"""
     list_display = ('title', 'image')
-
-
-@admin.register(Profile, site=gjorno_admin_site)
-class ProfileAdmin(admin.ModelAdmin):
-    """Admin config for Profile model"""
-    list_display = ('user', 'phone_number', 'is_organization')
 
 
 @admin.register(Favorite, site=gjorno_admin_site)
