@@ -34,19 +34,24 @@ class ActivitiesView(viewsets.ModelViewSet):
             return BasicActivitySerializer
         return ActivitySerializer
 
-    
     @staticmethod
     def append_user_specific_fields(data, request):
         # Flag to determine if activity was authored by authorized user
         data['is_author'] = request.user.id == data['user']
         # Flag to determine if user is registered to activity
-        data['is_registered'] = Registration.objects.filter(user = request.user.id, activity=data['id']).exists()
+        data['is_registered'] = Registration.objects.filter(user=request.user.id, activity=data['id']).exists()
         # Flag to determine if user favorited activity
-        data['is_favorited'] = Favorite.objects.filter(user = request.user.id, activity=data['id']).exists()
+        data['is_favorited'] = Favorite.objects.filter(user=request.user.id, activity=data['id']).exists()
 
-    # Append extra fields when retrieving activity
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, args, kwargs)
+        # Check if request should be treated as user viewing an activity
+        if "register_view" in request.GET:
+            # Register unique activity view if logged in (add will not duplicate)
+            if request.user is not None and request.user.is_authenticated:
+                activity = Activity.objects.get(id=kwargs['pk'])
+                activity.users_viewed.add(request.user)
+        # Append extra fields when retrieving activity
         self.append_user_specific_fields(response.data, request)
         return response
 
@@ -160,7 +165,7 @@ class ActivityFavoriteView(generics.CreateAPIView):
 
         if Favorite.objects.filter(user=user.id, activity=activity.id):
             return Response("User already favorited this activity", status=status.HTTP_403_FORBIDDEN)
-            
+
         serializer = self.get_serializer(data={
             "user": user.id,
             "activity": activity.id
@@ -208,7 +213,8 @@ class MyActivitiesView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Activity.objects.filter(user=self.request.user).order_by('-id')
+        return self.request.user.created_activities.order_by('-id')
+
 
 class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all of the users registered activities """
@@ -216,8 +222,9 @@ class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        activity_ids = Registration.objects.filter(user=self.request.user.id).values_list('activity')
+        activity_ids = self.request.user.registrations.values_list('activity')
         return Activity.objects.filter(id__in=activity_ids).order_by('-id')
+
 
 class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all of the users favorited activities """

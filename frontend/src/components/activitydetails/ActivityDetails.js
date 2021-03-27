@@ -28,7 +28,7 @@ class ActivityDetails extends React.Component {
             headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
         }
         axios
-            .get(`http://localhost:8000/api/activities/${this.props.match.params.id}/`, {
+            .get(`http://localhost:8000/api/activities/${this.props.match.params.id}/?register_view`, {
                 headers: headers
             })
             .then(res => {

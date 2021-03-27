@@ -39,13 +39,15 @@ class Activity(models.Model):
     location = models.CharField(max_length=150, blank=True, null=True)
 
     price = models.FloatField(blank=True, null=True)
-    
+
     class ActivityLevel(models.IntegerChoices):
         LOW = 1
         MID = 2
         HIGH = 3
-    
+
     activity_level = models.IntegerField(choices=ActivityLevel.choices, blank=True, null=True)
+
+    users_viewed = models.ManyToManyField(User, related_name="activities_viewed", blank=True)
 
     def __str__(self):
         return self.title
@@ -53,7 +55,7 @@ class Activity(models.Model):
     def registered_users(self):
         if not self.has_registration:
             return []
-        users = Registration.objects.filter(activity=self.id).values_list('user')
+        users = self.registrations.values_list('user')
         return User.objects.filter(id__in=users)
 
     def registrations_count(self):
