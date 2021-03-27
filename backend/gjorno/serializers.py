@@ -40,7 +40,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = '__all__'
+        exclude = ('users_viewed',)
 
 
 class BasicActivitySerializer(serializers.ModelSerializer):
@@ -88,7 +88,7 @@ class BasicActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        exclude = ('user',)
+        exclude = ('user', 'users_viewed')
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -97,6 +97,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
         fields = '__all__'
+
 
 class FavoriteSerializer(serializers.ModelSerializer):
     """Standard model serializer for Registration"""
