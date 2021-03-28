@@ -4,8 +4,9 @@ import axios from "axios";
 import DateTimePicker from "../common/DateTimePicker"
 import CategorySelect from "../common/CategorySelect";
 import ImageUpload from "./ImageUpload";
-import {validateForm, stringIsBlank} from "./Utils";
+import {validateForm, stringIsBlank, stringIsPositiveFloat} from "./Utils";
 import FormWithValidation from "./FormWithValidation";
+import {RequiredAsterisk} from "./RequiredAsterisk";
 
 class ActivityForm extends React.Component {
 
@@ -71,6 +72,8 @@ class ActivityForm extends React.Component {
         document.getElementById("activity-title-input").value = activity.title;
         document.getElementById("activity-ingress-input").value = activity.ingress;
         document.getElementById("activity-description-input").value = activity.description;
+        document.getElementById("activity-level-input").value = activity.activity_level ? activity.activity_level : 0;
+        document.getElementById("registration-price-input").value = activity.price;
 
         if (activity.has_registration) {
             document.getElementById("registration-inputs").style.display = "block";
@@ -165,6 +168,7 @@ class ActivityForm extends React.Component {
     baseAndRegistrationInputFormRules() {
 
         const capacityInput = document.getElementById("registration-capacity-input");
+        const priceInput = document.getElementById("registration-price-input");
         const locationInput = document.getElementById("activity-location-input");
         const deadlineInput = document.getElementById("registration-deadline");
         const startingTimeInput = document.getElementById("starting-time");
@@ -180,6 +184,14 @@ class ActivityForm extends React.Component {
                     {
                         isValid: stringIsBlank(capacityInput.value) || capacityInput.value > 0,
                         msg: "Antall plasser må være større enn 0"
+                    }
+                ]
+            },{
+                inputEl: priceInput,
+                rules: [
+                    {
+                        isValid: stringIsBlank(priceInput.value) || stringIsPositiveFloat(priceInput.value),
+                        msg: "Pris må være gyldig tall større enn 0, eller utelatt"
                     }
                 ]
             }, {
@@ -236,7 +248,14 @@ class ActivityForm extends React.Component {
         data.append("title", document.getElementById("activity-title-input").value);
         data.append("ingress", document.getElementById("activity-ingress-input").value);
         data.append("description", document.getElementById("activity-description-input").value);
-        this.state.selected_categories.forEach(category => data.append("categories", category.value));
+        this.state.selected_categories.forEach(category => data.append("categories", category.value))
+        const level = document.getElementById("activity-level-input").value;
+        if (1 <= level && level <= 3){
+            data.append("activity_level", level);
+        }else {
+            data.append("activity_level", "");
+        }
+        data.append("price", document.getElementById("registration-price-input").value);
         const image = this.state.image;
         console.log(image);
         if (image != null){
@@ -299,34 +318,45 @@ class ActivityForm extends React.Component {
             <FormWithValidation submit={this.submit} submitText={this.props.submitText}>
                 {/*Title */}
                 <div className="mt-3 mb-4">
-                    <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel</label>
+                    <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel<RequiredAsterisk/></label>
                     <input id="activity-title-input" type="text" className="form-control"
                            placeholder="Joggetur" />
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Ingress */}
                 <div className="mb-4">
-                    <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress</label>
+                    <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress<RequiredAsterisk/></label>
                     <input className="form-control" id="activity-ingress-input" type="text"
                            placeholder={"Joggetur fra Gløshaugen til Heimdal."} />
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Description */}
                 <div className="mb-4">
-                    <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse</label>
+                    <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse<RequiredAsterisk/></label>
                     <textarea className="form-control" id="activity-description-input" rows="5"
                               placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Categories */}
                 <div className="mb-4">
-                    <label htmlFor="activity-categories-input" className="form-label h5 mb-3">Kategorier</label>
+                    <label htmlFor="activity-categories-input" className="form-label h5 mb-3">Kategorier<RequiredAsterisk/></label>
                     <CategorySelect
                         id="activity-categories-input"
                         categories={this.state.categories}
                         selected_categories={this.state.selected_categories}
                         onChange={(selected) => this.setState({selected_categories: selected})}
                     />
+                    <div className={"invalid-feedback"}/>
+                </div>
+                {/*Activity level */}
+                <div id="registration-capacity" className="mb-4">
+                    <label htmlFor="activity-level-input" className="form-label h5 mb-3">Aktivitetsnivå</label>
+                    <select id="activity-level-input" className="form-select" aria-label="Velg aktivitetsnivå" defaultValue={"0"}>
+                        <option value="0">Velg aktivitetsnivå</option>
+                        <option value="1">Lett</option>
+                        <option value="2">Moderat</option>
+                        <option value="3">Krevende</option>
+                    </select>
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Image */}
@@ -350,16 +380,20 @@ class ActivityForm extends React.Component {
                 {/*Registration options */}
                 <div id={"registration-inputs"}>
                     {/*Capacity */}
-                    <div id="registration-capacity" className="mb-3">
-                        <br/>
-                        <label className="form-label">Antall plasser</label>
+                    <div id="registration-capacity" className="mb-3 mt-3">
+                        <label className="form-label">Antall plasser<RequiredAsterisk/></label>
                         <input type="number" min={1} className="form-control" id="registration-capacity-input"/>
+                        <div className={"invalid-feedback"}/>
+                    </div>
+                    {/*Price */}
+                    <div id="registration-price" className="mb-3">
+                        <label className="form-label">Pris</label>
+                        <input className="form-control" id="registration-price-input"/>
                         <div className={"invalid-feedback"}/>
                     </div>
                     {/*Reg deadline date */}
                     <div id="registration-deadline" className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist</label>
-                        <br/>
+                        <label htmlFor="start-date" className="form-label">Påmeldingsfrist<RequiredAsterisk/></label>
                         <DateTimePicker
                             id={"registration-deadline-input"}
                             selected={this.state.deadline_datetime}
@@ -369,8 +403,7 @@ class ActivityForm extends React.Component {
                     </div>
                     {/*Date */}
                     <div id="starting-time" className="mb-3">
-                        <label htmlFor="start-date" className="form-label">Starttidspunkt</label>
-                        <br/>
+                        <label htmlFor="start-date" className="form-label">Starttidspunkt<RequiredAsterisk/></label>
                         <DateTimePicker
                             id={"starting-time-input"}
                             selected={this.state.start_datetime}
@@ -380,7 +413,7 @@ class ActivityForm extends React.Component {
                     </div>
                     {/*Location */}
                     <div id="location" className="mb-3">
-                        <label htmlFor="activity-location" className="form-label">Sted</label>
+                        <label htmlFor="activity-location" className="form-label">Sted<RequiredAsterisk/></label>
                         <input id="activity-location-input" type="text" className="form-control"
                                placeholder="Gløshaugen"/>
                         <div className={"invalid-feedback"}/>

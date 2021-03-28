@@ -134,34 +134,39 @@ export default class Registration extends React.Component {
 
 
         return (
-            <div className="card profileInfo mt-2">
-                <div className="card-body">
-                    <h5 className="card-title">Aktivitetinfo</h5>
-                    {/*<p>{usernames}</p>  We could have a button if the current user is the owner to see all users in a pop-up. */}
-                    {/*const usernames = this.state.participants.map(function(participant){ return participant["username"] + "\n"});*/}
-                    <b>Påmeldte</b><br/>
-                    <label className="card-text mb-2">
-                        {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
-                    </label>
-                    <br/><b>Frist for påmelding</b><br/>
-                    <label className="card-text mb-2">
-                        {this.props.activity.registration_deadline.slice(0, 10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11, 16)}
-                    </label>
-                    <br/><b>Dato</b><br/>
-                    <label className="card-text mb-2">
-                        {this.props.activity.starting_time.slice(0, 10).replace(/-/g, ".")}
-                    </label>
-                    <br/><b>Tidspunkt</b><br/>
-                    <label className="card-text mb-2">
-                        {this.props.activity.starting_time.slice(11, 16)}
-                    </label>
-                    <br/><b>Sted</b><br/>
-                    <label className="card-text mb-2">
-                        {this.props.activity.location}
-                    </label>
-                    {actionButton}
-                </div>
-            </div>
+            <>
+                {/*<p>{usernames}</p>  We could have a button if the current user is the owner to see all users in a pop-up. */}
+                {/*const usernames = this.state.participants.map(function(participant){ return participant["username"] + "\n"});*/}
+                <div><b>Påmeldte</b></div>
+                <label className="card-text mb-2">
+                    {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
+                </label>
+                {this.props.activity.price &&
+                    (<>
+                        <div><b>Pris</b></div>
+                        <label className="card-text mb-2">
+                            {this.props.activity.price},-
+                        </label>
+                    </>)
+                }
+                <div><b>Frist for påmelding</b></div>
+                <label className="card-text mb-2">
+                    {this.props.activity.registration_deadline.slice(0, 10).replace(/-/g, ".") + " " + this.props.activity.registration_deadline.slice(11, 16)}
+                </label>
+                <div><b>Dato</b></div>
+                <label className="card-text mb-2">
+                    {this.props.activity.starting_time.slice(0, 10).replace(/-/g, ".")}
+                </label>
+                <div><b>Tidspunkt</b></div>
+                <label className="card-text mb-2">
+                    {this.props.activity.starting_time.slice(11, 16)}
+                </label>
+                <div><b>Sted</b></div>
+                <label className="card-text mb-2">
+                    {this.props.activity.location}
+                </label>
+                {actionButton}
+            </>
         );
     }
 }
