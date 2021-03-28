@@ -60,8 +60,6 @@ const Activity = (props) => {
 
     return (
         <div className="card activity-card w-75 mx-auto mt-4 mb-4">
-            {console.log(props.authenticated && !props.data.is_favorited)}
-            {console.log(props.authenticated && props.data.is_favorited)}
             <img src={props.data.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row">
                 <div className={"col-12 col-lg-8 pe-4"}>
