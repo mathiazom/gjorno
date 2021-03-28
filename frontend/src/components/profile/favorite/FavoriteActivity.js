@@ -16,7 +16,10 @@ export default class FavoriteActivity extends React.Component {
         this.unfavorite = this.unfavorite.bind(this);
     }
 
-
+    /**
+     * Sends a POST request to the API, deleting the activity from the 
+     * logged in user's favorites list,
+     */
     unfavorite() {
         axios.post(`http://localhost:8000/api/activities/${this.props.data.id}/unfavorite/`,
         {
@@ -29,7 +32,7 @@ export default class FavoriteActivity extends React.Component {
         }).then(res => {
             console.log(res.status)
             if (res.status === 200) {
-                // Refresh activity data to see correct favorite icon
+                // Refresh favorites list to remove the activity from it.
                 this.props.onUpdate();
             }
             }).catch(error => {
@@ -47,7 +50,7 @@ export default class FavoriteActivity extends React.Component {
                         <p className="card-text">{this.props.data.description}</p>
                     </div>
                     <div className={"col-2 d-none d-md-flex justify-content-end align-items-center"}>
-                    {/*Unfavorite/delete button? Or just show regular Activity?*/}
+                    {/*Edit button if author?*/}
                         <button className="btn btn-link" onClick={this.unfavorite}><i className="fas fa-trash"></i></button>
                     </div>
                 </div>

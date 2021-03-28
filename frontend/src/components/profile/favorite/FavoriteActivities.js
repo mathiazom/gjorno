@@ -12,7 +12,7 @@ export default class FavoriteActivites extends React.Component {
     }
 
     /**
-     * Collect the activities posted by the logged in user, and stores them in the current state.
+     * Collects the activities favorited by the logged in user, and stores them in the current state.
      */
     componentDidMount() {
         axios.get('http://localhost:8000/api/my_favorited_activities/',
@@ -29,6 +29,10 @@ export default class FavoriteActivites extends React.Component {
             })
     }
 
+    /**
+     * Collects the activities favorited by the logged in user, and stores them in the current state.
+     * Used for updating the favorites list after a change.
+     */
     getFavoriteActivities() {
         axios.get('http://localhost:8000/api/my_favorited_activities/',
         {
@@ -46,7 +50,7 @@ export default class FavoriteActivites extends React.Component {
 
     /**
      * We go through all the activities stored in our state from the API,
-     * and we make a SavedActiviy with the stored data (from the SavedActiviy-component).
+     * and we make a FavoriteActivity with the stored data (from the FavoriteActivity-component).
      */
     renderAllActivities() {
         if (this.state.data.length <= 3) {
