@@ -51,7 +51,7 @@ export default class FavoriteActivity extends React.Component {
                     </div>
                     <div className={"col-2 d-none d-md-flex justify-content-end align-items-center"}>
                     {/*Edit button if author?*/}
-                        <button className="btn btn-link" onClick={this.unfavorite}><i className="fas fa-trash"></i></button>
+                        <button className="btn text-success" onClick={this.unfavorite}><i className="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
