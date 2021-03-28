@@ -28,20 +28,20 @@ PyLint:
     - python -m pip install -r requirements.txt
     - python -m pylint gjorno backend
 
-yarn test:
-  image: node
-  stage: Testing
-  cache:
-    paths:
-      - frontend/.yarn
-      - frontend/node_modules/
-  artifacts:
-    paths:
-      - frontend/coverage/
-  script:
-    - cd frontend
-    - yarn install --cache-folder .yarn
-    - yarn test --coverage --passWithNoTests --coverageReporters html --coverageReporters text
+#yarn test:
+#  image: node
+#  stage: Testing
+#  cache:
+#    paths:
+#      - frontend/.yarn
+#      - frontend/node_modules/
+#  artifacts:
+#    paths:
+#      - frontend/coverage/
+#  script:
+#    - cd frontend
+#    - yarn install --cache-folder .yarn
+#    - yarn test --coverage --passWithNoTests --coverageReporters html --coverageReporters text
 
 python manage.py test:
   image: "python:3.7"
@@ -61,11 +61,11 @@ pages:
   stage: Artifacts
   dependencies:
     - python manage.py test
-    - yarn test
+#    - yarn test
   script:
     - mkdir --parents public/coverage/
     - mv backend/htmlcov/ public/coverage/backend
-    - mv frontend/coverage/ public/coverage/frontend
+#    - mv frontend/coverage/ public/coverage/frontend
   artifacts:
     paths:
       - public
