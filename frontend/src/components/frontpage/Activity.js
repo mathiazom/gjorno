@@ -9,6 +9,10 @@ import { Link } from 'react-router-dom';
  */
 const Activity = (props) => {
 
+    /**
+     * Sends a POST request to the API, and adds the activity to the
+     * currently logged in user's favorites list.
+     */
     const favorite = () => {
         axios.post(`http://localhost:8000/api/activities/${props.data.id}/favorite/`,
         {
@@ -22,15 +26,18 @@ const Activity = (props) => {
         }).then(res => {
             console.log(res.status)
             if (res.status === 201) {
-                // Refresh activity data to see updated count
+                // Refresh activity data to see correct favorite icon
                 props.onUpdate();
-                console.log("heia")
             }
             }).catch(error => {
                 console.log(error.response);
         })
     }
 
+    /**
+     * Sends a POST request to the API to remove the activity 
+     * from the currently logged in user's favorites list.
+     */
     const unfavorite = () => {
         axios.post(`http://localhost:8000/api/activities/${props.data.id}/unfavorite/`,
         {
@@ -43,7 +50,7 @@ const Activity = (props) => {
         }).then(res => {
             console.log(res.status)
             if (res.status === 200) {
-                // Refresh activity data to see updated count
+                // Refresh activity data to see correct favorite icon
                 props.onUpdate();
             }
             }).catch(error => {
@@ -81,6 +88,7 @@ const Activity = (props) => {
                     </div>
                     <div>
                         <a href="#" className="btn btn-success float-right">Legg til i logg</a>
+                        {/* Favorite button, hidden for an unauthorized user */}
                         {(props.data.is_favorited && props.authenticated) && <button className="btn btn-link" onClick={unfavorite}><i className="fas fa-heart"></i></button>}
                         {(!props.data.is_favorited && props.authenticated) && <button className="btn btn-link" onClick={favorite}><i className="far fa-heart"></i></button>}
                     </div>
