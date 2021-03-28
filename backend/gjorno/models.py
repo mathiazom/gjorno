@@ -88,6 +88,18 @@ class Favorite(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
 
 
+class Log(models.Model):
+    """Representation of a users activity log"""
+
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name="logs", verbose_name="Activity"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="logs", verbose_name="User"
+    )
+    timestamp = models.DateTimeField(default=timezone.now)
+
+
 class Category(models.Model):
     """Generic category for the Activity model"""
     title = models.CharField(max_length=50)
