@@ -75,7 +75,20 @@ class ActivityDetails extends React.Component {
                     <div className="row">
                         <div className="col col-md-2 offset-sm-1">
                             <ActivityHost userdata={this.state.user}/>
-                            {join}
+                            <div className="card profileInfo mt-2">
+                                <div className="card-body">
+                                    <h5 className="card-title mb-3">Aktivitetinfo</h5>
+                                    {this.state.activity.activity_level &&
+                                        (<>
+                                            <div><b>Nivå</b></div>
+                                            <label className="card-text mb-2">
+                                                {["Lett","Moderat","Krevende"][this.state.activity.activity_level-1]}
+                                            </label>
+                                        </>)
+                                    }
+                                    {join}
+                                </div>
+                            </div>
                         </div>
                         <div className="col col-md-7 offset-sm-1">
                             <DetailedActivity activity={this.state.activity}/>

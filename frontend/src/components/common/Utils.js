@@ -13,13 +13,20 @@ export const stringIsBlank = (str) => {
 }
 
 /**
+ * Check if string is positive float
+ */
+export const stringIsPositiveFloat = (str) => {
+    return /^\d+\.?\d*$/.test(str) && parseInt(str) !== 0
+}
+
+/**
  * Check if given string is a valid email address
  * @param str
  * @returns true if string is valid email, false otherwise
  */
 export const stringIsEmail = (str) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return str.match(re);
+    return re.test(str);
 }
 
 /**
@@ -28,7 +35,7 @@ export const stringIsEmail = (str) => {
  * @returns true if string is valid phone number, false otherwise
  */
 export const stringIsPhoneNumber = (str) => {
-    return str.match(/^(\+47)?[2-9][0-9]?(?:\d\d){0,3}/);
+    return /^(\+47)?[2-9][0-9]?(?:\d\d){0,3}/.test(str);
 }
 
 /**
