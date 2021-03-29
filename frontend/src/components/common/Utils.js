@@ -72,27 +72,21 @@ export const validateForm = (formRules, withScroll=true) => {
     // Validate each input
     for (const validation of formRules){
 
-        let inputIsValid = true
+        let inputIsValid = true;
 
-        // Find possible feedback element
-        let invalidFeedback = validation.feedbackEl != null ? validation.feedbackEl : validation.inputEl.nextElementSibling;
-        if (invalidFeedback == null || !invalidFeedback.classList.contains("invalid-feedback")) {
-            // Feedback element is not included, so ignore it
-            invalidFeedback = null
-        } else {
-            // Clear feedback
-            invalidFeedback.innerHTML = "";
-        }
-
-        // Check validity of each rule, and display feedback for each violation
+        // Check validity of each rule, and collect feedback for each violation
+        const feedback = [];
         for (const rule of validation.rules) {
             if (!rule.isValid) {
                 inputIsValid = false;
-                // Check if feedback element is provided
-                if (invalidFeedback != null) {
-                    displayValidationFeedback(rule.msg, invalidFeedback, withScroll && formIsValid, validation.inputEl);
-                }
+                feedback.push(rule.msg);
             }
+        }
+
+        // Display feedback if feedback element is provided
+        let invalidFeedback = validation.feedbackEl != null ? validation.feedbackEl : validation.inputEl.nextElementSibling;
+        if (invalidFeedback != null && invalidFeedback.classList.contains("invalid-feedback")) {
+            displayValidationFeedback(feedback, invalidFeedback, withScroll && formIsValid, validation.inputEl);
         }
 
         if (!inputIsValid) {
@@ -111,12 +105,22 @@ export const validateForm = (formRules, withScroll=true) => {
 
 }
 
-export const displayValidationFeedback = (msg, feedbackEl, withScroll=false, inputEl=null) => {
-    // Display feedback for this rule
+/**
+ * Display feedback for input rule violation
+ * @param msgs list of feedback messages to display
+ * @param feedbackEl element to display feedback in
+ * @param withScroll should the window scroll to the input element
+ * @param inputEl input element to scroll to if withScroll
+ */
+export const displayValidationFeedback = (msgs, feedbackEl, withScroll=false, inputEl=null) => {
+    // Display feedback for this rule (clear any existing text)
     feedbackEl.style.display = "block";
-    feedbackEl.innerHTML += msg + "<br />";
+    feedbackEl.innerHTML = "";
+    for(const msg of msgs){
+        feedbackEl.innerHTML += msg + "<br />";
+    }
     if (withScroll && inputEl != null) {
-        // Scroll to first violation
+        // Scroll to input with violation
         const scrollTopPadding = document.getElementById("navbar").clientHeight + 100
         window.scroll(0,inputEl.offsetTop - scrollTopPadding);
     }

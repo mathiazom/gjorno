@@ -162,12 +162,12 @@ class LoginForm extends React.Component {
                 const errorResponse = error.response?.request?.response;
                 if (errorResponse === "{\"username\":[\"A user with that username already exists.\"]}"){
                     displayValidationFeedback(
-                        "Brukernavnet er allerede i bruk",
+                        ["Brukernavnet er allerede i bruk"],
                         usernameInput.nextElementSibling
                     );
                 } else if (errorResponse === "{\"password1\":[\"This password is too common.\"]}"){
                     displayValidationFeedback(
-                        "Passordet er for vanlig",
+                        ["Passordet er for vanlig"],
                         password1Input.nextElementSibling
                     );
                 } else
@@ -196,7 +196,7 @@ class LoginForm extends React.Component {
             const errorResponse = error.response?.request?.response;
             if(errorResponse === "{\"non_field_errors\":[\"Unable to log in with provided credentials.\"]}"){
                 displayValidationFeedback(
-                    "Ugyldig brukernavn og passord",
+                    ["Ugyldig brukernavn og passord"],
                     document.getElementById("sign-in-button-feedback")
                 )
             }
