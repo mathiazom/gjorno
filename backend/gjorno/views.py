@@ -3,7 +3,7 @@ This is views
 """
 
 from django.contrib.auth.admin import User
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status, generics, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 import json
@@ -14,8 +14,9 @@ from .serializers import \
     CategorySerializer, \
     ImageSerializer, \
     RegistrationSerializer, \
-    FavoriteSerializer
-from .models import Activity, Category, Registration, Image, Favorite
+    FavoriteSerializer, \
+    LogSerializer
+from .models import Activity, Category, Registration, Image, Favorite, Log
 from datetime import datetime
 import pytz
 
@@ -177,7 +178,7 @@ class ActivityFavoriteView(generics.CreateAPIView):
 
 
 class ActivityUnfavoriteView(generics.CreateAPIView):
-    """View for unregistering user from activity"""
+    """View for user unfavoriting activity"""
     permission_classes = [IsAuthenticated]
     serializer_class = FavoriteSerializer
     lookup_field = 'activity'
@@ -192,6 +193,41 @@ class ActivityUnfavoriteView(generics.CreateAPIView):
         return Response("Activity successfully unfavorited", status=status.HTTP_200_OK)
 
 
+class ActivityLogView(generics.CreateAPIView):
+    """View for user logging activity"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = LogSerializer
+    lookup_field = 'activity'
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        activity = Activity.objects.get(id=self.kwargs['activity'])
+
+        if Log.objects.filter(user=user.id, activity=activity.id):
+            return Response("User already logged this activity", status=status.HTTP_403_FORBIDDEN)
+            
+        serializer = self.get_serializer(data={
+            "user": user.id,
+            "activity": activity.id
+        })
+        if serializer.is_valid():
+            serializer.save()
+            return Response("Activity successfully logged", status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ActivityUnlogView(viewsets.GenericViewSet, mixins.DestroyModelMixin):
+    """View for user unlogging activity"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = LogSerializer
+    queryset = Log.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object().user.id != self.request.user.id:
+            return Response("User is not log author", status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, args, kwargs)
+
+    
 class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
@@ -235,6 +271,15 @@ class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
         activity_ids = self.request.user.favorites.values_list('activity').order_by('-timestamp')
         return Activity.objects.filter(id__in=activity_ids)
 
+
+class MyLoggedActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users logged activities """
+    serializer_class = LogSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user.logs
+        
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """

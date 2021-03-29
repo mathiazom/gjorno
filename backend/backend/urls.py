@@ -31,7 +31,10 @@ from gjorno.views import \
     MyRegisteredActivitiesView, \
     ActivityFavoriteView, \
     ActivityUnfavoriteView, \
-    MyFavoritedActivitiesView
+    MyFavoritedActivitiesView, \
+    ActivityLogView, \
+    ActivityUnlogView, \
+    MyLoggedActivitiesView
 
 router = routers.DefaultRouter()
 router.register("activities", ActivitiesView, 'activities')
@@ -41,6 +44,8 @@ router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
 router.register("my_registered_activities", MyRegisteredActivitiesView, 'my_registered_activities')
 router.register("my_favorited_activities", MyFavoritedActivitiesView, 'my_favorited_activities')
+router.register("my_logged_activities", MyLoggedActivitiesView, 'my_logged_activities')
+router.register("activity_unlog", ActivityUnlogView, 'activity_unlog')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,6 +55,7 @@ urlpatterns = [
     path('api/activities/<int:activity>/register/', ActivityRegisterView.as_view()),
     path('api/activities/<int:activity>/unregister/', ActivityUnregisterView.as_view()),
     path('api/activities/<int:activity>/favorite/', ActivityFavoriteView.as_view()),
+    path('api/activities/<int:activity>/log/', ActivityLogView.as_view()),
     path('api/activities/<int:activity>/unfavorite/', ActivityUnfavoriteView.as_view()),
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls'))

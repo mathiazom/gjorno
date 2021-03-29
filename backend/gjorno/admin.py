@@ -1,7 +1,7 @@
 """Admin site configurations"""
 
 from django.contrib import admin
-from .models import Activity, Registration, Category, Image, Profile
+from .models import Activity, Registration, Category, Image, Profile, Log
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -34,3 +34,4 @@ admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Image, ImageAdmin)
+admin.site.register(Log)
