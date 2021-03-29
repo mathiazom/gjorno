@@ -110,6 +110,17 @@ class FavoriteSerializer(serializers.ModelSerializer):
 class LogSerializer(serializers.ModelSerializer):
     """Standard model serializer for Log"""
 
+    def to_representation(self, instance):
+        log_representation = super().to_representation(instance)
+        log_representation.pop("user")
+        log_representation["log_id"] = log_representation.pop("id")
+        log_representation["log_timestamp"] = log_representation.pop("timestamp")
+        
+        activity_representation = ActivitySerializer().to_representation(instance.activity)
+        activity_representation.pop("id")
+        
+        return {**log_representation, **activity_representation}
+
     class Meta:
         model = Log
         fields = '__all__'

@@ -3,7 +3,7 @@ This is views
 """
 
 from django.contrib.auth.admin import User
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status, generics, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 import json
@@ -216,22 +216,18 @@ class ActivityLogView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ActivityUnlogView(generics.CreateAPIView):
+class ActivityUnlogView(viewsets.GenericViewSet, mixins.DestroyModelMixin):
     """View for user unlogging activity"""
     permission_classes = [IsAuthenticated]
     serializer_class = LogSerializer
-    lookup_field = 'activity'
+    queryset = Log.objects.all()
 
-    def create(self, request, *args, **kwargs):
-        user = self.request.user.id
-        activity = self.kwargs['activity']
-        log = Log.objects.filter(user=user, activity=activity)
-        if not log:
-            return Response("User has not logged this activity", status=status.HTTP_403_FORBIDDEN)
-        log.delete()
-        return Response("Activity successfully unlogged", status=status.HTTP_200_OK)
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object().user.id != self.request.user.id:
+            return Response("User is not log author", status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, args, kwargs)
 
-
+    
 class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
@@ -278,13 +274,12 @@ class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
 
 class MyLoggedActivitiesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all of the users logged activities """
-    serializer_class = ActivitySerializer
+    serializer_class = LogSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        activity_ids = self.request.user.logs.values_list('activity').order_by('-timestamp')
-        return Activity.objects.filter(id__in=activity_ids)
-
+        return self.request.user.logs
+        
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """
