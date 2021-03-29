@@ -19,8 +19,9 @@ class GjornoAdminSite(AdminSite):
         """
         app_dict = self._build_app_dict(request)
 
-        # Merge auth and authtoken models
-        app_dict["auth"]["models"] += app_dict.pop("authtoken")["models"]
+        if 'auth' in app_dict and 'authtoken' in app_dict:
+            # Merge auth and authtoken models
+            app_dict["auth"]["models"] += app_dict.pop("authtoken")["models"]
 
         return app_dict.values()
 
