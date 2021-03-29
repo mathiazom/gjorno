@@ -136,7 +136,7 @@ export default class Registration extends React.Component {
         return (
             <div className="card profileInfo mt-2">
                 <div className="card-body">
-                    <h5 className="card-title">Aktivitet info</h5>
+                    <h5 className="card-title">Aktivitetinfo</h5>
                     {/*<p>{usernames}</p>  We could have a button if the current user is the owner to see all users in a pop-up. */}
                     {/*const usernames = this.state.participants.map(function(participant){ return participant["username"] + "\n"});*/}
                     <b>Påmeldte</b><br/>

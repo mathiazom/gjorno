@@ -2,6 +2,8 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ImageUpload from "../common/ImageUpload";
+import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, validateForm} from "../common/Utils";
+import FormWithValidation from "../common/FormWithValidation";
 
 class EditProfile extends React.Component {
 
@@ -14,10 +16,9 @@ class EditProfile extends React.Component {
         super(props);
         this.state = {
             data: [],
-            uploaded_image: null
+            avatar: null
         };
         this.edit = this.edit.bind(this);
-        this.onImageUploaded = this.onImageUploaded.bind(this);
     }
 
     /**
@@ -38,30 +39,76 @@ class EditProfile extends React.Component {
                 document.getElementById("edit-email").value = this.state.data.email;
             }).catch(error => {
             console.log(error.response);
-        })
+        });
     }
 
     /**
-     * Handle new image upload
-     * @param file: image file
+     * Collection of rules for validating input data from edit profile form
      */
-    onImageUploaded(file) {
-        this.setState({uploaded_image:file})
+    profileInputFormRules() {
+
+        const usernameInput = document.getElementById("edit-username");
+        const phoneInput = document.getElementById("edit-phone");
+        phoneInput.value = phoneInput.value.replaceAll(" ","");
+        const emailInput = document.getElementById("edit-email");
+        const avatarUpload = document.getElementById("profile-avatar-image-upload");
+
+        return [
+            {
+                inputEl: usernameInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(usernameInput.value),
+                        msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: phoneInput,
+                rules: [
+                    {
+                        isValid: stringIsBlank(phoneInput.value) ||
+                                 stringIsPhoneNumber(phoneInput.value),
+                        msg: "Ugyldig telefonnummer"
+                    }
+                ]
+            },{
+                inputEl: emailInput,
+                rules: [
+                    {
+                        isValid: stringIsBlank(emailInput.value) ||
+                                 stringIsEmail(emailInput.value),
+                        msg: "Ugyldig e-post"
+                    }
+                ]
+            },{
+                inputEl: avatarUpload,
+                rules: [
+                    {
+                        isValid: this.state.image == null ||
+                            ('image' in this.state.image && this.state.image.image != null),
+                        msg: "Velg et gyldig bilde, eller fjern det"
+                    }
+                ]
+            }
+        ]
+
     }
 
     /**
      * Sends a PUT the the server, with the updated data for the user.
      */
     edit() {
+        if(!validateForm(this.profileInputFormRules())){
+            // At least one invalid input value, abort
+            return;
+        }
         const data = new FormData();
         data.append("username",document.getElementById("edit-username").value);
         data.append("phone_number", document.getElementById("edit-phone").value);
         data.append("email", document.getElementById("edit-email").value);
-        if (this.state.uploaded_image != null) {
-            data.append("avatar", this.state.uploaded_image);
-        } else {
-            // Send an empty file to clear any existing avatar
-            data.append("avatar", new File([], ''))
+        console.log(this.state.image);
+        if (this.state.avatar != null && 'image' in this.state.avatar && this.state.avatar.image != null) {
+            data.append("avatar", this.state.avatar.image);
         }
         axios.put("http://localhost:8000/api/current_user/", data, {
             headers: {
@@ -78,37 +125,33 @@ class EditProfile extends React.Component {
         return (
             <div className="container-fluid w-50 m-5 mx-auto">
                 <h1>Rediger profil</h1>
-                <div className="row">
+                <FormWithValidation submit={this.edit} submitText={"Lagre"}>
                     {/* Username */}
                     <div className="mt-3 mb-4">
                         <label htmlFor="Username" className="form-label h5 mb-3">Brukernavn</label>
-                        <input id="edit-username" type="text" className="form-control" required/>
+                        <input id="edit-username" type="text" className="form-control"/>
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/* Email */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Epost</label>
                         <input id="edit-email" type="email" className="form-control"/>
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/* Phone number */}
                     <div className="mb-4">
                         <label htmlFor="activity-description-input" className="form-label h5 mb-3">Telefonnummer</label>
-                        <input id="edit-phone" type="text" className="form-control" required maxLength={11}/>
+                        <input id="edit-phone" type="text" className="form-control"/>
+                        <div className={"invalid-feedback"}/>
                     </div>
                     {/*Image */}
                     <div className="mb-4">
                         <label htmlFor="profile-avatar-image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <ImageUpload id="profile-avatar-image-upload" image={this.state.data.avatar} onImageUploaded={this.onImageUploaded} />
+                        <ImageUpload id="profile-avatar-image-upload" image={this.state.data?.avatar}
+                                     onImageChanged={(image) => this.setState({avatar: image})} />
+                        <div className={"invalid-feedback"}/>
                     </div>
-                </div>
-                <div className="mt-3 row">
-                    <div className={"d-none d-md-block col-4 pe-4"}>
-                        <button className="btn btn-outline-secondary w-100" onClick={this.props.history.goBack}>Avbryt
-                        </button>
-                    </div>
-                    <div className={"col"}>
-                        <button className="btn btn-success w-100" onClick={this.edit}>Lagre</button>
-                    </div>
-                </div>
+                </FormWithValidation>
             </div>
         );
     }

@@ -11,7 +11,7 @@ from .models import Activity, Profile, Category, Registration, Image, Favorite
 class UserWithProfileSerializer(RegisterSerializer):
     """Custom serializer for account registration"""
 
-    phone_number = serializers.CharField(max_length=11)
+    phone_number = serializers.CharField(max_length=11, required=False)
     is_organization = serializers.BooleanField(default=False)
 
     def get_cleaned_data(self):
@@ -118,9 +118,9 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserAndProfileSerializer(serializers.ModelSerializer):
     """Serializer for combining user and profile information"""
 
-    phone_number = serializers.CharField(source="profile.phone_number", max_length=11)
+    phone_number = serializers.CharField(source="profile.phone_number", max_length=11, allow_blank=True)
     is_organization = serializers.BooleanField(source="profile.is_organization", default=False)
-    avatar = serializers.ImageField(source="profile.avatar", allow_null=True)
+    avatar = serializers.ImageField(source="profile.avatar", allow_null=True, allow_empty_file=True, required=False)
 
     def update(self, instance, validated_data):
         instance.profile.__dict__.update(validated_data.pop('profile'))

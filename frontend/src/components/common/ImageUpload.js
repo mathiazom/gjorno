@@ -8,8 +8,7 @@ export default class ImageUpload extends React.Component{
         super(props);
         this.state = {
             gallery_images: [],
-            selected_gallery_image: null,
-            image_preview: true
+            show_preview: true
         };
         this.onGalleryImageSelected = this.onGalleryImageSelected.bind(this);
     }
@@ -63,10 +62,18 @@ export default class ImageUpload extends React.Component{
             const image = imageUpload.files[0];
             const imageReader = new FileReader();
             imageReader.onload = (e) => {
-                this.onImageUploaded(e.target.result)
+                this.onImageUploaded(e.target.result);
+                const imagePreview = document.getElementById("image-preview");
+                imagePreview.addEventListener("load",() => {
+                    // Image was displayed, so probably valid
+                    this.props.onImageChanged({"image": image});
+                },{once: true});
+                imagePreview.addEventListener("error",() => {
+                    // Image display failed, so probably invalid
+                    this.props.onImageChanged({"image": null});
+                },{once: true});
             }
             imageReader.readAsDataURL(image);
-            this.props.onImageUploaded(image);
         }
     }
 
@@ -75,47 +82,64 @@ export default class ImageUpload extends React.Component{
      * @param src: image location (url)
      */
     onImageUploaded(src) {
+
+        // Load image
         document.getElementById("image-preview").src = src;
+
+        // Show preview with buttons
         document.getElementById("image-preview-container").classList.add("show");
-        this.setState({image_preview: true});
+        this.setState({show_preview: true});
         document.getElementById("image-preview-toggle").style.display = "inline-block";
         document.getElementById("image-remove").style.display = "inline-block";
+
     }
 
     /**
-     * Set activity image from gallery
+     * Set image from gallery
      * @param id: id of selected image
      */
     onGalleryImageSelected(id) {
-        this.setState({
-            selected_gallery_image: id
-        });
-        // Get source url of image with given id
+
+        // Get source url of gallery image with given id
         const src = this.state.gallery_images.find((image) => image.id === id).image;
+
         // Reset image upload field
         document.getElementById('image-upload').value = "";
         this.onImageUploaded(src);
-        this.props.onGalleryImageSelected(id);
+
+        // Notify parent
+        this.props.onImageChanged({"gallery_image": id});
+
     }
 
     /**
-     * Define behaviour of button to remove image
+     * Define behaviour of remove button
      */
     attachImageRemoveButtonListener() {
+
         const imageUpload = document.getElementById('image-upload');
-        const imagePreview = document.getElementById("image-preview");
         const imagePreviewCont = document.getElementById("image-preview-container");
+        const imagePreview = document.getElementById("image-preview");
         const imagePreviewBtn = document.getElementById("image-preview-toggle");
         const imageRemoveBtn = document.getElementById("image-remove");
+
         imageRemoveBtn.onclick = () => {
+
+            // Clear upload input
             imageUpload.value = "";
+
+            // Hide image preview
             imagePreviewCont.classList.remove("show");
-            this.setState({image_preview: false, selected_gallery_image: null});
+            this.setState({show_preview: false});
             imagePreview.src = "";
             imagePreviewBtn.style.display = "none";
             imageRemoveBtn.style.display = "none";
-            this.props.onImageUploaded(null);
+
+            // Notify parent
+            this.props.onImageChanged({"image": new File([], '')});
+
         }
+
     }
 
     render() {
@@ -132,10 +156,10 @@ export default class ImageUpload extends React.Component{
                             data-bs-toggle="collapse" style={{display: "none"}}
                             data-bs-target="#image-preview-container" aria-expanded="false"
                             aria-controls="image-preview-container"
-                            onClick={() => this.setState({image_preview: !this.state.image_preview})}>
-                        {this.state.image_preview === true ? "Skjul forhåndsvisning" : "Vis forhåndsvisning"}
+                            onClick={() => this.setState({show_preview: !this.state.show_preview})}>
+                        {this.state.show_preview === true ? "Skjul forhåndsvisning" : "Vis forhåndsvisning"}
                     </button>
-                    <button id={"image-remove"} className="btn btn-outline-danger"
+                    <button id={"image-remove"} type="button" className="btn btn-outline-danger"
                             style={{display: "none"}}>Fjern bilde
                     </button>
                 </p>

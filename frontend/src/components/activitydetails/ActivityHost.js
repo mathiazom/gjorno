@@ -1,5 +1,6 @@
 import React from 'react';
 import '../profile/Profile.css';
+import {formatPhoneNumber} from "../common/Utils";
 
 export default class ActivityHost extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ export default class ActivityHost extends React.Component {
                 <div className="card-body">
                     <h4 className="card-title">{this.props.userdata.username}</h4>
                     <p className="card-text mb-2">{this.props.userdata.email}</p>
-                    <p className="card-text">Telefon: {this.props.userdata.phone_number}</p>
+                    {this.props.userdata.phone_number &&
+                        <p className="card-text">Tlf.: {formatPhoneNumber(this.props.userdata.phone_number)}</p>
+                    }
                 </div>
             </div>
         );
