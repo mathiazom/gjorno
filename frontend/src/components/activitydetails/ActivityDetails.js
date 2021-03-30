@@ -68,6 +68,7 @@ class ActivityDetails extends React.Component {
                 }
             }).then(res => {
             if (res.status === 201) {
+                toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
                 this.getActivity();
             }
@@ -89,6 +90,7 @@ class ActivityDetails extends React.Component {
                 }
             }).then(res => {
             if (res.status === 200) {
+                toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
                 this.getActivity();
             }
@@ -109,7 +111,7 @@ class ActivityDetails extends React.Component {
                 }
             }).then(res => {
             if (res.status === 201) {
-                toast("Gjennomføring registrert 🎉")
+                toast("Gjennomføring registrert 🎉", {containerId: 'info-toast-container'});
             }
         }).catch(error => {
             console.log(error.response);

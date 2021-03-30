@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {toast} from "react-toastify";
 
 /**
  * We take in some props (title, description and username) to make the Activity.
@@ -23,6 +24,7 @@ const Activity = (props) => {
         }).then(res => {
             console.log(res.status)
             if (res.status === 201) {
+                toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
                 props.onUpdate();
             }
@@ -45,6 +47,7 @@ const Activity = (props) => {
         }).then(res => {
             console.log(res.status)
             if (res.status === 200) {
+                toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
                 props.onUpdate();
             }
