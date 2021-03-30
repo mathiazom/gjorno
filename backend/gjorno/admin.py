@@ -29,11 +29,22 @@ class GjornoAdminSite(AdminSite):
 gjorno_admin_site = GjornoAdminSite()
 
 
+def CountWithNone(field, is_none):
+    """Count aggregate with None handling"""
+    return Case(
+        When(
+            is_none,
+            then=None
+        ),
+        default=Count(field, distinct=True)
+    )
+
+
 @admin.register(Activity, site=gjorno_admin_site)
 class ActivityAdmin(admin.ModelAdmin):
     """Admin config for Activity model"""
     list_display = ('title', 'user', 'has_registration', 'is_organization', 'total_unique_views', 'total_favorites',
-                    'total_registrations')
+                    'total_logs', 'total_registrations')
     search_fields = ('title', 'user__username')
     list_filter = ('has_registration', 'user__profile__is_organization')
 
@@ -43,13 +54,8 @@ class ActivityAdmin(admin.ModelAdmin):
         queryset = queryset.annotate(
             count_unique_views=Count('users_viewed', distinct=True),
             count_favorites=Count('favorites', distinct=True),
-            count_registrations=Case(
-                When(
-                    Q(has_registration=False),
-                    then=None
-                ),
-                default=Count('registrations', distinct=True)
-            )
+            count_logs=CountWithNone('logs', is_none=Q(has_registration=True)),
+            count_registrations=CountWithNone('registrations', is_none=Q(has_registration=True))
         )
         return queryset
 
@@ -68,6 +74,11 @@ class ActivityAdmin(admin.ModelAdmin):
 
     total_favorites.admin_order_field = "count_favorites"
 
+    def total_logs(self, obj):
+        return obj.count_logs
+
+    total_logs.admin_order_field = "count_logs"
+
     def total_registrations(self, obj):
         return obj.count_registrations
 
@@ -77,8 +88,8 @@ class ActivityAdmin(admin.ModelAdmin):
 @admin.register(Profile, site=gjorno_admin_site)
 class ProfileAdmin(admin.ModelAdmin):
     """Admin config for Profile model"""
-    list_display = ('user', 'phone_number', 'is_organization', 'total_activities_viewed', 'total_registrations',
-                    'total_favorites')
+    list_display = ('user', 'phone_number', 'is_organization', 'total_activities_viewed', 'total_favorites',
+                    'total_logs', 'total_registrations')
     search_fields = ('title', 'user__username')
     list_filter = ('is_organization',)
 
@@ -86,26 +97,32 @@ class ProfileAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         # Define calculated fields
         queryset = queryset.annotate(
-            total_activities_viewed=Count("user__activities_viewed", distinct=True),
-            total_favorites=Count("user__favorites", distinct=True),
-            total_registrations=Count("user__registrations", distinct=True)
+            count_activities_viewed=Count("user__activities_viewed", distinct=True),
+            count_favorites=Count("user__favorites", distinct=True),
+            count_logs=Count("user__logs", distinct=True),
+            count_registrations=Count("user__registrations", distinct=True)
         )
         return queryset
 
     def total_activities_viewed(self, obj):
-        return obj.total_activities_viewed
+        return obj.count_activities_viewed
 
-    total_activities_viewed.admin_order_field = "total_activities_viewed"
-
-    def total_registrations(self, obj):
-        return obj.total_registrations
-
-    total_registrations.admin_order_field = "total_registrations"
+    total_activities_viewed.admin_order_field = "count_activities_viewed"
 
     def total_favorites(self, obj):
-        return obj.total_favorites
+        return obj.count_favorites
 
-    total_favorites.admin_order_field = "total_favorites"
+    total_favorites.admin_order_field = "count_favorites"
+
+    def total_logs(self, obj):
+        return obj.count_logs
+
+    total_logs.admin_order_field = "count_logs"
+
+    def total_registrations(self, obj):
+        return obj.count_registrations
+
+    total_registrations.admin_order_field = "count_registrations"
 
 
 @admin.register(Image, site=gjorno_admin_site)
