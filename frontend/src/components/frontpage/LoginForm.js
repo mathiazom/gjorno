@@ -51,7 +51,6 @@ class LoginForm extends React.Component {
         setTimeout(() => {
             // Clear any feedback
             const container = document.getElementById("container");
-            console.log(container.getElementsByClassName("is-invalid"))
             for(const feedback of container.getElementsByClassName("invalid-feedback")){
                 feedback.innerHTML = "";
             }

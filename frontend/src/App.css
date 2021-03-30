@@ -1,3 +1,14 @@
+/* ACTIVITY FILTER PANEL*/
+
+.filter-panel {
+  z-index: 99;
+  min-width: 380px;
+}
+
+.fa-times-thin:before {
+  content: '\00d7';
+}
+
 /* ACTIVITY CARD */
 
 .activity-card img{
@@ -11,10 +22,14 @@
 
 /* Desktop */
 @media (min-width: 1200px) {
+
+  .activities-list {
+    max-width: 70%;
+  }
+
   .activity-card {
     flex-direction: row;
     align-items: center;
-    max-width: 70%;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -26,11 +41,12 @@
     min-height: 180px;
     margin-right: 1rem;
   }
+
 }
 
 /* Large desktop */
 @media (min-width: 1600px) {
-  .activity-card {
+  .activities-list {
     max-width: 50%;
   }
 }

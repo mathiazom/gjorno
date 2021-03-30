@@ -22,7 +22,6 @@ const Activity = (props) => {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
-            console.log(res.status)
             if (res.status === 201) {
                 toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
@@ -45,7 +44,6 @@ const Activity = (props) => {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
-            console.log(res.status)
             if (res.status === 200) {
                 toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
                 // Refresh activity data to see correct favorite icon
@@ -57,7 +55,7 @@ const Activity = (props) => {
     }
 
     return (
-        <div className="card activity-card w-75 mx-auto mt-4 mb-4">
+        <div className="card activity-card mt-4 mb-4">
             <img src={props.data.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row align-items-center">
                 <div className={"col-12 col-lg-8 pe-4"}>
