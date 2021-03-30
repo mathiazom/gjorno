@@ -5,6 +5,10 @@
   object-fit: cover;
 }
 
+.btn-link {
+  color: #198754;
+}
+
 /* Desktop */
 @media (min-width: 1200px) {
   .activity-card {

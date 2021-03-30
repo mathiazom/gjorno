@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React from 'react';
 import {getDateFromString} from "../common/Utils";
-import {Link} from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -96,12 +95,7 @@ export default class Registration extends React.Component {
 
         if (this.props.authenticated) {
             if (this.props.activity.is_author) {
-                actionButton = (
-                    <Link to={`/edit-activity/${this.props.activity.id}`}>
-                        <button id={"edit-button"} className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger
-                        </button>
-                    </Link>
-                )
+                actionButton = null
             } else if (this.props.activity.is_registered) {
                 actionButton = (
                     <button id={"registration-button"} className={"btn btn-danger w-100 mt-3 mb-1"}

@@ -9,7 +9,7 @@ export default class ProfileInfo extends React.Component {
             
     render() {
         return (
-            <div className="card profileInfo" >
+            <div className="card" >
                 <img className="card-img-top img-fluid profile-image" src={this.props.data.avatar || "/images/profil.png"} alt="profile"/>
                 <div className="card-body">
                     <h4 className="card-title" id="profile-username">{this.props.data.username}</h4>

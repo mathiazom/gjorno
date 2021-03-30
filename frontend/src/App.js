@@ -15,7 +15,7 @@ import CreateActivity from "./components/create/CreateActivity";
 import EditActivity from "./components/profile/EditActivity";
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
-import {toast, ToastContainer} from "react-toastify";
+import {Slide, toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
@@ -51,13 +51,13 @@ export default class App extends React.Component {
                         "Authorization": `Token ${window.localStorage.getItem("Token")}`
                     }})
                 .then(res => {
-                    toast(`Hei, ${res.data.username} 🤩`);
+                    toast(`Hei, ${res.data.username} 🤩`, {containerId: 'main-toast-container'});
                 }).catch(error => {
                     console.log(error.response);
                 });
         }
         else{
-            toast("Logget ut 😴");
+            toast("Logget ut 😴", {containerId: 'main-toast-container'});
         }
     }
 
@@ -72,10 +72,28 @@ export default class App extends React.Component {
                         onAuthStateChanged={this.onAuthStateChanged}
                     />
                     <ToastContainer
+                        containerId={"main-toast-container"}
+                        enableMultiContainer
                         className={"w-auto"}
                         toastClassName={"bg-success text-white fs-5 ps-3 pe-3"}
                         bodyClassName={"text-wrap text-break mx-auto"}
                         position={"bottom-center"}
+                        autoClose={1200}
+                        hideProgressBar
+                        closeOnClick
+                        pauseOnFocusLoss={false}
+                        draggable={false}
+                        pauseOnHover={false}
+                        closeButton={false}
+                    />
+                    <ToastContainer
+                        containerId={"info-toast-container"}
+                        enableMultiContainer
+                        transition={Slide}
+                        className={"w-auto"}
+                        toastClassName={"bg-white text-secondary fs-5 ps-3 pe-3"}
+                        bodyClassName={"text-wrap text-break mx-auto"}
+                        position={"bottom-left"}
                         autoClose={1200}
                         hideProgressBar
                         closeOnClick
@@ -91,7 +109,7 @@ export default class App extends React.Component {
                         />
                         <Switch>
                             <Route exact path={"/"}>
-                                <Activities />
+                                <Activities authenticated={this.state.authenticated}/>
                             </Route>
                             <Route exact path ={"/activity-details/:id"}>
                                 <ActivityDetails
