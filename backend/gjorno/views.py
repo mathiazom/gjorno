@@ -79,6 +79,12 @@ class ActivitiesView(viewsets.ModelViewSet):
                                 status=status.HTTP_403_FORBIDDEN)
         return super().update(request, args, kwargs)
 
+    # Restrict activity deletion to author only
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object().user.id != self.request.user.id:
+            return Response("User is not activity author", status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, args, kwargs)
+
     # Append user object to new activity
     def create(self, request, *args, **kwargs):
         activity = Activity(user=self.request.user)
