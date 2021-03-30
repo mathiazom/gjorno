@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+from gjorno.admin import gjorno_admin_site
 from django.urls import path, include
 from rest_framework import routers
 from gjorno.views import \
@@ -48,7 +48,7 @@ router.register("my_logged_activities", MyLoggedActivitiesView, 'my_logged_activ
 router.register("activity_unlog", ActivityUnlogView, 'activity_unlog')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', gjorno_admin_site.urls),
     path('api/', include(router.urls)),
     path('api/current_user/', CurrentUserView.as_view()),
     path('api/activities/<int:activity>/registrations/', RegistrationsView.as_view({'get': 'list'})),
@@ -63,3 +63,4 @@ urlpatterns = [
 
 # Include media paths
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
