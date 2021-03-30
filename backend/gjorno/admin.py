@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.contrib.auth.admin import User
 from rest_framework.authtoken.models import Token
-from django.db.models import Count
+from django.db.models import Count, Case, When, Q, Value
 
 from .models import Activity, Registration, Category, Image, Profile, Log, Favorite
 
@@ -41,9 +41,15 @@ class ActivityAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         # Define calculated fields
         queryset = queryset.annotate(
-            total_unique_views=Count("users_viewed", distinct=True),
-            total_favorites=Count("favorites", distinct=True),
-            total_registrations=Count("registrations", distinct=True)
+            count_unique_views=Count('users_viewed', distinct=True),
+            count_favorites=Count('favorites', distinct=True),
+            count_registrations=Case(
+                When(
+                    Q(has_registration=False),
+                    then=None
+                ),
+                default=Count('registrations', distinct=True)
+            )
         )
         return queryset
 
@@ -53,20 +59,19 @@ class ActivityAdmin(admin.ModelAdmin):
     is_organization.boolean = True
 
     def total_unique_views(self, obj):
-        return obj.total_unique_views
+        return obj.count_unique_views
 
-    total_unique_views.admin_order_field = "total_unique_views"
+    total_unique_views.admin_order_field = "count_unique_views"
 
     def total_favorites(self, obj):
-        return obj.total_favorites
+        return obj.count_favorites
 
-    total_favorites.admin_order_field = "total_favorites"
+    total_favorites.admin_order_field = "count_favorites"
 
     def total_registrations(self, obj):
-        if obj.has_registration:
-            return obj.total_registrations
+        return obj.count_registrations
 
-    total_registrations.admin_order_field = "total_registrations"
+    total_registrations.admin_order_field = "count_registrations"
 
 
 @admin.register(Profile, site=gjorno_admin_site)
