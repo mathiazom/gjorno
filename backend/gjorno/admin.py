@@ -55,7 +55,7 @@ class ActivityAdmin(admin.ModelAdmin):
             count_unique_views=Count('users_viewed', distinct=True),
             count_favorites=Count('favorites', distinct=True),
             count_logs=CountWithNone('logs', is_none=Q(has_registration=True)),
-            count_registrations=CountWithNone('registrations', is_none=Q(has_registration=True))
+            count_registrations=CountWithNone('registrations', is_none=Q(has_registration=False))
         )
         return queryset
 
@@ -134,7 +134,13 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(Favorite, site=gjorno_admin_site)
 class FavoriteAdmin(admin.ModelAdmin):
     """Admin config for Favorite model"""
-    list_display = ('user', 'activity', 'timestamp')
+    list_display = ('activity', 'user', 'timestamp')
+
+
+@admin.register(Log, site=gjorno_admin_site)
+class LogAdmin(admin.ModelAdmin):
+    """Admin config for Log model"""
+    list_display = ('activity', 'user', 'timestamp')
 
 
 @admin.register(Registration, site=gjorno_admin_site)
@@ -143,8 +149,11 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_display = ('user', 'activity')
 
 
-gjorno_admin_site.register(Category)
-gjorno_admin_site.register(Log)
+@admin.register(Token, site=gjorno_admin_site)
+class TokenAdmin(admin.ModelAdmin):
+    """Admin config for Token model"""
+    list_display = ('user', 'key')
 
+
+gjorno_admin_site.register(Category)
 gjorno_admin_site.register(User)
-gjorno_admin_site.register(Token)
