@@ -50,8 +50,7 @@ class ActivitiesView(viewsets.ModelViewSet):
         if "register_view" in request.GET:
             # Register unique activity view if logged in (add will not duplicate)
             if request.user is not None and request.user.is_authenticated:
-                activity = Activity.objects.get(id=kwargs['pk'])
-                activity.users_viewed.add(request.user)
+                self.get_object().users_viewed.add(request.user)
         # Append extra fields when retrieving activity
         self.append_user_specific_fields(response.data, request)
         return response
@@ -65,7 +64,7 @@ class ActivitiesView(viewsets.ModelViewSet):
 
     # Restrict activity edit to author only
     def update(self, request, *args, **kwargs):
-        activity = Activity.objects.get(id=kwargs['pk'])
+        activity = self.get_object()
         if activity.user.id != self.request.user.id:
             return Response("User is not activity author", status=status.HTTP_403_FORBIDDEN)
         # If activity has registration, make sure capacity change is not removing registrations
@@ -208,7 +207,8 @@ class ActivityLogView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         user = self.request.user
         activity = Activity.objects.get(id=self.kwargs['activity'])
-            
+        if Log.objects.filter(user=user.id, activity=activity.id):
+            return Response("User already logged this activity", status=status.HTTP_403_FORBIDDEN)
         serializer = self.get_serializer(data={
             "user": user.id,
             "activity": activity.id
@@ -230,7 +230,7 @@ class ActivityUnlogView(viewsets.GenericViewSet, mixins.DestroyModelMixin):
             return Response("User is not log author", status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, args, kwargs)
 
-    
+
 class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
@@ -282,7 +282,7 @@ class MyLoggedActivitiesView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return self.request.user.logs
-        
+
 
 class CategoriesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all categories. """
