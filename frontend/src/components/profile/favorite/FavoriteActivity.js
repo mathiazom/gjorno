@@ -50,8 +50,10 @@ export default class FavoriteActivity extends React.Component {
                         <p className="card-text">{this.props.data.description}</p>
                     </div>
                     <div className={"col-2 d-none d-md-flex justify-content-end align-items-center"}>
-                    {/*Edit button if author?*/}
-                        <button className="btn btn-success" onClick={this.unfavorite}><i className="fas fa-trash"></i></button>
+                        <button title="Fjern fra favoritter" className="btn btn-outline-success" onClick={this.unfavorite}><i className="fas fa-heart-broken"/></button>
+                    </div>
+                    <div className={"col-12 d-md-none mt-2 mb-2"}>
+                        <button className={"btn btn-outline-success w-100"} onClick={this.unfavorite} >Fjern fra favoritter</button>
                     </div>
                 </div>
             </div>

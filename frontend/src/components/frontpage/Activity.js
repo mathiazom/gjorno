@@ -87,8 +87,8 @@ const Activity = (props) => {
                     <div>
                         <a href="#" className="btn btn-success float-right">Legg til i logg</a>
                         {/* Favorite button, hidden for an unauthorized user */}
-                        {(props.data.is_favorited && props.authenticated) && <button className="btn text-success" onClick={unfavorite}><i className="fas fa-heart"></i></button>}
-                        {(!props.data.is_favorited && props.authenticated) && <button className="btn text-success" onClick={favorite}><i className="far fa-heart"></i></button>}
+                        {(props.data.is_favorited && props.authenticated) && <button title="Fjern fra favoritter" className="btn text-success" onClick={unfavorite}><i className="fas fa-heart"/></button>}
+                        {(!props.data.is_favorited && props.authenticated) && <button title="Legg til i favoritter" className="btn text-success" onClick={favorite}><i className="far fa-heart"/></button>}
                     </div>
                 </div>
             </div>
