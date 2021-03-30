@@ -4,6 +4,7 @@ import ActivityHost from "./ActivityHost.js";
 import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
 import {Link, withRouter} from 'react-router-dom';
+import {toast} from "react-toastify";
 
 class ActivityDetails extends React.Component {
 
@@ -16,6 +17,7 @@ class ActivityDetails extends React.Component {
         this.getActivity = this.getActivity.bind(this);
         this.favorite = this.favorite.bind(this);
         this.unfavorite = this.unfavorite.bind(this);
+        this.log = this.log.bind(this);
     }
 
     componentDidMount() {
@@ -86,7 +88,7 @@ class ActivityDetails extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             }).then(res => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 // Refresh activity data to see correct favorite icon
                 this.getActivity();
             }
@@ -95,6 +97,24 @@ class ActivityDetails extends React.Component {
         })
     }
 
+    /**
+     * Sends a POST request to the API to create a log for this activity
+     */
+    log() {
+        axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/log/`,
+            null,
+            {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }
+            }).then(res => {
+            if (res.status === 201) {
+                toast("Gjennomføring registrert 🎉")
+            }
+        }).catch(error => {
+            console.log(error.response);
+        })
+    }
 
     render() {
         let img = this.state.activity.image;
@@ -141,8 +161,10 @@ class ActivityDetails extends React.Component {
                                     </div>
                                     {!this.state.activity.has_registration &&
                                     <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
-                                        <a title="Registrer gjennomføring" className="text-success" role="button"><i id={"log-button-icon"}
-                                            className="far fa-check-circle fa-2x"/></a>
+                                        <a title="Registrer gjennomføring" className="text-success" role="button"
+                                           onClick={this.log}>
+                                            <i id={"log-button-icon"} className="far fa-check-circle fa-2x"/>
+                                        </a>
                                     </div>
                                     }
                                     {!this.state.activity.is_author &&
