@@ -16,20 +16,7 @@ export default class Activities extends React.Component {
      * Sends a GET to the API, and stores all the activities as a state.
      */
     componentDidMount() {
-        const headers = {}
-        if (this.props.authenticated) {
-            headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
-        }
-        axios
-            .get(`http://localhost:8000/api/activities/`, {
-                headers: headers
-            })
-            .then(res => {
-                this.setState({data: res.data})
-            })
-            .catch(error => {
-                console.log(error.response);
-            });
+        this.getActivities();
     }
 
     /**

@@ -47,7 +47,7 @@ export default class FavoriteActivity extends React.Component {
                     <div className={"col pt-2 pb-2"}>
                         <Link to={`/activity-details/${this.props.data.id}`} style={{textDecoration: "none"}}>
                         <h5 className="card-title text-success">{this.props.data.title}</h5></Link>
-                        <p className="card-text">{this.props.data.description}</p>
+                        <p className="card-text">{this.props.data.ingress}</p>
                     </div>
                     <div className={"col-2 d-none d-md-flex justify-content-end align-items-center"}>
                         <button title="Fjern fra favoritter" className="btn btn-outline-success" onClick={this.unfavorite}><i className="fas fa-heart-broken"/></button>
