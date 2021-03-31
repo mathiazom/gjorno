@@ -12,13 +12,16 @@ export default class MyLoggedActvitites extends React.Component {
     }
 
     /**
-     * Get all the activities registered to the user.
+     * Get all the registered and logged activities for the user.
      */
     componentDidMount() {
         this.getLoggedActivities();
         this.getRegisteredActivities();
     }
 
+    /**
+     * Sends an API GET request to get the activities which the user has logged.
+     */
     getLoggedActivities() {
         axios.get('/api/my_logged_activities/',
         {
@@ -34,6 +37,9 @@ export default class MyLoggedActvitites extends React.Component {
         });
     }
 
+    /**
+     * Sends an API GET request to get the activities for which the user is registered.
+     */
     getRegisteredActivities () {
         axios.get('/api/my_registered_activities/',
         {
@@ -50,12 +56,11 @@ export default class MyLoggedActvitites extends React.Component {
     }
 
     /**
-     * We only render 3 activities. If there are more we take the last three.
+     * We only render 3 activities. If there are more we take the three of the most recent.
      */
     renderAllActivities() {
         let log = this.state.logged.concat(this.state.registered)
         log.sort(this.compare)
-        console.log(log)
         if (log.length <= 3) {
             return log.reverse().map((activity) => (
                 activity.username == this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
@@ -73,10 +78,15 @@ export default class MyLoggedActvitites extends React.Component {
         }
     }
 
+    /**
+     * Compares the dates for two activities, based on whether the activity has registration or not (starting_time/log_timestamp).
+     * @param {*} a1 first activity
+     * @param {*} a2 second activity
+     * @returns a positive integer if a1 is before a2, a negative integer if a2 is before a1, or 0 if they have the same time.
+     */
     compare(a1, a2) {
         let date1 = a1.has_registration ? new Date(a1.starting_time) : new Date(a1.log_timestamp);
         let date2 = a2.has_registration ? new Date(a2.starting_time) : new Date(a2.log_timestamp);
-        console.log(date1 - date2)
         return date1 - date2;
     }
 

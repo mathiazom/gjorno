@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 export default class MyLoggedActivity extends React.Component {
 
     /**
-     * We take in some props (title and description) to make the Activity.
+     * We take in some props (title, ingress and date) to make the logged Activity.
      * This activity is the one stored on the users profile.
      * 
      * @param {*} props 
