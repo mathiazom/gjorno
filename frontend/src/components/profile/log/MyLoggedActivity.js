@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/js/all.js';
 
-export default class MyActivity extends React.Component {
+export default class MyLoggedActivity extends React.Component {
 
     /**
      * We take in some props (title and description) to make the Activity.
@@ -24,8 +24,11 @@ export default class MyActivity extends React.Component {
                         </Link>
                         <p className="card-text">{this.props.data.ingress}</p>
                     </div>
-                    <div className={"col-3 d-none d-md-flex justify-content-end align-items-center"}>
-                        <button to={`/edit-activity/${this.props.data.id}`} className={"btn btn-danger"}>Meld av</button>
+                    <div className={"col-2 d-none d-md-flex justify-content-end flex-column"}>
+                        {this.props.data.has_registration && (new Date(this.props.data.starting_time) - Date.now()) > 0 && <p className="card-text">Kommende</p>}
+                        <p className="card-text">{this.props.data.has_registration ? 
+                        new Date(this.props.data.starting_time).toISOString().slice(0, 16).replace(/-/g, ".").replace("T", " ") : 
+                        new Date(this.props.data.log_timestamp).toISOString().slice(0, 16).replace(/-/g, ".").replace("T", " ")}</p>
                     </div>
                 </div>
             </div>
