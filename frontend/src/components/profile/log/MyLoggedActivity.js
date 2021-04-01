@@ -14,12 +14,17 @@ export default class MyLoggedActivity extends React.Component {
         super(props);
     }
 
+    /**
+     * Retrieve date string with format "31. mars 2021 14:32"
+     */
     niceDate(dateString) {
-        const months = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "november", "desember"]
-        let date = new Date(dateString).toISOString().slice(0, 16).replace(/-/g, ".").replace("T", " ")
-        let time = date.slice(10,16)
-        date = parseInt(date.slice(8,10)) + ". " + months[date.slice(6,7)-1] + " " + date.slice(0,4)
-        return date + " " + time;
+        const months = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"]
+        const date = new Date(dateString).toISOString().slice(0, 16).replace(/-/g, ".").replace("T", " ")
+        const day = parseInt(date.slice(8,10));
+        const month = months[parseInt(date.slice(5,7))-1];
+        const year = date.slice(0,4);
+        const time = date.slice(10,16);
+        return `${day}. ${month} ${year} ${time}`;
     }
 
     render() {
