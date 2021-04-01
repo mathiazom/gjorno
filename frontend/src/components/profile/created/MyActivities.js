@@ -1,6 +1,7 @@
 import React from 'react';
 import MyActivity from './MyActivity';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class MyActivities extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ export default class MyActivities extends React.Component {
                 <h2>Mine aktiviteter</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
+                    <Link title="Vis alle" to={`/profile/created`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>
                 </div>
             </div>
         );

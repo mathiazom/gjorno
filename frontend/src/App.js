@@ -22,7 +22,7 @@ import ActivityDetails from './components/activitydetails/ActivityDetails';
 import ScrollToTop from "./components/common/ScrollToTop";
 import ShowAllCreated from "./components/profile/created/ShowAllCreated";
 import ShowAllFavorites from "./components/profile/favorite/ShowAllFavorites";
-import ShowAllLogged from './components/profile/registered/ShowAllLogged';
+import ShowAllLogged from './components/profile/log/ShowAllLogged';
 
 
 export default class App extends React.Component {

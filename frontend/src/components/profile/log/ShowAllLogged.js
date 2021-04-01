@@ -1,9 +1,8 @@
 import React from 'react';
 import MyLoggedActivity from './MyLoggedActivity';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
-export default class MyLoggedActvitites extends React.Component {
+export default class ShowAllLogged extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +14,7 @@ export default class MyLoggedActvitites extends React.Component {
     /**
      * Get all the registered and logged activities for the user.
      */
-    componentDidMount() {
+     componentDidMount() {
         this.getLoggedActivities();
         this.getRegisteredActivities();
     }
@@ -56,27 +55,16 @@ export default class MyLoggedActvitites extends React.Component {
         });
     }
 
-    /**
-     * We only render 3 activities. If there are more we take the three of the most recent.
+     /**
+     * Sort the activities and add them.
      */
-    renderAllActivities() {
+      renderAllActivities() {
         let log = this.state.logged.concat(this.state.registered)
         log.sort(this.compare)
-        if (log.length <= 3) {
-            return log.reverse().map((activity) => (
-                activity.username == this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
-           ));
-        } else {
-            const l = log.length;
-            const list = [
-                log[l-1],
-                log[l-2], 
-                log[l-3]
-            ];
-            return (list.map((activity) => (
-                <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
-            )));
-        }
+
+        return log.reverse().map((activity) => (
+            activity.username == this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
+        ));
     }
 
     /**
@@ -93,11 +81,10 @@ export default class MyLoggedActvitites extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid w-100 p-0 ps-md-5">
-                <h2>Logg</h2>
+            <div className="container-fluid w-75 mt-5">
+                <h2>Fullstending logg</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <Link title="Vis alle" to={`/profile/log`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>
                 </div>
             </div>
         );
