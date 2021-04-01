@@ -81,7 +81,7 @@ class ActivityDetails extends React.Component {
      * currently logged in user's favorites list.
      */
     favorite() {
-        axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/favorite/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.state.activity.id}/favorite/`,
             null,
             {
                 headers: {
@@ -103,7 +103,7 @@ class ActivityDetails extends React.Component {
      * from the currently logged in user's favorites list.
      */
     unfavorite() {
-        axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/unfavorite/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.state.activity.id}/unfavorite/`,
             null,
             {
                 headers: {
@@ -124,7 +124,7 @@ class ActivityDetails extends React.Component {
      * Sends a POST request to the API to create a log for this activity
      */
     log() {
-        axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/log/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.state.activity.id}/log/`,
             null,
             {
                 headers: {

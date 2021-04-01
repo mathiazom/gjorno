@@ -21,7 +21,7 @@ export default class FavoriteActivity extends React.Component {
      * logged in user's favorites list,
      */
     unfavorite() {
-        axios.post(`http://localhost:8000/api/activities/${this.props.activity.id}/unfavorite/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.props.data.id}/unfavorite/`,
         {
             activity: this.props.activity.id,
         },

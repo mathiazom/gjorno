@@ -15,7 +15,7 @@ const Activity = (props) => {
      * currently logged in user's favorites list.
      */
     const favorite = () => {
-        axios.post(`http://localhost:8000/api/activities/${props.activity.id}/favorite/`,
+        axios.post(`https://api.gjorno.site/api/activities/${props.data.id}/favorite/`,
         null,
         {
             headers: {
@@ -37,7 +37,7 @@ const Activity = (props) => {
      * from the currently logged in user's favorites list.
      */
     const unfavorite = () => {
-        axios.post(`http://localhost:8000/api/activities/${props.activity.id}/unfavorite/`,
+        axios.post(`https://api.gjorno.site/api/activities/${props.data.id}/unfavorite/`,
         null,
         {
             headers: {

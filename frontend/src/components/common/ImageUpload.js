@@ -44,7 +44,7 @@ export default class ImageUpload extends React.Component{
      */
     retrieveGalleryImages() {
         axios
-            .get('http://localhost:8000/api/images/')
+            .get('https://api.gjorno.site/api/images/')
             .then(res => {
                 this.setState({gallery_images: res.data});
             })
