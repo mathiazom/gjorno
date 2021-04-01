@@ -20,6 +20,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
 import ScrollToTop from "./components/common/ScrollToTop";
+import ShowAllCreated from "./components/profile/created/ShowAllCreated";
+import ShowAllFavorites from "./components/profile/favorite/ShowAllFavorites";
+import ShowAllLogged from './components/profile/registered/ShowAllLogged';
 
 
 export default class App extends React.Component {
@@ -127,6 +130,15 @@ export default class App extends React.Component {
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile/edit"}>
                                 <EditProfile />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/profile/created"}>
+                                <ShowAllCreated />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/profile/favorites"}>
+                                <ShowAllFavorites />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/profile/log"}>
+                                <ShowAllLogged />
                             </ProtectedRoute>
                             {/* Redirect anything else to frontpage */}
                             <Route path={"*"}>

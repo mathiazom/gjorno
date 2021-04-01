@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import FavoriteActivity from './FavoriteActivity';
+import { Link } from 'react-router-dom';
 
 export default class FavoriteActivites extends React.Component {
     constructor(props) {
@@ -75,7 +76,7 @@ export default class FavoriteActivites extends React.Component {
                 <h2>Favoritter</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
+                    <Link title="Vis alle" to={`/profile/favorites`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>
                 </div>
             </div>
         );
