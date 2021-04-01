@@ -19,7 +19,7 @@ export default class MyLoggedActivity extends React.Component {
         let date = new Date(dateString).toISOString().slice(0, 16).replace(/-/g, ".").replace("T", " ")
         let time = date.slice(10,16)
         date = parseInt(date.slice(8,10)) + " " + months[date.slice(6,7)-1] + " " + date.slice(0,4)
-        return date + " " + time
+        return date + " " + time;
     }
 
     render() {
