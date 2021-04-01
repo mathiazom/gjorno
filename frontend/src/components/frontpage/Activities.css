@@ -1,0 +1,7 @@
+.right-toggle-pane {
+    height: 100%;
+    position: fixed;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    right: 0;
+}

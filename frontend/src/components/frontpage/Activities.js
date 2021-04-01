@@ -1,4 +1,5 @@
 import React from 'react';
+import './Activities.css';
 import Activity from './Activity';
 import axios from 'axios'
 import ActivitiesFilterPanel from "./ActivitiesFilterPanel";
@@ -16,15 +17,27 @@ export default class Activities extends React.Component {
         }
         this.getActivities = this.getActivities.bind(this);
         this.onFiltersChanged = this.onFiltersChanged.bind(this);
-        this.showFilterPanel = this.showFilterPanel.bind(this);
-        this.hideFilterPanel = this.hideFilterPanel.bind(this);
+        this.toggleFilterPanel = this.toggleFilterPanel.bind(this);
+    }
+
+    componentDidMount() {
+        this.getActivities();
+        this.attachPaneResizeObserver();
     }
 
     /**
-     * Sends a GET to the API, and stores all the activities as a state.
+     * Use observer to correctly adjust width of left and right panes
+     * when the viewport changes or the right pane is toggled
      */
-    componentDidMount() {
-        this.getActivities();
+    attachPaneResizeObserver() {
+        const filtersPane = document.getElementById("filters-pane");
+        const activitiesPane = document.getElementById("activities-pane");
+        const activitiesPaneContainer = document.getElementById("activities-pane-container");
+        const resObs = new ResizeObserver(() => {
+            activitiesPane.style.width = (activitiesPaneContainer.clientWidth - filtersPane.clientWidth) + "px";
+        });
+        resObs.observe(activitiesPaneContainer);
+        resObs.observe(filtersPane);
     }
 
     /**
@@ -61,15 +74,23 @@ export default class Activities extends React.Component {
         })
     }
 
-    showFilterPanel() {
+    /**
+     * Toggle width of filters pane to either show or hide it
+     */
+    toggleFilterPanel() {
+        const filtersPane = document.getElementById("filters-pane");
+        const filterButtonIcon = document.getElementById("filter-button-icon");
+        if (this.state.show_filter_panel) {
+            filtersPane.classList.remove("d-md-block");
+            filterButtonIcon.classList.remove("fa-times");
+            filterButtonIcon.classList.add("fa-filter");
+        } else {
+            filtersPane.classList.add("d-md-block");
+            filterButtonIcon.classList.remove("fa-filter");
+            filterButtonIcon.classList.add("fa-times");
+        }
         this.setState({
-            show_filter_panel: true
-        });
-    }
-
-    hideFilterPanel() {
-        this.setState({
-            show_filter_panel: false
+            show_filter_panel: !this.state.show_filter_panel
         });
     }
 
@@ -86,28 +107,28 @@ export default class Activities extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className={"position-fixed end-0 filter-panel"}
-                     style={{display: this.state.show_filter_panel || "none"}}>
+            <div id={"activities-pane-container"} className={"d-flex flex-column"}>
+                <div id={"activities-pane"}>
+                    <div className={"mx-auto activities-list pt-4 ps-5 pe-5"}>
+                        <div className={"d-flex justify-content-between"}>
+                            <span className={"fs-5 align-self-center"}>{this.state.filtered_activities.length} aktiviteter</span>
+                            <a role={"button"} className={"d-none d-md-block btn btn-outline-success align-self-center"}
+                               onClick={this.toggleFilterPanel}>
+                                <i id={"filter-button-icon"} className={"fas me-2 fa-filter"}/>
+                                Filter
+                            </a>
+                        </div>
+                        {this.renderAllActivities()}
+                    </div>
+                </div>
+                <div id={"filters-pane"} className={"right-toggle-pane d-none ps-4"}>
                     <ActivitiesFilterPanel
                         activities={this.state.activities}
                         onFiltersChanged={this.onFiltersChanged}
-                        onHide={this.hideFilterPanel}
                     />
                 </div>
-                <div className={"mx-auto activities-list pt-4"}>
-                    <div className={"d-flex justify-content-between"}>
-                        <span
-                            className={"fs-5 align-self-center"}>{this.state.filtered_activities.length} aktiviteter</span>
-                        <a role={"button"} className={"btn btn-outline-success align-self-center"}
-                           onClick={this.showFilterPanel}>
-                            <i className="fas fa-filter me-2"/>Filtrer
-                        </a>
-                    </div>
-                    {this.renderAllActivities()}
-                </div>
             </div>
-        )
+        );
     }
 }
 
