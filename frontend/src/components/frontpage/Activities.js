@@ -12,7 +12,8 @@ export default class Activities extends React.Component {
         this.state = {
             activities: [],
             show_filter_panel: false,
-            filters: [(activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)],
+            default_filters: [(activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)],
+            filters: [],
             filtered_activities: []
         }
         this.getActivities = this.getActivities.bind(this);
@@ -56,7 +57,7 @@ export default class Activities extends React.Component {
             .then(res => {
                 this.setState({
                     activities: res.data,
-                    filtered_activities: filterActivities(res.data, this.state.filters)
+                    filtered_activities: filterActivities(res.data, this.state.filters.concat(this.state.default_filters))
                 });
             })
             .catch(error => {
@@ -68,10 +69,9 @@ export default class Activities extends React.Component {
      * Update filters for activity filtering
      */
     onFiltersChanged(filters) {
-        console.log(this.state.filters)
         this.setState({
             filters: filters,
-            filtered_activities: filterActivities(this.state.activities, filters)
+            filtered_activities: filterActivities(this.state.activities, filters.concat(this.state.default_filters))
         })
     }
 
