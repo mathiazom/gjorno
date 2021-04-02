@@ -179,6 +179,11 @@ export default class ActivitiesFilterPanel extends React.Component {
                         <label htmlFor="capacity-range" className="form-label">Mininum ledige plasser: <span id="chosen-capacity">0</span></label>
                        <input type="range" className="form-range" min="0" max={(maxCapacity < 50) ? maxCapacity : 50} id="capacity-range" onChange={this.updateCapacityFilter}></input>
                     </div>
+                        <label htmlFor="activity-level-filter-select" className="form-label">Pris</label>
+                        <div className="range">
+                            <input type="range" min="0" max={this.props.maxPrice} className="form-range" id="price-filter" />
+                        </div>
+                    </div>
                 </div>
             </div>
         )
