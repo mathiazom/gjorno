@@ -257,7 +257,6 @@ class ActivityForm extends React.Component {
         }
         data.append("price", document.getElementById("registration-price-input").value);
         const image = this.state.image;
-        console.log(image);
         if (image != null){
             if ('image' in image){
                 data.append("image", image.image);

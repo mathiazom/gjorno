@@ -30,7 +30,6 @@ export default class FavoriteActivity extends React.Component {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
-            console.log(res.status)
             if (res.status === 200) {
                 // Refresh favorites list to remove the activity from it.
                 this.props.onUpdate();
