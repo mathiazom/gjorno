@@ -12,6 +12,7 @@ export default class ActivitiesFilterPanel extends React.Component {
         this.updateRegistrationFilter = this.updateRegistrationFilter.bind(this);
         this.updateActivityLevelFilter = this.updateActivityLevelFilter.bind(this);
         this.updateExpiredRegistrationFilter = this.updateExpiredRegistrationFilter.bind(this);
+        this.updateCapacityFilter = this.updateCapacityFilter.bind(this);
     }
 
     componentDidMount() {
@@ -24,6 +25,11 @@ export default class ActivitiesFilterPanel extends React.Component {
         // Default to "No" for expired registrations filter
         document.getElementById("expired-registration-filter-no").checked = true;
         this.updateExpiredRegistrationFilter();
+        // Default to 0 for registration capacity
+        document.getElementById("capacity-range").value = 0;
+        // Set capacity range to min of actual capacities and 50 
+        const maxCapacity = Math.max(...this.props.activities.filter((activity) => activity.has_registration).map((activity) => activity.registration_capacity));
+        document.getElementById("capacity-range").max = (maxCapacity < 50) ? maxCapacity : 50;
     }
 
     updateFilter(name, filter) {
@@ -86,6 +92,21 @@ export default class ActivitiesFilterPanel extends React.Component {
         }
 
         this.updateFilter("expired_registration", filter);
+    }
+    
+    updateCapacityFilter() {
+        
+        let filter;
+        const min = document.getElementById("capacity-range").value;
+        document.getElementById("chosen-capacity").innerHTML = min;
+
+        if (min == 0) {
+            filter = () => true;
+        } else if (min > 0) {
+            filter = (activity) => (activity.has_registration && activity.registration_capacity - activity.registrations_count >= min) || (!activity.has_registration)
+        }
+
+        this.updateFilter("registration_capacity", filter);
     }
 
     render() {
@@ -154,6 +175,8 @@ export default class ActivitiesFilterPanel extends React.Component {
                                    autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
                             <label className="btn btn-outline-success" htmlFor="expired-registration-filter-no">Nei</label>
                         </div>
+                       <label htmlFor="capacity-range" className="form-label">Mininum ledige plasser: <span id="chosen-capacity">0</span></label>
+                       <input type="range" className="form-range" min="0" max="50" id="capacity-range" onChange={this.updateCapacityFilter}></input>
                     </div>
                 </div>
             </div>
