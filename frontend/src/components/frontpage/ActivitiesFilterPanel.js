@@ -19,8 +19,8 @@ export default class ActivitiesFilterPanel extends React.Component {
         document.getElementById("registration-filter-any").checked = true;
         // Default to "ANY" for activity level filter
         document.getElementById("activity-level-filter-any").checked = true;
-        // Default to "Yes" for expired registrations filter
-        document.getElementById("expired-registration-filter-yes").checked = true;
+        // Default to "No" for expired registrations filter
+        document.getElementById("expired-registration-filter-no").checked = true;
     }
 
     updateFilter(name, filter) {

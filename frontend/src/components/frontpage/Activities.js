@@ -12,7 +12,7 @@ export default class Activities extends React.Component {
         this.state = {
             activities: [],
             show_filter_panel: false,
-            filters: [],
+            filters: [(activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)],
             filtered_activities: []
         }
         this.getActivities = this.getActivities.bind(this);
@@ -68,6 +68,7 @@ export default class Activities extends React.Component {
      * Update filters for activity filtering
      */
     onFiltersChanged(filters) {
+        console.log(this.state.filters)
         this.setState({
             filters: filters,
             filtered_activities: filterActivities(this.state.activities, filters)
