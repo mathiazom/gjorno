@@ -45,10 +45,19 @@ export default class MyLoggedActvitites extends React.Component {
                 <h2>Logg</h2>
                 <div>
                     {this.renderAllActivities()}
-                    {(this.props.logged.length + this.props.registered.length) === 0 ? <blockquote className="blockquote"><p className="mt-2 mb-5">Loggen er tom! Registrer deg eller fullfør en aktivitet, så dukker den opp her!</p></blockquote> : null}
+                    {(this.props.logged.length + this.props.registered.length) === 0 &&
+                    <div className={"card"}>
+                        <div className={"card-body p-4 d-flex"}>
+                            <i className="fas fa-info-circle fa-lg text-muted align-self-center me-4"/>
+                            <p className="text-muted fs-6 m-0">Loggen er tom! <br/>Registrer deg eller fullfør en aktivitet, så dukker den opp her!</p>
+                        </div>
+                    </div>
+                    }
                     {(this.props.logged.length + this.props.registered.length) <= 3 ? null : <Link title="Vis alle" to={`/profile/log`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>}
                 </div>
             </div>
         );
     }
 }
+
+
