@@ -57,7 +57,6 @@ export default class FavoriteActivites extends React.Component {
         if (this.state.data.length <= 3) {
             return this.state.data.map((activity) => (
                 <FavoriteActivity data={activity} key={activity.id} onUpdate={this.getFavoriteActivities}/>
-
            ));
         } else {
             const l = this.state.data.length;
@@ -76,7 +75,8 @@ export default class FavoriteActivites extends React.Component {
                 <h2>Favoritter</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <Link title="Vis alle" to={`/profile/favorites`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>
+                    {this.state.data.length == 0 ? <blockquote className="blockquote"><p className="mt-2">Du har ikke lagt til noen aktiviteter som favoritt!</p></blockquote> : null}
+                    {this.state.data.length <= 3 ? null : <Link title="Vis alle" to={`/profile/favorites`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"} id="show-all-favorites">Vis alle</Link>}
                 </div>
             </div>
         );

@@ -38,7 +38,7 @@ export default class Profile extends React.Component {
                     <div className="col mt-5 mt-md-0">
                         <FavoriteActivites />
                         <MyActivities />
-                        <MyLoggedActvitites />
+                        {this.state.data.is_organization == true ? null : <MyLoggedActvitites />}
                     </div>
                 </div>
             </div>
