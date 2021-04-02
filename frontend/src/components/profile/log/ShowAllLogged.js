@@ -82,7 +82,7 @@ export default class ShowAllLogged extends React.Component {
     render() {
         return (
             <div className="container-fluid w-75 mt-5">
-                <h2>Fullstending logg</h2>
+                <h2>Fullstendig logg</h2>
                 <div>
                     {this.renderAllActivities()}
                 </div>

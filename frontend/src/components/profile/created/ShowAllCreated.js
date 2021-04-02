@@ -1,5 +1,5 @@
 import React from 'react';
-import MyActicity from './MyActivity';
+import MyActivity from './MyActivity';
 import axios from 'axios';
 
 export default class ShowAllCreated extends React.Component {
@@ -27,7 +27,7 @@ export default class ShowAllCreated extends React.Component {
 
     renderActivities() {
         return (this.state.data.map((activity) => (
-            <MyActicity data={activity} key={activity.id} />
+            <MyActivity data={activity} key={activity.id} />
         )));
     }
 
