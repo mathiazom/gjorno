@@ -11,6 +11,7 @@ export default class Activities extends React.Component {
         super(props);
         this.state = {
             activities: [],
+            categories: [],
             show_filter_panel: false,
             default_filters: [(activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)],
             filters: [],
@@ -22,6 +23,7 @@ export default class Activities extends React.Component {
     }
 
     componentDidMount() {
+        this.getCategories();
         this.getActivities();
         this.attachPaneResizeObserver();
     }
@@ -66,6 +68,22 @@ export default class Activities extends React.Component {
     }
 
     /**
+     * Retrieve all categories from API
+     */
+    getCategories() {
+        axios
+            .get(`http://localhost:8000/api/categories/`)
+            .then(res => {
+                this.setState({
+                    categories: res.data,
+                });
+            })
+            .catch(error => {
+                console.log(error.response);
+            });
+    }
+
+    /**
      * Update filters for activity filtering
      */
     onFiltersChanged(filters) {
@@ -100,10 +118,17 @@ export default class Activities extends React.Component {
      * and we make an Activity with the stored data (from the Activity-component).
      */
     renderAllActivities() {
-        return this.state.filtered_activities.map((activity) => (
-            <Activity data={activity} key={activity.id} authenticated={this.props.authenticated}
-                      onUpdate={this.getActivities}/>
-        ));
+        return this.state.filtered_activities.map((activity) =>
+            (
+                <Activity
+                    activity={activity}
+                    key={activity.id}
+                    categories={this.state.categories.filter((c) => activity.categories.includes(c.id))}
+                    authenticated={this.props.authenticated}
+                    onUpdate={this.getActivities}
+                />
+            )
+        );
     }
 
     render() {
@@ -112,7 +137,8 @@ export default class Activities extends React.Component {
                 <div id={"activities-pane"}>
                     <div className={"mx-auto activities-list pt-4 ps-5 pe-5"}>
                         <div className={"d-flex justify-content-between"}>
-                            <span className={"fs-5 align-self-center"}>{this.state.filtered_activities.length} aktiviteter</span>
+                            <span
+                                className={"fs-5 align-self-center"}>{this.state.filtered_activities.length} aktiviteter</span>
                             <a role={"button"} className={"d-none d-md-block btn btn-outline-success align-self-center"}
                                onClick={this.toggleFilterPanel}>
                                 <i id={"filter-button-icon"} className={"fas me-2 fa-filter"}/>

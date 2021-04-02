@@ -15,7 +15,7 @@ const Activity = (props) => {
      * currently logged in user's favorites list.
      */
     const favorite = () => {
-        axios.post(`http://localhost:8000/api/activities/${props.data.id}/favorite/`,
+        axios.post(`http://localhost:8000/api/activities/${props.activity.id}/favorite/`,
         null,
         {
             headers: {
@@ -37,7 +37,7 @@ const Activity = (props) => {
      * from the currently logged in user's favorites list.
      */
     const unfavorite = () => {
-        axios.post(`http://localhost:8000/api/activities/${props.data.id}/unfavorite/`,
+        axios.post(`http://localhost:8000/api/activities/${props.activity.id}/unfavorite/`,
         null,
         {
             headers: {
@@ -54,27 +54,39 @@ const Activity = (props) => {
         })
     }
 
+    const renderCategories = () => {
+
+        return props.categories.map((category) => (
+            <span key={category.id} className="badge bg-success me-1">{category.title}</span>
+        ));
+
+    }
+
     return (
         <div className="card activity-card mt-4 mb-4">
-            <img src={props.data.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
+            <img src={props.activity.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row align-items-center">
                 <div className={"col-12 col-lg-8 pe-4"}>
-                <Link to={`/activity-details/${props.data.id}`} style={{textDecoration: "none"}}>
-                <h5 className="card-title text-success">
-                    {/* Icon showing what activities have registration */}
-                    {props.data.has_registration &&
-                        <i className="fas fa-users me-2"> </i>
-                    }
-                    {props.data.title}
-                </h5></Link>
-                    <p className="card-text">{props.data.ingress}</p>
+                    <Link to={`/activity-details/${props.activity.id}`} style={{textDecoration: "none"}}>
+                        <h5 className="card-title text-success">
+                            {/* Icon showing what activities have registration */}
+                            {props.activity.has_registration &&
+                                <i className="fas fa-users me-2"> </i>
+                            }
+                            {props.activity.title}
+                        </h5>
+                    </Link>
+                    <p className="card-text mb-2">{props.activity.ingress}</p>
+                    <div>
+                        {renderCategories()}
+                    </div>
                 </div>
                 <div className={"col-12 col-xl-4 text-end d-none d-xl-block pe-5"}>
                     <div className={"text-secondary"}>
                         <span>Publisert av</span><br/>
-                        <span className={"text-success"}><b>{props.data.username} </b>
+                        <span className={"text-success"}><b>{props.activity.username} </b>
                         {/* Verified icon for organizations */}
-                            {props.data.is_organization &&
+                            {props.activity.is_organization &&
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-patch-check-fill text-primary" viewBox="0 0 16 16">
                                     <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
                                 </svg>
@@ -83,8 +95,8 @@ const Activity = (props) => {
                     </div>
                     <div className={"mt-3"}>
                         {/* Favorite button, hidden for an unauthorized user */}
-                        {(props.data.is_favorited && props.authenticated) && <a role="button" title="Fjern fra favoritter" className="text-success" onClick={unfavorite}><i className="fas fa-heart fa-lg"/></a>}
-                        {(!props.data.is_favorited && props.authenticated) && <a role="button" title="Legg til i favoritter" className="text-success" onClick={favorite}><i className="far fa-heart fa-lg"/></a>}
+                        {(props.activity.is_favorited && props.authenticated) && <a role="button" title="Fjern fra favoritter" className="text-success" onClick={unfavorite}><i className="fas fa-heart fa-lg"/></a>}
+                        {(!props.activity.is_favorited && props.authenticated) && <a role="button" title="Legg til i favoritter" className="text-success" onClick={favorite}><i className="far fa-heart fa-lg"/></a>}
                     </div>
                 </div>
             </div>
