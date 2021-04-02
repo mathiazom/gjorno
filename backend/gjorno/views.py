@@ -207,8 +207,6 @@ class ActivityLogView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         user = self.request.user
         activity = Activity.objects.get(id=self.kwargs['activity'])
-        if Log.objects.filter(user=user.id, activity=activity.id):
-            return Response("User already logged this activity", status=status.HTTP_403_FORBIDDEN)
         serializer = self.get_serializer(data={
             "user": user.id,
             "activity": activity.id

@@ -1,10 +1,7 @@
 """
 Unit tests for models and related views
 """
-import tempfile
-from pathlib import Path
 
-from django.conf import settings
 from django.core.files import File
 from django.test import TestCase
 from django.contrib.auth.admin import User
@@ -12,7 +9,61 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework.utils import json
 
-from .models import Activity, Registration, Category, Image, Profile
+from .models import Activity, Registration, Category, Image, Profile, Log
+
+
+class UserRegisterLoginTest(TestCase):
+    """Testing user registration and login"""
+
+    def setUp(self):
+        self.client = APIClient()
+
+    def assert_registration(self, response, username):
+        # Check that something was created
+        self.assertEqual(response.status_code, 201)
+        # Check that token key is returned
+        response_dict = json.loads(response.content)
+        self.assertTrue('key' in response_dict)
+        self.assert_token_response(response, username)
+
+    def assert_token_response(self, response, username):
+        response_dict = json.loads(response.content)
+        # Check that user object is created with returned token
+        self.assertTrue(User.objects.filter(username=username).exists())
+        self.assertEqual(response_dict['key'], Token.objects.get(user=User.objects.get(username=username)).key)
+
+    def test_register_user(self):
+        """Request registration of regular user"""
+        response = self.client.post('/auth/register/', {
+            "username": "HeinrichSpiegel32",
+            "password1": "FiiaWZP3SVL7Su7dGhk4BuMTqzsMMncc",
+            "password2": "FiiaWZP3SVL7Su7dGhk4BuMTqzsMMncc"
+        })
+        self.assert_registration(response, "HeinrichSpiegel32")
+
+    def test_register_organization(self):
+        """Request registration of organization"""
+        response = self.client.post('/auth/register/', {
+            "username": "WilhelmFliegstad17",
+            "password1": "8jSXhS2SHxcXEUXxyjN8ecU7saGUgW6p",
+            "password2": "8jSXhS2SHxcXEUXxyjN8ecU7saGUgW6p",
+            "is_organization": True
+        })
+        self.assert_registration(response, "WilhelmFliegstad17")
+
+    def test_login_user(self):
+        """Request user login (token retrieval)"""
+        self.client.post('/auth/register/', {
+            "username": "zamenhof59",
+            "password1": "4SX8cGdwgGQsyxDEp4CN3YzqFa2RLUju",
+            "password2": "4SX8cGdwgGQsyxDEp4CN3YzqFa2RLUju"
+        })
+        response = self.client.post('/auth/login/', {
+            "username": "zamenhof59",
+            "password": "4SX8cGdwgGQsyxDEp4CN3YzqFa2RLUju"
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assert_token_response(response, "zamenhof59")
 
 
 class ActivityBaseTest(TestCase):
@@ -62,6 +113,43 @@ class ActivityBaseTest(TestCase):
             activity_level=1
         )
         self.activity_with_registration.categories.set([1, 3])
+        self.activity_past_deadline = Activity.objects.create(
+            user=self.user, title="Promenu ĉirkaŭ la lago",
+            ingress="Ruli hekto obl co, ho ido stif frota.",
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            has_registration=True,
+            registration_capacity=12,
+            registration_deadline="2020-03-17T15:20:24Z",
+            starting_time="2020-03-23T15:20:34Z",
+            location="Laguna Roponda",
+            price=500.0,
+            activity_level=1
+        )
+        self.activity_past_deadline.categories.set([1, 3])
+        self.activity_max_capacity = Activity.objects.create(
+            user=self.user, title="Promenu ĉirkaŭ la lago",
+            ingress="Ruli hekto obl co, ho ido stif frota.",
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            has_registration=True,
+            registration_capacity=1,
+            registration_deadline="2022-03-17T15:20:24Z",
+            starting_time="2022-03-23T15:20:34Z",
+            location="Laguna Roponda",
+            price=500.0,
+            activity_level=1
+        )
+        self.activity_max_capacity.categories.set([1, 3])
+        Registration.objects.create(user=self.users[0], activity=self.activity_max_capacity)
+
+        self.activities = []
+        for i in range(1, 5):
+            activity = Activity.objects.create(
+                user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
+                ingress="Ruli hekto obl co, ho ido stif frota.",
+                description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            )
+            activity.categories.set([1, 3])
+            self.activities.append(activity)
 
 
 class ActivityTest(ActivityBaseTest):
@@ -76,22 +164,13 @@ class ActivityTest(ActivityBaseTest):
 
     def test_retrieve_activities(self):
         """Make sure created activities can be retrieved with correct fields"""
-        # Create dummy activities
-        activities = []
-        for i in range(1, 5):
-            activity = Activity.objects.create(
-                user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
-                ingress="Ruli hekto obl co, ho ido stif frota.",
-                description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
-            )
-            activity.categories.set([1, 3])
-            activities.append(activity)
         # Request activity retrieval (without auth)
         client = APIClient()
         response = client.get('/api/activities/')
         # Check that each activity in json response matches original
+        self.maxDiff = None
         json_response = json.loads(response.content)
-        for i, activity in enumerate(activities):
+        for i, activity in enumerate(self.activities):
             self.assertDictEqual(
                 json_response[3 - i],
                 {
@@ -113,10 +192,17 @@ class ActivityTest(ActivityBaseTest):
                 }
             )
 
+    def test_retrieve_activity_as_view(self):
+        """Request activity retrieval (with view registration)"""
+        response = self.client.get(f'/api/activities/{self.activity.id}/?register_view')
+        self.assertEqual(response.status_code, 200)
+        # Request activity retrieval without auth
+        response = APIClient().get(f'/api/activities/{self.activity.id}/?register_view')
+        self.assertEqual(response.status_code, 200)
+
     def test_retrieve_activities_with_registration(self):
         """Make sure created activities (with registration) can be retrieved with correct fields"""
-        # Create dummy activities
-        activities = []
+        self.activities_with_registration = []
         for i in range(1, 5):
             activity = Activity.objects.create(
                 user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
@@ -126,13 +212,13 @@ class ActivityTest(ActivityBaseTest):
                 starting_time="2022-03-23T15:20:34+01:00", location="T-Town", price=None, activity_level=None
             )
             activity.categories.set([1, 3])
-            activities.append(activity)
+            self.activities_with_registration.append(activity)
         # Request activity retrieval
         client = APIClient()
         response = client.get('/api/activities/')
         # Check that each activity in json response matches original
         json_response = json.loads(response.content)
-        for i, activity in enumerate(activities):
+        for i, activity in enumerate(self.activities_with_registration):
             self.assertDictEqual(
                 json_response[3 - i],
                 {
@@ -442,6 +528,21 @@ class ActivityTest(ActivityBaseTest):
         # Check that update was denied
         self.assertEqual(response.status_code, 403)
 
+    def test_delete_activity_as_author(self):
+        """Request activity deletion (auth as author)"""
+        response = self.client.delete(f"/api/activities/{self.activity.id}/")
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_activity_wrong_user(self):
+        """Request activity deletion (no auth)"""
+        response = self.client2.delete(f"/api/activities/{self.activity.id}/")
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_activity_no_auth(self):
+        """Request activity deletion (no auth)"""
+        response = APIClient().delete(f"/api/activities/{self.activity.id}/")
+        self.assertEqual(response.status_code, 401)
+
 
 class ActivityRegistrationsTest(ActivityBaseTest):
 
@@ -481,6 +582,35 @@ class ActivityRegistrationsTest(ActivityBaseTest):
         # Check that request was accepted
         self.assertEqual(response.status_code, 200)
 
+    def test_register_author(self):
+        """Request registration of author to activity"""
+        response = self.client.post(f'/api/activities/{self.activity_with_registration.id}/register/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_register_after_deadline(self):
+        """Request registration after deadline"""
+        response = self.client2.post(f'/api/activities/{self.activity_past_deadline.id}/register/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_register_user_is_organization(self):
+        """Request registration of an organization"""
+        response = self.clientOrganization.post(f'/api/activities/{self.activity_with_registration.id}/register/')
+        # Check that request was denied
+        self.assertEqual(response.status_code, 403)
+
+    def test_register_registered_user(self):
+        """Request registration of already registered user"""
+        self.register_user()
+        response = self.register_user()
+        # Check that request was denied
+        self.assertEqual(response.status_code, 403)
+
+    def test_register_beyond_capacity(self):
+        """Request registration of user after capacity has been reached"""
+        response = self.client2.post(f'/api/activities/{self.activity_max_capacity.id}/register/')
+        # Check that request was denied
+        self.assertEqual(response.status_code, 403)
+
     def test_unregister_user(self):
         """Request removal of user registration to activity"""
         self.register_user()
@@ -500,35 +630,97 @@ class ActivityRegistrationsTest(ActivityBaseTest):
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
 
-    def test_register_user_is_organization(self):
-        """Request registration of an organization"""
-        response = self.clientOrganization.post(f'/api/activities/{self.activity_with_registration.id}/register/')
-        # Check that request was denied
+    def test_retrieve_registered_activities(self):
+        """Request activities where logged in user is registered"""
+        self.activities_with_registration = []
+        for i in range(1, 5):
+            activity = Activity.objects.create(
+                user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
+                ingress="Ruli hekto obl co, ho ido stif frota.",
+                description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                has_registration=True, registration_capacity=10, registration_deadline="2022-03-17T15:20:24+01:00",
+                starting_time="2022-03-23T15:20:34+01:00", location="T-Town", price=None, activity_level=None
+            )
+            activity.categories.set([1, 3])
+            self.activities_with_registration.append(activity)
+        self.client2.post(f'/api/activities/{self.activities_with_registration[0].id}/register/')
+        self.client2.post(f'/api/activities/{self.activities_with_registration[1].id}/register/')
+        response = self.client2.get("/api/my_registered_activities/")
+        json_response = json.loads(response.content)
+        for i, activity in enumerate(self.activities_with_registration[0:2]):
+            self.assertDictEqual(
+                json_response[1-i],
+                {
+                    "id": activity.id,
+                    "title": activity.title,
+                    "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                    "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                    "categories": [1, 3],
+                    "image": None,
+                    "user": self.user.id,
+                    "username": "zamenhof59",
+                    "is_organization": False,
+                    "has_registration": True,
+                    "registration_capacity": 10,
+                    "registration_deadline": "2022-03-17T15:20:24+01:00",
+                    "starting_time": "2022-03-23T15:20:34+01:00",
+                    "location": "T-Town",
+                    "registrations_count": 1,
+                    "price": None,
+                    "activity_level": None
+                }
+            )
+
+
+class ActivityFavoriteTest(ActivityBaseTest):
+
+    def test_favorite_activity(self):
+        """Request favorite activity as logged in user"""
+        response = self.client.post(f'/api/activities/{self.activity.id}/favorite/')
+        self.assertEqual(response.status_code, 201)
+
+    def test_favorite_activity_twice(self):
+        """Request favorite activity when already favorited"""
+        self.client.post(f'/api/activities/{self.activity.id}/favorite/')
+        response = self.client.post(f'/api/activities/{self.activity.id}/favorite/')
         self.assertEqual(response.status_code, 403)
 
-    def test_register_registered_user(self):
-        """Request registration of already registered user"""
-        self.register_user()
-        response = self.register_user()
-        # Check that request was denied
+    def test_unfavorite_activity(self):
+        """Request unfavorite activity as logged in user"""
+        self.client.post(f'/api/activities/{self.activity.id}/favorite/')
+        response = self.client.post(f'/api/activities/{self.activity.id}/unfavorite/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_unfavorite_not_favorited_activity(self):
+        """Request unfavorite activity not favorited by logged in user"""
+        response = self.client.post(f'/api/activities/{self.activity.id}/unfavorite/')
         self.assertEqual(response.status_code, 403)
 
-    def test_register_beyond_capacity(self):
-        """Request registration of user after capacity has been reached"""
-        activity = Activity.objects.create(
-            user=self.user, title="Promenu ĉirkaŭ la lago",
-            ingress="Ruli hekto obl co, ho ido stif frota.",
-            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
-            has_registration=True,
-            registration_capacity=1,
-            registration_deadline="2022-03-17T15:20:24Z",
-            starting_time="2022-03-23T15:20:34Z",
-            location="Laguna Roponda"
-        )
-        self.client2.post(f'/api/activities/{activity.id}/register/')
-        response = self.client2.post(f'/api/activities/{activity.id}/register/')
-        # Check that request was denied
-        self.assertEqual(response.status_code, 403)
+    def test_retrieve_favorited_activities(self):
+        """Request activities logged in user has favorited"""
+        self.client.post(f'/api/activities/{self.activities[0].id}/favorite/')
+        self.client.post(f'/api/activities/{self.activities[1].id}/favorite/')
+        response = self.client.get("/api/my_favorited_activities/")
+        json_response = json.loads(response.content)
+        for i, activity in enumerate(self.activities[0:2]):
+            self.assertDictEqual(
+                json_response[i],
+                {
+                    "id": activity.id,
+                    "title": activity.title,
+                    "ingress": "Ruli hekto obl co, ho ido stif frota.",
+                    "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+                    "categories": [1, 3],
+                    "image": None,
+                    "user": self.user.id,
+                    "username": "zamenhof59",
+                    "is_organization": False,
+                    "has_registration": False,
+                    "price": activity.price,
+                    "activity_level": activity.activity_level
+                }
+            )
+
 
 
 class MyActivitiesTest(TestCase):
@@ -583,6 +775,102 @@ class MyActivitiesTest(TestCase):
         )
 
 
+class LogTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(username="zamenhof59")
+        self.user2 = User.objects.create(username="klara63")
+        self.profile2 = Profile.objects.create(user=self.user2, is_organization=False)
+        token = Token.objects.create(user=self.user)
+        self.client = APIClient()
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        token2 = Token.objects.create(user=self.user2)
+        self.client2 = APIClient()
+        self.client2.credentials(HTTP_AUTHORIZATION='Token ' + token2.key)
+        self.activity = Activity.objects.create(
+            user=self.user2, title="Promenu ĉirkaŭ la lago",
+            ingress="Ruli hekto obl co, ho ido stif frota.",
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
+            has_registration=False,
+            activity_level=2
+        )
+        self.activity2 = Activity.objects.create(
+            user=self.user2, title="Promenu ĉirkaŭ la lago 2",
+            ingress="Ruli hekto obl co, ho ido stif frota 2.",
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota. 2",
+            has_registration=False,
+            activity_level=1
+        )
+        self.activity3 = Activity.objects.create(
+            user=self.user2, title="Promenu ĉirkaŭ la lago 3",
+            ingress="Ruli hekto obl co, ho ido stif frota 3.",
+            description="Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota. 3",
+            has_registration=False,
+            activity_level=3
+        )
+
+    def test_post_log(self):
+        """Request logging av activity completion"""
+        response = self.client.post(f"/api/activities/{self.activity.id}/log/")
+        self.assertEqual(response.status_code, 201)
+
+    def test_delete_log(self):
+        """Request removal of activity log"""
+        self.log = Log.objects.create(user=self.user, activity=self.activity)
+        response = self.client.delete(f"/api/activity_unlog/{self.log.id}/")
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_log_not_creator(self):
+        """Request removal of activity log not created by logged in user"""
+        self.log = Log.objects.create(user=self.user, activity=self.activity)
+        response = self.client2.delete(f"/api/activity_unlog/{self.log.id}/")
+        self.assertEqual(response.status_code, 403)
+
+    def test_retrieve_logged_activities(self):
+        """Request logged in user's logged activities"""
+        self.log1 = Log.objects.create(user=self.user, activity=self.activity)
+        self.log2 = Log.objects.create(user=self.user, activity=self.activity)
+        response = self.client.get("/api/my_logged_activities/")
+        json_response = json.loads(response.content)
+        self.assertListEqual(
+            json_response,
+            [
+                {
+                    "log_id": self.log1.id,
+                    "log_timestamp": json_response[0]['log_timestamp'],
+                    "activity": self.activity.id,
+                    "title": self.activity.title,
+                    "ingress": self.activity.ingress,
+                    "description": self.activity.description,
+                    "categories": [],
+                    "image": None,
+                    "price": None,
+                    "user": self.user2.id,
+                    "username": self.user2.username,
+                    "is_organization": False,
+                    "has_registration": False,
+                    "activity_level": self.activity.activity_level
+                },
+                {
+                    "log_id": self.log2.id,
+                    "log_timestamp": json_response[1]['log_timestamp'],
+                    "activity": self.activity.id,
+                    "title": self.activity.title,
+                    "ingress": self.activity.ingress,
+                    "description": self.activity.description,
+                    "categories": [],
+                    "image": None,
+                    "price": None,
+                    "user": self.user2.id,
+                    "username": self.user2.username,
+                    "is_organization": False,
+                    "has_registration": False,
+                    "activity_level": self.activity.activity_level
+                }
+            ]
+        )
+
+
 class CategoryTest(TestCase):
     """Testing category model"""
 
@@ -622,6 +910,23 @@ class UserProfileTest(TestCase):
             "username": self.user.username,
             "email": self.user.email,
             "phone_number": "+4283356789",
+            "is_organization": False,
+            "avatar": None
+        })
+
+    def test_update_profile(self):
+        """Request update of profile info"""
+        response = self.client.put('/api/current_user/', {
+            "username": "klara63",
+            "email": "klara@post.fm",
+            "phone_number": "+4712344321",
+            "avatar": ""
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(json.loads(response.content), {
+            "username": "klara63",
+            "email": "klara@post.fm",
+            "phone_number": "+4712344321",
             "is_organization": False,
             "avatar": None
         })
