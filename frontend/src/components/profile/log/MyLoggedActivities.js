@@ -1,69 +1,18 @@
 import React from 'react';
 import MyLoggedActivity from './MyLoggedActivity';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class MyLoggedActvitites extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            logged: [],
-            registered: []
-        }
-    }
-
-    /**
-     * Get all the registered and logged activities for the user.
-     */
-    componentDidMount() {
-        this.getLoggedActivities();
-        this.getRegisteredActivities();
-    }
-
-    /**
-     * Sends an API GET request to get the activities which the user has logged.
-     */
-    getLoggedActivities() {
-        axios.get('/api/my_logged_activities/',
-        {
-            headers: {
-                "Authorization": `Token ${window.localStorage.getItem("Token")}`
-            }
-        })
-        .then(res => {
-            this.setState({logged: res.data});
-        })
-        .catch(error => {
-            console.log(error.response);
-        });
-    }
-
-    /**
-     * Sends an API GET request to get the activities for which the user is registered.
-     */
-    getRegisteredActivities () {
-        axios.get('/api/my_registered_activities/',
-        {
-            headers: {
-                "Authorization": `Token ${window.localStorage.getItem("Token")}`
-            }
-        })
-        .then(res => {
-            this.setState({registered: res.data});
-        })
-        .catch(error => {
-            console.log(error.response);
-        });
-    }
 
     /**
      * We only render 3 activities. If there are more we take the three of the most recent.
      */
     renderAllActivities() {
-        let log = this.state.logged.concat(this.state.registered)
+        let log = this.props.logged.concat(this.props.registered)
         log.sort(this.compare)
         if (log.length <= 3) {
             return log.reverse().map((activity) => (
-                activity.username == this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
+                activity.username === this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
            ));
         } else {
             const l = log.length;
@@ -92,13 +41,23 @@ export default class MyLoggedActvitites extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid w-100 p-0 ps-md-5">
+            <div className="container-fluid w-100 p-0 ps-md-5 mb-5">
                 <h2>Logg</h2>
                 <div>
                     {this.renderAllActivities()}
-                    <button className="btn btn-outline-success w-100 mb-4 ps-3 pe-3">Vis alle</button>
+                    {(this.props.logged.length + this.props.registered.length) === 0 &&
+                    <div className={"card"}>
+                        <div className={"card-body p-4 d-flex"}>
+                            <i className="fas fa-info-circle fa-lg text-muted align-self-center me-4"/>
+                            <p className="text-muted fs-6 m-0">Loggen er tom! <br/>Registrer deg eller fullfør en aktivitet, så dukker den opp her!</p>
+                        </div>
+                    </div>
+                    }
+                    {(this.props.logged.length + this.props.registered.length) <= 3 ? null : <Link title="Vis alle" to={`/profile/log`} className={"btn btn-outline-success w-100 mb-4 ps-3 pe-3"}>Vis alle</Link>}
                 </div>
             </div>
         );
     }
 }
+
+
