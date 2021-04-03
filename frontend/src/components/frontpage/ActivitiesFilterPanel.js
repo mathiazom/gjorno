@@ -93,7 +93,7 @@ export default class ActivitiesFilterPanel extends React.Component {
     updateCapacityFilter() {
         let filter;
 
-        const min = document.getElementById("capacity-range").value;
+        const min = parseInt(document.getElementById("capacity-range").value);
         document.getElementById("chosen-capacity").innerHTML = min;
 
         if (min === 0) {
@@ -108,9 +108,10 @@ export default class ActivitiesFilterPanel extends React.Component {
     updatePriceFilter() {
         let filter;
 
-        document.getElementById("price-filter-value").innerText = document.getElementById("price-filter").value;
+        const maxPrice = parseInt(document.getElementById("price-filter").value);
+        document.getElementById("price-filter-value").innerText = maxPrice;
 
-        filter = (activity) => activity.price <= document.getElementById("price-filter").value;
+        filter = (activity) => activity.price <= maxPrice;
 
         this.updateFilter('price', filter);
     }
@@ -191,7 +192,7 @@ export default class ActivitiesFilterPanel extends React.Component {
                     </div>
                     <div className={"mb-5"}>
                         <label htmlFor="capacity-range" className="form-label">
-                            Mininum ledige plasser: <span id="chosen-capacity">0</span></label>
+                            Minimum ledige plasser: <span id="chosen-capacity">0</span></label>
                         <div>
                             <input
                                 type="range"
