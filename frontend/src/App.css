@@ -1,3 +1,9 @@
+/* MULTISELECT OVERRIDE */
+
+.dropdown-content{
+  z-index: 900 !important;
+}
+
 /* ACTIVITY CARD */
 
 .activity-card img{
