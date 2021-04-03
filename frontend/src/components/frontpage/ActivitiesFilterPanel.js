@@ -13,6 +13,7 @@ export default class ActivitiesFilterPanel extends React.Component {
         this.updateActivityLevelFilter = this.updateActivityLevelFilter.bind(this);
         this.updateExpiredRegistrationFilter = this.updateExpiredRegistrationFilter.bind(this);
         this.updateCapacityFilter = this.updateCapacityFilter.bind(this);
+        this.updatePriceFilter = this.updatePriceFilter.bind(this);
     }
 
     componentDidMount() {
@@ -27,6 +28,8 @@ export default class ActivitiesFilterPanel extends React.Component {
         this.updateExpiredRegistrationFilter();
         // Default to 0 for registration capacity
         document.getElementById("capacity-range").value = 0;
+
+        document.getElementById("price-filter").value;
     }
 
     updateFilter(name, filter) {
@@ -102,6 +105,13 @@ export default class ActivitiesFilterPanel extends React.Component {
         } else if (min > 0) {
             filter = (activity) => (activity.has_registration && activity.registration_capacity - activity.registrations_count >= min) || (!activity.has_registration)
         }
+    updatePriceFilter() {
+        let filter;
+        filter = (activity) => activity.price <= document.getElementById("price-filter").value;
+        this.updateFilter('price', filter);
+    }
+
+    render() {
 
         this.updateFilter("registration_capacity", filter);
     }
@@ -181,7 +191,19 @@ export default class ActivitiesFilterPanel extends React.Component {
                     </div>
                         <label htmlFor="activity-level-filter-select" className="form-label">Pris</label>
                         <div className="range">
-                            <input type="range" min="0" max={this.props.maxPrice} className="form-range" id="price-filter" />
+                            <input 
+                            name="price-filter-name" 
+                            type="range" 
+                            className="form-range" 
+                            min="0" max={this.props.maxPrice} 
+                            defaultValue={this.props.maxPrice} 
+                            id="price-filter" 
+                            onChange={() => {
+                                document.getElementById("price-filter-value").innerText = document.getElementById("price-filter").value;
+                                this.updatePriceFilter();
+                            }} />
+                            <span id="price-filter-value">{this.props.maxPrice}</span>
+                            <span> kroner</span>
                         </div>
                     </div>
                 </div>
