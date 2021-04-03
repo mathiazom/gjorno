@@ -174,7 +174,9 @@ export default class ActivitiesFilterPanel extends React.Component {
                                    autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
                             <label className="btn btn-outline-success" htmlFor="expired-registration-filter-no">Nei</label>
                         </div>
-                       <label htmlFor="capacity-range" className="form-label">Mininum ledige plasser: <span id="chosen-capacity">0</span></label>
+                    </div>
+                    <div className={"mb-4"}>
+                        <label htmlFor="capacity-range" className="form-label">Mininum ledige plasser: <span id="chosen-capacity">0</span></label>
                        <input type="range" className="form-range" min="0" max={(maxCapacity < 50) ? maxCapacity : 50} id="capacity-range" onChange={this.updateCapacityFilter}></input>
                     </div>
                 </div>
