@@ -57,7 +57,7 @@ export default class Activities extends React.Component {
             .then(res => {
                 this.setState({
                     activities: res.data,
-                    filtered_activities: filterActivities(res.data, this.state.filters.concat(this.state.default_filters))
+                    filtered_activities: filterActivities(res.data, this.state.filters)
                 });
             })
             .catch(error => {
@@ -71,7 +71,7 @@ export default class Activities extends React.Component {
     onFiltersChanged(filters) {
         this.setState({
             filters: filters,
-            filtered_activities: filterActivities(this.state.activities, filters.concat(this.state.default_filters))
+            filtered_activities: filterActivities(this.state.activities, filters)
         })
     }
 

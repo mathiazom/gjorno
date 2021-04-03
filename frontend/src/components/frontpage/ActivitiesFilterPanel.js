@@ -17,10 +17,13 @@ export default class ActivitiesFilterPanel extends React.Component {
     componentDidMount() {
         // Default to "ANY" for has registration filter
         document.getElementById("registration-filter-any").checked = true;
+        this.updateRegistrationFilter();
         // Default to "ANY" for activity level filter
         document.getElementById("activity-level-filter-any").checked = true;
+        this.updateActivityLevelFilter();
         // Default to "No" for expired registrations filter
         document.getElementById("expired-registration-filter-no").checked = true;
+        this.updateExpiredRegistrationFilter();
     }
 
     updateFilter(name, filter) {
