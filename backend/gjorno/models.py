@@ -1,7 +1,7 @@
 """
 The basic models that make up the database schema
 """
-
+from colorfield.fields import ColorField
 from django.db import models
 from django.contrib.auth.admin import User
 from django.utils import timezone
@@ -103,6 +103,7 @@ class Log(models.Model):
 class Category(models.Model):
     """Generic category for the Activity model"""
     title = models.CharField(max_length=50)
+    color = ColorField(default='#EEEEEE')
 
     def __str__(self):
         return self.title

@@ -56,9 +56,19 @@ const Activity = (props) => {
 
     const renderCategories = () => {
 
-        return props.categories.map((category) => (
-            <span key={category.id} className="badge bg-success me-1">{category.title}</span>
-        ));
+        return props.categories.map((category) => {
+            console.log(category.text_color)
+            return (
+                <span
+                    key={category.id}
+                    className="badge bg-success me-1 fw-normal"
+                    style={{color: category.text_color}}
+                    ref={(el) => el && el.style.setProperty("background-color", category.color, "important")}
+                >
+                    {category.title}
+                </span>
+            );
+        });
 
     }
 

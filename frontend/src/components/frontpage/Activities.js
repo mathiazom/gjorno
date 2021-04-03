@@ -4,6 +4,7 @@ import Activity from './Activity';
 import axios from 'axios'
 import ActivitiesFilterPanel from "./ActivitiesFilterPanel";
 import {filterActivities} from "./FilterUtils";
+import {getTextColorBasedOnBgColor} from "../common/Utils";
 
 export default class Activities extends React.Component {
 
@@ -74,8 +75,12 @@ export default class Activities extends React.Component {
         axios
             .get(`http://localhost:8000/api/categories/`)
             .then(res => {
+                const categories = res.data.map((category) => {
+                    category['text_color'] = getTextColorBasedOnBgColor(category.color, "#FFFFFF", "#000000");
+                    return category
+                })
                 this.setState({
-                    categories: res.data,
+                    categories: categories,
                 });
             })
             .catch(error => {
