@@ -12,6 +12,7 @@ export default class Activities extends React.Component {
         this.state = {
             activities: [],
             show_filter_panel: false,
+            default_filters: [(activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)],
             filters: [],
             filtered_activities: []
         }

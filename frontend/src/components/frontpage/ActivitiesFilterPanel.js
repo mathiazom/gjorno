@@ -11,13 +11,19 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.updateRegistrationFilter = this.updateRegistrationFilter.bind(this);
         this.updateActivityLevelFilter = this.updateActivityLevelFilter.bind(this);
+        this.updateExpiredRegistrationFilter = this.updateExpiredRegistrationFilter.bind(this);
     }
 
     componentDidMount() {
         // Default to "ANY" for has registration filter
         document.getElementById("registration-filter-any").checked = true;
+        this.updateRegistrationFilter();
         // Default to "ANY" for activity level filter
         document.getElementById("activity-level-filter-any").checked = true;
+        this.updateActivityLevelFilter();
+        // Default to "No" for expired registrations filter
+        document.getElementById("expired-registration-filter-no").checked = true;
+        this.updateExpiredRegistrationFilter();
     }
 
     updateFilter(name, filter) {
@@ -67,6 +73,19 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.updateFilter('activity_level', filter);
 
+    }
+
+    updateExpiredRegistrationFilter() {
+
+        let filter;
+
+        if (document.getElementById("expired-registration-filter-yes").checked) {
+            filter = () => true;
+        } else if (document.getElementById("expired-registration-filter-no").checked) {
+            filter = (activity) => (activity.has_registration && (new Date(activity.registration_deadline) - Date.now() > 0)) || (!activity.has_registration)
+        }
+
+        this.updateFilter("expired_registration", filter);
     }
 
     render() {
@@ -119,6 +138,21 @@ export default class ActivitiesFilterPanel extends React.Component {
                                    autoComplete="off" onChange={this.updateActivityLevelFilter}/>
                             <label className="btn btn-outline-success"
                                    htmlFor="activity-level-filter-3">Krevende</label>
+                        </div>
+                    </div>
+                    <div className={"mb-4"}>
+                        <label htmlFor="expired-registration-filter-select" className="form-label">Vis utløpte aktiviteter</label>
+                        <div id="expired-registration-filter-select" className="btn-group d-flex" role="group"
+                             aria-label="Basic radio toggle button group">
+                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
+                                   id="expired-registration-filter-yes"
+                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
+                            <label className="btn btn-outline-success" htmlFor="expired-registration-filter-yes">Ja</label>
+
+                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
+                                   id="expired-registration-filter-no"
+                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
+                            <label className="btn btn-outline-success" htmlFor="expired-registration-filter-no">Nei</label>
                         </div>
                     </div>
                 </div>
