@@ -171,8 +171,13 @@ class ActivityDetails extends React.Component {
                                     }
                                     {!this.state.activity.is_author &&
                                     <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
-                                        <a title={this.state.activity.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
-                                           className="text-success" role="button"><i className="far fa-envelope fa-2x"/></a>
+                                        <Link 
+                                        to={`/activity-details/${this.state.activity.id}/contact/`} 
+                                        title={this.state.activity.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
+                                        className="text-success"
+                                        role="button">
+                                            <i className="far fa-envelope fa-2x"/>
+                                        </Link>
                                     </div>
                                     }
                                 </div>

@@ -15,7 +15,7 @@ import CreateActivity from "./components/create/CreateActivity";
 import EditActivity from "./components/profile/EditActivity";
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
-import {Slide, toast, ToastContainer} from "react-toastify";
+import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
@@ -23,13 +23,13 @@ import ScrollToTop from "./components/common/ScrollToTop";
 import ShowAllCreated from "./components/profile/created/ShowAllCreated";
 import ShowAllFavorites from "./components/profile/favorite/ShowAllFavorites";
 import ShowAllLogged from './components/profile/log/ShowAllLogged';
+import EmailForm from './components/activitydetails/EmailForm';
 
 
 export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             authenticated: window.localStorage.getItem('Token') != null
         }
@@ -43,24 +43,25 @@ export default class App extends React.Component {
         this.setState({
             authenticated: authState
         })
-        if(oldAuthState === authState){
+        if (oldAuthState === authState) {
             // No real change, no further actions required
             return;
         }
-        if(authState){
+        if (authState) {
             axios.get('http://localhost:8000/api/current_user/',
                 {
                     headers: {
                         "Authorization": `Token ${window.localStorage.getItem("Token")}`
-                    }})
+                    }
+                })
                 .then(res => {
-                    toast(`Hei, ${res.data.username} 🤩`, {containerId: 'main-toast-container'});
+                    toast(`Hei, ${res.data.username} 🤩`, { containerId: 'main-toast-container' });
                 }).catch(error => {
                     console.log(error.response);
                 });
         }
-        else{
-            toast("Logget ut 😴", {containerId: 'main-toast-container'});
+        else {
+            toast("Logget ut 😴", { containerId: 'main-toast-container' });
         }
     }
 
@@ -68,7 +69,7 @@ export default class App extends React.Component {
 
         return (
             <Router>
-                <ScrollToTop/>
+                <ScrollToTop />
                 <div className={"App"}>
                     <input type="checkbox" id="show" />
                     <LoginForm
@@ -112,9 +113,9 @@ export default class App extends React.Component {
                         />
                         <Switch>
                             <Route exact path={"/"}>
-                                <Activities authenticated={this.state.authenticated}/>
+                                <Activities authenticated={this.state.authenticated} />
                             </Route>
-                            <Route exact path ={"/activity-details/:id"}>
+                            <Route exact path={"/activity-details/:id"}>
                                 <ActivityDetails
                                     authenticated={this.state.authenticated}
                                 />
@@ -140,9 +141,12 @@ export default class App extends React.Component {
                             <ProtectedRoute exact path={"/profile/log"}>
                                 <ShowAllLogged />
                             </ProtectedRoute>
+                            <ProtectedRoute exact path={"/activity-details/:id/contact"}>
+                                <EmailForm />
+                            </ProtectedRoute>
                             {/* Redirect anything else to frontpage */}
                             <Route path={"*"}>
-                                <Redirect to={{pathname: "/"}}/>
+                                <Redirect to={{ pathname: "/" }} />
                             </Route>
                         </Switch>
                     </div>
@@ -153,19 +157,19 @@ export default class App extends React.Component {
 }
 
 // A <Route> wrapper that redirects to login form if not authenticated
-function ProtectedRoute({path, children}) {
+function ProtectedRoute({ path, children }) {
 
     // Display login form if not authenticated (as soon as page is ready)
     const toggleLogin = () => {
         document.getElementById("show").checked = true;
     }
     const isAuthenticated = window.localStorage.getItem("Token");
-    if(!isAuthenticated){
+    if (!isAuthenticated) {
         const showToggle = document.getElementById("show");
-        if(showToggle != null){
+        if (showToggle != null) {
             // Show login form now
             toggleLogin();
-        }else{
+        } else {
             // Show login form as soon as page is loaded
             window.onload = () => {
                 toggleLogin();
@@ -176,11 +180,11 @@ function ProtectedRoute({path, children}) {
     return (
         <Route
             path={path}
-            render={({location}) =>
+            render={({ location }) =>
                 isAuthenticated ? (
                     children
                 ) : (
-                    <Redirect to={{pathname: "/", state: {from: location}}}/>
+                    <Redirect to={{ pathname: "/", state: { from: location } }} />
                 )
             }
         />
