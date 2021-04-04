@@ -19,6 +19,9 @@ from .serializers import \
 from .models import Activity, Category, Registration, Image, Favorite, Log
 from datetime import datetime
 import pytz
+from django.core.mail import EmailMessage
+from django.conf import settings
+from rest_framework.views import APIView
 
 
 class ActivitiesView(viewsets.ModelViewSet):
@@ -292,3 +295,43 @@ class ImagesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all predefined images. """
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
+
+class ActivityContactView(APIView):
+    """ View for sending mail. """
+    permission_classes = [IsAuthenticated]
+        
+    def post(self, request, *args, **kwargs):
+        user = User.objects.get(id=self.request.user.id)
+        sign = '\n\n\nMed vennlig hilsen\nGjørNo\nhttps://gjorno.site'
+
+        email_verification_subject = 'GjørNo arrangement '
+        email_verification_body = 'Hei, ' + str(user) \
+            + '\n\nEposten din har blitt sendt til arrangøren! De tar kontakt meg deg direkte på epost.' \
+            + sign
+
+        email_contact_subject = self.request.data.get('title')
+        email_contact_body = "Hei \n\n" \
+            + str(user) + " har sendt dere en e-post med følgende innhold: \n\n" \
+            + self.request.data.get("description") \
+            + "\n\nSend svar til: " + user.email \
+            + sign
+    
+        confirm_email = EmailMessage(
+            email_verification_subject,
+            email_verification_body,
+            settings.EMAIL_HOST_USER,
+            [user.email]
+        )
+
+        contact_email = EmailMessage(
+            email_contact_subject,
+            email_contact_body,
+            settings.EMAIL_HOST_USER,
+            [self.request.data.get("receiver")]
+        )
+
+        confirm_email.fail_silently=True
+        contact_email.fail_silently=True
+        confirm_email.send()
+        contact_email.send()
+        return Response("Email sent!", status=status.HTTP_200_OK)
