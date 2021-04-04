@@ -25,6 +25,9 @@ export const stringIsPositiveFloat = (str) => {
  * @returns true if string is valid email, false otherwise
  */
 export const stringIsEmail = (str) => {
+    if (str == null || stringIsBlank(str)) {
+        return false;
+    }
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(str);
 }
@@ -35,6 +38,9 @@ export const stringIsEmail = (str) => {
  * @returns true if string is valid phone number, false otherwise
  */
 export const stringIsPhoneNumber = (str) => {
+    if (str == null || stringIsBlank(str)) {
+        return false;
+    }
     return /^(\+47)?[2-9][0-9]?(?:\d\d){0,3}/.test(str);
 }
 

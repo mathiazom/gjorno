@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import FormWithValidation from '../common/FormWithValidation';
-import { RequiredAsterisk } from "../common/RequiredAsterisk";
-import { withRouter } from 'react-router-dom';
+import {RequiredAsterisk} from "../common/RequiredAsterisk";
+import {withRouter} from 'react-router-dom';
+import {stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
+import {toast} from "react-toastify";
 
 class EmailForm extends React.Component {
     constructor(props) {
@@ -11,7 +13,7 @@ class EmailForm extends React.Component {
         this.state = {
             activity: null,
             user: null,
-
+            email_failed: false
         };
 
         this.getUserEmail = this.getUserEmail.bind(this);
@@ -34,9 +36,10 @@ class EmailForm extends React.Component {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
-            if (res.data.email != null) {
-                document.getElementById("activity-email-input").value = res.data.email;
-                document.getElementById("activity-email-input").disabled = true;
+            const userEmail = res.data.email;
+            if (userEmail != null && stringIsEmail(userEmail)) {
+                document.getElementById("user-email-input").value = res.data.email;
+                document.getElementById("user-email-input").disabled = true;
             }
         }).catch(error => {
             console.log(error.response);
@@ -47,16 +50,12 @@ class EmailForm extends React.Component {
      * Get the activity data.
      */
     getActivity() {
-        // Include auth token only if it exists (user is logged in)
-        // otherwise browse the activity anonymously
-        const headers = {}
-        if (this.props.authenticated) {
-            headers['Authorization'] = `Token ${window.localStorage.getItem("Token")}`
-        }
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/?register_view`, {
-            headers: headers
+            headers: {
+                "Authorization": `Token ${window.localStorage.getItem("Token")}`
+            }
         }).then(res => {
-            this.setState({ activity: res.data })
+            this.setState({activity: res.data})
             this.getActivityAuthor();
         }).catch(error => {
             console.log(error.response);
@@ -69,74 +68,103 @@ class EmailForm extends React.Component {
     getActivityAuthor() {
         axios.get(`http://localhost:8000/api/users/${this.state.activity.user}`
         ).then(res => {
-            this.setState({ user: res.data })
-            if (res.data.email != null) {
-                document.getElementById("activity-receiver-input").value = res.data.email;
-                document.getElementById("activity-receiver-input").disabled = true;
+            this.setState({user: res.data})
+            const authorEmail = res.data.email;
+            if (authorEmail == null || !stringIsEmail(authorEmail)) {
+                // Author does not have a valid email registered, abort
+                this.props.history.push(`/activity-details/${this.props.match.params.id}`);
+                return;
             }
+            document.getElementById("author-email-input").value = authorEmail;
+            document.getElementById("author-email-input").disabled = true;
         }).catch(error => {
             console.log(error.response);
         });
     }
 
     /**
-     * Empty the form, and add a error message to the page.
-     */
-    addErrorMessage() {
-        document.getElementById("contact-form-main-div").innerHTML = "";
-
-        let i = document.createElement("i");
-        i.className = "fas fa-info-circle fa-lg text-muted align-self-center me-4";
-
-        let p = document.createElement("p");
-        p.className = "text-muted fs-6 m-0";
-        p.innerText = "E-posten ble ikke sendt! <br />Last inn siden på nytt og prøv en gang til, eller kom tilbake senere.";
-
-        let child_div = document.createElement("div");
-        child_div.className = "card-body p-4 d-flex";
-        child_div.id = "failed-child-div";
-        child_div.appendChild(i);
-        child_div.appendChild(p);
-
-        let main_div = document.createElement("div");
-        main_div.className = "card";
-        main_div.id = "failed-main-div";
-        main_div.appendChild(child_div);
-
-        document.getElementById("contact-form-main-div").appendChild(main_div);
-    }
-
-    /**
      * Empty the page, and add a success message to the page.
      */
     addEmailSentMessage() {
-        document.getElementById("contact-form-main-div").innerHTML = "";
 
-        let i = document.createElement("i");
-        i.className = "far fa-check-circle fa-10x";
+        this.setState({email_failed: false});
 
-        let span = document.createElement("span");
-        span.style = "color: #198754; display: table; margin:0 auto";
-        span.className = "mb-3"
-        span.appendChild(i);
+        this.props.history.push(`/activity-details/${this.props.match.params.id}`);
 
-        let h2 = document.createElement("h2");
-        h2.innerText = "E-posten er sendt!";
-        h2.style = "text-align: center";
+        toast(`E-post sendt til ${this.state.activity?.username} 🕊`,
+            {
+                containerId: 'main-toast-container',
+                autoClose: 3000
+            }
+        );
 
-        document.getElementById("contact-form-main-div").appendChild(span);
-        document.getElementById("contact-form-main-div").appendChild(h2);
+    }
+
+    /**
+     * Validation rules for email form inputs
+     */
+    emailFormRules() {
+
+        const userEmailInput = document.getElementById("user-email-input");
+        const emailTitleInput = document.getElementById("email-title-input");
+        const emailMessageInput = document.getElementById("email-message-input");
+
+        return [
+            {
+                inputEl: userEmailInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(userEmailInput.value),
+                        msg: "E-postadresse er obligatorisk"
+                    },
+                    {
+                        isValid: stringIsEmail(userEmailInput.value) || stringIsBlank(userEmailInput.value),
+                        msg: "Ugyldig e-postadresse"
+                    }
+                ]
+            },
+            {
+                inputEl: emailTitleInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(emailTitleInput.value),
+                        msg: "Tittel er obligatorisk"
+                    },
+                    {
+                        isValid: emailTitleInput.value.length <= 50,
+                        msg: "Tittel kan ikke være lengre enn 50 tegn"
+                    }
+                ]
+            },
+            {
+                inputEl: emailMessageInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(emailMessageInput.value),
+                        msg: "Melding er obligatorisk"
+                    }
+                ]
+            },
+        ]
+
     }
 
     /**
      * Submit the form and send the mail.
      */
     submit() {
+
+        if (!validateForm(this.emailFormRules())) {
+            // At least one invalid input value, abort
+            return;
+        }
+
         const content = new FormData();
-        content.append("sender", document.getElementById("activity-email-input").value);
-        content.append("receiver", document.getElementById("activity-receiver-input").value);
-        content.append("title", document.getElementById("activity-title-input").value);
-        content.append("description", document.getElementById("activity-description-input").value);
+        content.append("sender", document.getElementById("user-email-input").value);
+        content.append("receiver", document.getElementById("author-email-input").value);
+        content.append("title", document.getElementById("email-title-input").value);
+        content.append("description", document.getElementById("email-message-input").value);
+
         axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/contact/`,
             content,
             {
@@ -145,51 +173,79 @@ class EmailForm extends React.Component {
                 }
             })
             .then(res => {
-                if (res.status === 200) {
+                const success = res.status === 200;
+                this.setState({email_failed: !success});
+                if (success) {
                     this.addEmailSentMessage();
-                } else {
-                    this.addErrorMessage();
                 }
             })
             .catch(error => {
                 console.log(error.response);
             });
+
     }
 
     render() {
         return (
             <div className="container-fluid w-50 m-5 mx-auto" id="contact-form-main-div">
-                <h2>Kontakt</h2>
-                <FormWithValidation submit={this.submit} submitText="Send">
-                    {/*Sender */}
-                    <div className="mt-3 mb-4">
-                        <label htmlFor="activity-email-input" className="form-label h5 mb-3">Din e-post<RequiredAsterisk /></label>
-                        <input id="activity-email-input" type="text" className="form-control"
-                            placeholder="Din e-postadresse" />
-                        <div className={"invalid-feedback"} />
+                {this.state.email_failed === false &&
+                <>
+                    <p className={"fw-light text-muted fs-5"}><i>{this.state.activity?.title}</i></p>
+                    <h2>Kontakt <span className={"text-success"}>{this.state.activity?.username}</span></h2>
+                    <FormWithValidation submit={this.submit} submitText="Send">
+                        {/*Receiver */}
+                        <div className="mt-4 mb-4">
+                            <label htmlFor="author-email-input" className="form-label h5 mb-3">
+                                {
+                                    this.state.activity?.has_registration && "Arrangørens e-postadresse"
+                                    || "Forfatterens e-postadresse"
+                                }
+                                <RequiredAsterisk/>
+                            </label>
+                            <input id="author-email-input" type="text" className="form-control"/>
+                            <div className={"invalid-feedback"}/>
+                        </div>
+                        {/*Sender */}
+                        <div className="mb-4">
+                            <label htmlFor="user-email-input" className="form-label h5 mb-3">
+                                Din e-postadresse<RequiredAsterisk/>
+                            </label>
+                            <input id="user-email-input" type="text" className="form-control"/>
+                            <div className={"invalid-feedback"}/>
+                        </div>
+                        {/*Title */}
+                        <div className="mb-4">
+                            <label htmlFor="email-title-input"
+                                   className="form-label h5 mb-3">
+                                Tittel<RequiredAsterisk/>
+                            </label>
+                            <input className="form-control" id="email-title-input" type="text"/>
+                            <div className={"invalid-feedback"}/>
+                        </div>
+                        {/*Description */}
+                        <div className="mb-4">
+                            <label htmlFor="email-message-input"
+                                   className="form-label h5 mb-3">
+                                Melding<RequiredAsterisk/>
+                            </label>
+                            <textarea className="form-control" id="email-message-input" rows="5"/>
+                            <div className={"invalid-feedback"}/>
+                        </div>
+                    </FormWithValidation>
+                </>
+                }
+                {this.state.email_failed === true &&
+                    <div id="failed-main-div" className={"card"}>
+                        <div id="failed-child-div" className={"card-body p-4 d-flex"}>
+                            <i className={"fas fa-exclamation-circle fa-lg text-danger align-self-center me-4"} />
+                            <p className={"text-muted fs-5 m-0"}>
+                                <span className={"text-danger"}>E-posten ble ikke sendt!</span><br />
+                                Last inn siden på nytt og prøv en gang til, eller kom tilbake senere.
+                            </p>
+                        </div>
                     </div>
-                    {/*Receiver */}
-                    <div className="mt-3 mb-4">
-                        <label htmlFor="activity-receiver-input" className="form-label h5 mb-3">Mottaker sin e-post<RequiredAsterisk /></label>
-                        <input id="activity-receiver-input" type="text" className="form-control"
-                            placeholder="Mottaker sin e-postadresse" />
-                        <div className={"invalid-feedback"} />
-                    </div>
-                    {/*Title */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-title-input" className="form-label h5 mb-3">Tittel<RequiredAsterisk /></label>
-                        <input className="form-control" id="activity-title-input" type="text"
-                            placeholder={"Tittel"} />
-                        <div className={"invalid-feedback"} />
-                    </div>
-                    {/*Description */}
-                    <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse<RequiredAsterisk /></label>
-                        <textarea className="form-control" id="activity-description-input" rows="5"
-                            placeholder={"Hvorfor tar du kontakt?"} />
-                        <div className={"invalid-feedback"} />
-                    </div>
-                </FormWithValidation>
+                }
+
             </div>
         );
     }

@@ -5,6 +5,7 @@ import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
 import {Link, withRouter} from 'react-router-dom';
 import {toast} from "react-toastify";
+import {stringIsEmail} from "../common/Utils";
 
 class ActivityDetails extends React.Component {
 
@@ -169,7 +170,7 @@ class ActivityDetails extends React.Component {
                                         </a>
                                     </div>
                                     }
-                                    {!this.state.activity.is_author &&
+                                    {!this.state.activity.is_author && stringIsEmail(this.state.user.email) &&
                                     <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
                                         <Link 
                                         to={`/activity-details/${this.state.activity.id}/contact/`} 
