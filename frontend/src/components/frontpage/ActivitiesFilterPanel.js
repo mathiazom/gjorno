@@ -193,25 +193,7 @@ export default class ActivitiesFilterPanel extends React.Component {
                                    htmlFor="activity-level-filter-3">Krevende</label>
                         </div>
                     </div>
-                    <div className={"mb-5"}>
-                        <label htmlFor="expired-registration-filter-select" className="form-label">Vis utløpte
-                            aktiviteter</label>
-                        <div id="expired-registration-filter-select" className="btn-group d-flex" role="group"
-                             aria-label="Basic radio toggle button group">
-                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
-                                   id="expired-registration-filter-yes"
-                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
-                            <label className="btn btn-outline-success"
-                                   htmlFor="expired-registration-filter-yes">Ja</label>
-
-                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
-                                   id="expired-registration-filter-no"
-                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
-                            <label className="btn btn-outline-success"
-                                   htmlFor="expired-registration-filter-no">Nei</label>
-                        </div>
-                    </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-3"}>
                         <label htmlFor="earliest-starting-time-label" className="form-label">
                             Tidligste starttidspunkt
                         </label>
@@ -269,6 +251,24 @@ export default class ActivitiesFilterPanel extends React.Component {
                                 id="price-filter"
                                 onChange={this.updatePriceFilter}
                             />
+                        </div>
+                    </div>
+                    <div className={"mb-5"}>
+                        <label htmlFor="expired-registration-filter-select" className="form-label">Vis utløpte
+                            aktiviteter</label>
+                        <div id="expired-registration-filter-select" className="btn-group d-flex" role="group"
+                             aria-label="Basic radio toggle button group">
+                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
+                                   id="expired-registration-filter-yes"
+                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
+                            <label className="btn btn-outline-success"
+                                   htmlFor="expired-registration-filter-yes">Ja</label>
+
+                            <input type="radio" className="btn-check" name="expired-registration-filter-radio"
+                                   id="expired-registration-filter-no"
+                                   autoComplete="off" onChange={this.updateExpiredRegistrationFilter}/>
+                            <label className="btn btn-outline-success"
+                                   htmlFor="expired-registration-filter-no">Nei</label>
                         </div>
                     </div>
                 </div>
