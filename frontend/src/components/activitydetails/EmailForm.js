@@ -12,35 +12,37 @@ class EmailForm extends React.Component {
 
         this.state = {
             activity: null,
+            author: null,
             user: null,
             email_failed: false
         };
 
-        this.getUserEmail = this.getUserEmail.bind(this);
         this.getActivity = this.getActivity.bind(this);
         this.getActivityAuthor = this.getActivityAuthor.bind(this);
         this.submit = this.submit.bind(this);
     }
 
     componentDidMount() {
-        this.getUserEmail();
+        this.getUser();
         this.getActivity();
     }
 
     /**
      * Get the mail of the logged in user, and set it in the form.
      */
-    getUserEmail() {
+    getUser() {
         axios.get('http://localhost:8000/api/current_user/', {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
             const userEmail = res.data.email;
-            if (userEmail != null && stringIsEmail(userEmail)) {
-                document.getElementById("user-email-input").value = res.data.email;
-                document.getElementById("user-email-input").disabled = true;
+            if (userEmail == null || !stringIsEmail(userEmail)) {
+                // User does not have a valid email registered, abort
+                this.props.history.push(`/activity-details/${this.props.match.params.id}`);
+                return;
             }
+            document.getElementById("user-email-input").value = res.data.email;
         }).catch(error => {
             console.log(error.response);
         });
@@ -68,15 +70,11 @@ class EmailForm extends React.Component {
     getActivityAuthor() {
         axios.get(`http://localhost:8000/api/users/${this.state.activity.user}`
         ).then(res => {
-            this.setState({user: res.data})
-            const authorEmail = res.data.email;
-            if (authorEmail == null || !stringIsEmail(authorEmail)) {
+            this.setState({author: res.data})
+            if (res.data.email == null || !stringIsEmail(res.data.email)) {
                 // Author does not have a valid email registered, abort
                 this.props.history.push(`/activity-details/${this.props.match.params.id}`);
-                return;
             }
-            document.getElementById("author-email-input").value = authorEmail;
-            document.getElementById("author-email-input").disabled = true;
         }).catch(error => {
             console.log(error.response);
         });
@@ -105,24 +103,10 @@ class EmailForm extends React.Component {
      */
     emailFormRules() {
 
-        const userEmailInput = document.getElementById("user-email-input");
         const emailTitleInput = document.getElementById("email-title-input");
         const emailMessageInput = document.getElementById("email-message-input");
 
         return [
-            {
-                inputEl: userEmailInput,
-                rules: [
-                    {
-                        isValid: !stringIsBlank(userEmailInput.value),
-                        msg: "E-postadresse er obligatorisk"
-                    },
-                    {
-                        isValid: stringIsEmail(userEmailInput.value) || stringIsBlank(userEmailInput.value),
-                        msg: "Ugyldig e-postadresse"
-                    }
-                ]
-            },
             {
                 inputEl: emailTitleInput,
                 rules: [
@@ -144,7 +128,7 @@ class EmailForm extends React.Component {
                         msg: "Melding er obligatorisk"
                     }
                 ]
-            },
+            }
         ]
 
     }
@@ -160,10 +144,8 @@ class EmailForm extends React.Component {
         }
 
         const content = new FormData();
-        content.append("sender", document.getElementById("user-email-input").value);
-        content.append("receiver", document.getElementById("author-email-input").value);
         content.append("title", document.getElementById("email-title-input").value);
-        content.append("description", document.getElementById("email-message-input").value);
+        content.append("message", document.getElementById("email-message-input").value);
 
         axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/contact/`,
             content,
@@ -202,7 +184,9 @@ class EmailForm extends React.Component {
                                 }
                                 <RequiredAsterisk/>
                             </label>
-                            <input id="author-email-input" type="text" className="form-control"/>
+                            <input id="author-email-input" type="text" className="form-control" disabled
+                                   value={this.state.author?.email}
+                            />
                             <div className={"invalid-feedback"}/>
                         </div>
                         {/*Sender */}
@@ -210,7 +194,7 @@ class EmailForm extends React.Component {
                             <label htmlFor="user-email-input" className="form-label h5 mb-3">
                                 Din e-postadresse<RequiredAsterisk/>
                             </label>
-                            <input id="user-email-input" type="text" className="form-control"/>
+                            <input id="user-email-input" type="text" className="form-control" disabled/>
                             <div className={"invalid-feedback"}/>
                         </div>
                         {/*Title */}
