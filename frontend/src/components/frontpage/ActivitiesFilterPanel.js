@@ -1,4 +1,5 @@
 import React from 'react';
+import DateTimePicker from '../common/DateTimePicker';
 
 export default class ActivitiesFilterPanel extends React.Component {
 
@@ -6,7 +7,9 @@ export default class ActivitiesFilterPanel extends React.Component {
         super(props);
 
         this.state = {
-            filters: {}
+            filters: {},
+            earliest_start_date: null,
+            latest_start_date: null,
         }
 
         this.updateRegistrationFilter = this.updateRegistrationFilter.bind(this);
@@ -89,6 +92,23 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.updateFilter("expired_registration", filter);
     }
+    
+    updateEarliestStartTimeFilter() {
+        let filter;
+
+        filter = (activity) => (activity.has_registration && (new Date(activity.starting_time) - this.state.earliest_start_date >= 0) || (!activity.has_registration))
+        
+        this.updateFilter("earliest_start_time", filter);
+    }
+    
+    updateLatestStartTimeFilter() {
+        let filter;
+        
+        filter = (activity) => (activity.has_registration && (this.state.latest_start_date - new Date(activity.starting_time) >= 0) || (!activity.has_registration))
+
+        this.updateFilter("latest_start_time", filter);
+
+    }
 
     updateCapacityFilter() {
         let filter;
@@ -115,6 +135,7 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.updateFilter('price', filter);
     }
+
 
     render() {
         const maxCapacity = Math.max(
@@ -189,6 +210,36 @@ export default class ActivitiesFilterPanel extends React.Component {
                             <label className="btn btn-outline-success"
                                    htmlFor="expired-registration-filter-no">Nei</label>
                         </div>
+                    </div>
+                    <div className={"mb-5"}>
+                        <label htmlFor="earliest-starting-time-label" className="form-label">
+                            Tidligste starttidspunkt
+                        </label>
+                        <DateTimePicker
+                            id="earliest-starting-time-filter"
+                            selected={this.state.earliest_start_date}
+                            onChange={(date) => {
+                                this.setState(
+                                    {earliest_start_date: date},
+                                    this.updateEarliestStartTimeFilter
+                            )}}
+                        />
+                       
+                    </div>
+                    <div className={"mb-5"}>
+                        <label htmlFor="latest-starting-time-label" className="form-label">
+                            Seneste starttidspunkt
+                        </label>
+                        <DateTimePicker
+                            id="latest-starting-time-filter"
+                            selected={this.state.latest_start_date}
+                            onChange={(date) => {
+                                this.setState(
+                                    {latest_start_date: date},
+                                    this.updateLatestStartTimeFilter
+                                
+                            )}}
+                        />
                     </div>
                     <div className={"mb-5"}>
                         <label htmlFor="capacity-range" className="form-label">
