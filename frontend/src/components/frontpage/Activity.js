@@ -57,7 +57,6 @@ const Activity = (props) => {
     const renderCategories = () => {
 
         return props.categories.map((category) => {
-            console.log(category.text_color)
             return (
                 <span
                     key={category.id}

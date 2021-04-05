@@ -2,9 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import FormWithValidation from '../common/FormWithValidation';
 import {RequiredAsterisk} from "../common/RequiredAsterisk";
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
-import {toast} from "react-toastify";
 
 class EmailForm extends React.Component {
     constructor(props) {
@@ -14,7 +13,7 @@ class EmailForm extends React.Component {
             activity: null,
             author: null,
             user: null,
-            email_failed: false
+            send_status: null
         };
 
         this.getActivity = this.getActivity.bind(this);
@@ -36,6 +35,7 @@ class EmailForm extends React.Component {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
+            this.setState({user: res.data});
             const userEmail = res.data.email;
             if (userEmail == null || !stringIsEmail(userEmail)) {
                 // User does not have a valid email registered, abort
@@ -78,24 +78,6 @@ class EmailForm extends React.Component {
         }).catch(error => {
             console.log(error.response);
         });
-    }
-
-    /**
-     * Empty the page, and add a success message to the page.
-     */
-    addEmailSentMessage() {
-
-        this.setState({email_failed: false});
-
-        this.props.history.push(`/activity-details/${this.props.match.params.id}`);
-
-        toast(`E-post sendt til ${this.state.activity?.username} 🕊`,
-            {
-                containerId: 'main-toast-container',
-                autoClose: 3000
-            }
-        );
-
     }
 
     /**
@@ -155,11 +137,7 @@ class EmailForm extends React.Component {
                 }
             })
             .then(res => {
-                const success = res.status === 200;
-                this.setState({email_failed: !success});
-                if (success) {
-                    this.addEmailSentMessage();
-                }
+                this.setState({send_status: res.status});
             })
             .catch(error => {
                 console.log(error.response);
@@ -168,14 +146,16 @@ class EmailForm extends React.Component {
     }
 
     render() {
-        return (
-            <div className="container-fluid w-50 m-5 mx-auto" id="contact-form-main-div">
-                {this.state.email_failed === false &&
+
+        let content;
+
+        if (this.state.send_status == null) {
+            content = (
                 <>
                     <p className={"fw-light text-muted fs-5"}><i>{this.state.activity?.title}</i></p>
                     <h2>Kontakt <span className={"text-success"}>{this.state.activity?.username}</span></h2>
                     <FormWithValidation submit={this.submit} submitText="Send">
-                        {/*Receiver */}
+                        {/*Receiver (read-only) */}
                         <div className="mt-4 mb-4">
                             <label htmlFor="author-email-input" className="form-label h5 mb-3">
                                 {
@@ -189,7 +169,7 @@ class EmailForm extends React.Component {
                             />
                             <div className={"invalid-feedback"}/>
                         </div>
-                        {/*Sender */}
+                        {/*Sender (read-only) */}
                         <div className="mb-4">
                             <label htmlFor="user-email-input" className="form-label h5 mb-3">
                                 Din e-postadresse<RequiredAsterisk/>
@@ -206,7 +186,7 @@ class EmailForm extends React.Component {
                             <input className="form-control" id="email-title-input" type="text"/>
                             <div className={"invalid-feedback"}/>
                         </div>
-                        {/*Description */}
+                        {/*Message */}
                         <div className="mb-4">
                             <label htmlFor="email-message-input"
                                    className="form-label h5 mb-3">
@@ -217,19 +197,37 @@ class EmailForm extends React.Component {
                         </div>
                     </FormWithValidation>
                 </>
-                }
-                {this.state.email_failed === true &&
-                    <div id="failed-main-div" className={"card"}>
-                        <div id="failed-child-div" className={"card-body p-4 d-flex"}>
-                            <i className={"fas fa-exclamation-circle fa-lg text-danger align-self-center me-4"} />
-                            <p className={"text-muted fs-5 m-0"}>
-                                <span className={"text-danger"}>E-posten ble ikke sendt!</span><br />
-                                Last inn siden på nytt og prøv en gang til, eller kom tilbake senere.
-                            </p>
-                        </div>
-                    </div>
-                }
+            );
+        } else if (this.state.send_status === 200) {
+            content = (
+                <div className={"text-center"}>
+                    <i className={"text-success fas fa-check-circle fa-10x"}/>
+                    <p className={"text-success fs-3 mt-4 fw-bold"}>E-posten er sendt!</p>
+                    <p className={"text-muted fs-5 mt-3"}>
+                        {this.state.activity.username} har blitt varslet og svarer direkte til<br/><span
+                        className={"text-success"}>{this.state.user.email}</span>
+                    </p>
+                    <Link to={`/activity-details/${this.props.match.params.id}`} className="btn btn-success mt-4">Tilbake
+                        til aktiviteten</Link>
+                </div>
+            );
+        } else {
+            content = (
+                <div className={"text-center"}>
+                    <i className={"text-danger fas fa-exclamation-circle fa-10x"}/>
+                    <p className={"text-danger fs-3 mt-4 fw-bold"}>E-posten ble <u>ikke</u> sendt!</p>
+                    <p className={"text-muted fs-5 mt-3"}>
+                        Last inn siden på nytt og prøv en gang til, eller kom tilbake senere.
+                    </p>
+                    <Link to={`/activity-details/${this.props.match.params.id}`}
+                          className="btn btn-outline-secondary mt-4">Tilbake til aktiviteten</Link>
+                </div>
+            );
+        }
 
+        return (
+            <div className="container-fluid w-50 m-5 mx-auto">
+                {content}
             </div>
         );
     }
