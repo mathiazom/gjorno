@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
+import {updatePageTitle} from "../common/Utils";
 
 class CreateActivity extends React.Component {
 
@@ -9,6 +10,10 @@ class CreateActivity extends React.Component {
         super(props);
         // Bind "this" to get access to "this.props.history"
         this.createActivity = this.createActivity.bind(this);
+    }
+
+    componentDidMount() {
+        updatePageTitle("Ny aktivitet");
     }
 
     /**

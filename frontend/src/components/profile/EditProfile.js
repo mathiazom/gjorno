@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ImageUpload from "../common/ImageUpload";
-import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, validateForm} from "../common/Utils";
+import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, updatePageTitle, validateForm} from "../common/Utils";
 import FormWithValidation from "../common/FormWithValidation";
 
 class EditProfile extends React.Component {
@@ -26,6 +26,7 @@ class EditProfile extends React.Component {
      * Set the different fields to contain the data collected.
      */
     componentDidMount() {
+        updatePageTitle("Rediger profil");
         axios.get('http://localhost:8000/api/current_user/',
             {
                 headers: {

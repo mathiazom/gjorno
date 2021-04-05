@@ -1,6 +1,7 @@
 import React from 'react';
 import MyActivity from './MyActivity';
 import axios from 'axios';
+import {updatePageTitle} from "../../common/Utils";
 
 export default class ShowAllCreated extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class ShowAllCreated extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Mine aktiviteter");
         axios.get("http://localhost:8000/api/my_activities/",
             {
                 headers: {

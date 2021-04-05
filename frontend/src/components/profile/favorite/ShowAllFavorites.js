@@ -1,6 +1,7 @@
 import React from 'react';
 import FavoriteActivity from './FavoriteActivity';
 import axios from 'axios';
+import {updatePageTitle} from "../../common/Utils";
 
 export default class ShowAllFavorites extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class ShowAllFavorites extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Mine favoritter");
         axios.get("http://localhost:8000/api/my_favorited_activities/",
             {
                 headers: {

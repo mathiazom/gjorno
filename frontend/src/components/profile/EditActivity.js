@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
-import {displayValidationFeedback} from "../common/Utils";
+import {displayValidationFeedback, updatePageTitle} from "../common/Utils";
 
 class EditActivity extends React.Component {
 
@@ -18,6 +18,7 @@ class EditActivity extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Rediger aktivitet");
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}`)
             .then(res => {
                 this.setState({activity: res.data})

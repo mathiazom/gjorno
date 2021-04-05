@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import {displayValidationFeedback, stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
+import {displayValidationFeedback, stringIsBlank, updatePageTitle, stringIsEmail, validateForm} from "../common/Utils";
 
 /**
  * Component for the login form. Contain both login and registration.
@@ -25,6 +25,7 @@ class LoginForm extends React.Component {
     switchToRegister() {
         document.getElementById("login-form-container").classList.add('right-panel-active');
         this.clearFeedback();
+        updatePageTitle("Lag konto");
     }
 
     /**
@@ -33,6 +34,7 @@ class LoginForm extends React.Component {
     switchToLogin() {
         document.getElementById("login-form-container").classList.remove('right-panel-active');
         this.clearFeedback();
+        updatePageTitle("Logg inn");
     }
 
     /**
@@ -42,6 +44,7 @@ class LoginForm extends React.Component {
     closeLoginForm() {
         document.getElementById("show").checked = false;
         this.switchToLogin();
+        updatePageTitle("Utforsk nye aktiviteter");
     }
 
     /**
@@ -147,8 +150,8 @@ class LoginForm extends React.Component {
     /**
      * Function for registering a new user. Collecting text in the form-field, and sending them as a POST to the backend.
      * Returns a token unique to the user, and storing it in the users localStorage.
-     * 
-     * @param {*} event 
+     *
+     * @param {*} event
      */
     register(event) {
         event.preventDefault();
@@ -186,7 +189,7 @@ class LoginForm extends React.Component {
                     console.log(error.response);
                 }
             })}
-    
+
     /**
      * Function for login. POST username and password to the backend, returned the users token if valid.
      *

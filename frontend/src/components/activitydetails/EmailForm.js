@@ -3,7 +3,7 @@ import React from 'react';
 import FormWithValidation from '../common/FormWithValidation';
 import {RequiredAsterisk} from "../common/RequiredAsterisk";
 import {Link, withRouter} from 'react-router-dom';
-import {stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
+import {stringIsBlank, stringIsEmail, updatePageTitle, validateForm} from "../common/Utils";
 
 class EmailForm extends React.Component {
     constructor(props) {
@@ -69,6 +69,7 @@ class EmailForm extends React.Component {
     checkAuthorEmail() {
         axios.get(`http://localhost:8000/api/users/${this.state.activity.user}`
         ).then(res => {
+            updatePageTitle("Kontakt " + res.data.username);
             if (res.data.email == null || !stringIsEmail(res.data.email)) {
                 // Author does not have a valid email registered, abort
                 this.props.history.push(`/activity-details/${this.props.match.params.id}`);

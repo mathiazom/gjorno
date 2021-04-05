@@ -1,4 +1,11 @@
 /**
+ * Update HTML document title with GjørNo suffix
+ */
+export const updatePageTitle = (prefix) => {
+    document.title = prefix + " · GjørNo";
+}
+
+/**
  * Create Date object from ISO date string
  */
 export const getDateFromString = (s) => {

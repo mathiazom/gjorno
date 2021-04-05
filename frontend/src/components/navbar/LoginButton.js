@@ -1,4 +1,5 @@
 import React from 'react';
+import {updatePageTitle} from "../common/Utils";
 
 /**
  * Login button component.
@@ -10,6 +11,7 @@ const LoginButton = () => {
      */
     const login = () => {
         document.getElementById("show").checked = true;
+        updatePageTitle("Logg inn");
     }
 
     return (

@@ -5,7 +5,7 @@ import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
 import {Link, withRouter} from 'react-router-dom';
 import {toast} from "react-toastify";
-import {stringIsEmail} from "../common/Utils";
+import {stringIsEmail, updatePageTitle} from "../common/Utils";
 
 class ActivityDetails extends React.Component {
 
@@ -24,7 +24,9 @@ class ActivityDetails extends React.Component {
 
     componentDidMount() {
         this.getActivity();
-        this.getUser();
+        if (this.props.authenticated) {
+            this.getUser();
+        }
     }
 
     getActivity() {
@@ -39,6 +41,7 @@ class ActivityDetails extends React.Component {
                 headers: headers
             })
             .then(res => {
+                updatePageTitle(res.data.title);
                 this.setState({activity: res.data})
                 this.getActivityAuthor()
             })

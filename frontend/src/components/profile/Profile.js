@@ -4,7 +4,8 @@ import ProfileInfo from './ProfileInfo';
 import FavoriteActivities from './favorite/FavoriteActivities';
 import axios from 'axios';
 import './Profile.css';
-import MyLoggedActvitites from './log/MyLoggedActivities';
+import MyLoggedActivities from './log/MyLoggedActivities';
+import {updatePageTitle} from "../common/Utils";
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -20,6 +21,7 @@ export default class Profile extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Min profil");
         this.getCurrentUser();
         this.getMyActivities();
         this.getFavoriteActivities();
@@ -135,7 +137,7 @@ export default class Profile extends React.Component {
                             activities={this.state.my_activities}
                         />
                         {this.state.current_user.is_organization === false &&
-                        <MyLoggedActvitites
+                        <MyLoggedActivities
                             logged={this.state.logged_activities}
                             registered={this.state.registered_activities}
                         />

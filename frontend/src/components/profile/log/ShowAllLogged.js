@@ -1,6 +1,7 @@
 import React from 'react';
 import MyLoggedActivity from './MyLoggedActivity';
 import axios from 'axios';
+import {updatePageTitle} from "../../common/Utils";
 
 export default class ShowAllLogged extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class ShowAllLogged extends React.Component {
      * Get all the registered and logged activities for the user.
      */
      componentDidMount() {
+        updatePageTitle("Mine gjennomføringer");
         this.getLoggedActivities();
         this.getRegisteredActivities();
     }
