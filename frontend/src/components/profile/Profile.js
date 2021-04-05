@@ -124,7 +124,7 @@ export default class Profile extends React.Component {
             <div className="container-fluid w-75 mt-5">
                 <div className="row">
                     <div className="col-md-3">
-                        <ProfileInfo data={this.state.current_user}/>
+                        <ProfileInfo user={this.state.current_user}/>
                     </div>
                     <div className="col mt-5 mt-md-0">
                         {this.state.favorite_activities.length > 0 &&

@@ -29,7 +29,7 @@ export default class ShowAllCreated extends React.Component {
 
     renderActivities() {
         return (this.state.data.map((activity) => (
-            <MyActivity data={activity} key={activity.id} />
+            <MyActivity activity={activity} key={activity.id} />
         )));
     }
 

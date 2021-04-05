@@ -29,7 +29,7 @@ export default class ShowAllFavorites extends React.Component {
 
     renderActivities() {
         return (this.state.data.map((activity) => (
-            <FavoriteActivity data={activity} key={activity.id} />
+            <FavoriteActivity activity={activity} key={activity.id} />
         )));
     }
 

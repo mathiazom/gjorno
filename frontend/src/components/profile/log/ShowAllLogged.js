@@ -61,11 +61,11 @@ export default class ShowAllLogged extends React.Component {
      * Sort the activities and add them.
      */
       renderAllActivities() {
-        let log = this.state.logged.concat(this.state.registered)
-        log.sort(this.compare)
+        let logged_activities = this.state.logged.concat(this.state.registered)
+        logged_activities.sort(this.compare)
 
-        return log.reverse().map((activity) => (
-            activity.username == this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
+        return logged_activities.reverse().map((logged_activity) => (
+            logged_activity.username == this.props.username ? null : <MyLoggedActivity logged_activity={logged_activity} key={logged_activity.has_registration? logged_activity.starting_time : logged_activity.log_timestamp} />
         ));
     }
 

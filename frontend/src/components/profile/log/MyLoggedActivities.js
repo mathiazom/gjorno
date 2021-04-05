@@ -2,27 +2,27 @@ import React from 'react';
 import MyLoggedActivity from './MyLoggedActivity';
 import { Link } from 'react-router-dom';
 
-export default class MyLoggedActvitites extends React.Component {
+export default class MyLoggedActivities extends React.Component {
 
     /**
      * We only render 3 activities. If there are more we take the three of the most recent.
      */
     renderAllActivities() {
-        let log = this.props.logged.concat(this.props.registered)
-        log.sort(this.compare)
-        if (log.length <= 3) {
-            return log.reverse().map((activity) => (
-                activity.username === this.props.username ? null : <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
+        let logged_activities = this.props.logged.concat(this.props.registered)
+        logged_activities.sort(this.compare)
+        if (logged_activities.length <= 3) {
+            return logged_activities.reverse().map((logged_activity) => (
+                logged_activity.username === this.props.username ? null : <MyLoggedActivity logged_activity={logged_activity} key={logged_activity.log_id} />
            ));
         } else {
-            const l = log.length;
+            const l = logged_activities.length;
             const list = [
-                log[l-1],
-                log[l-2], 
-                log[l-3]
+                logged_activities[l-1],
+                logged_activities[l-2],
+                logged_activities[l-3]
             ];
-            return (list.map((activity) => (
-                <MyLoggedActivity data={activity} key={activity.has_registration? activity.starting_time : activity.log_timestamp} />
+            return (list.map((log) => (
+                <MyLoggedActivity log={log} key={log.has_registration? log.starting_time : log.log_timestamp} />
             )));
         }
     }

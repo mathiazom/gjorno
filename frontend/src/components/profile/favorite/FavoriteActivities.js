@@ -11,7 +11,7 @@ export default class FavoriteActivities extends React.Component {
     renderAllActivities() {
         if (this.props.activities.length <= 3) {
             return this.props.activities.map((activity) => (
-                <FavoriteActivity data={activity} key={activity.id} onUpdate={this.props.getFavoriteActivities}/>
+                <FavoriteActivity activity={activity} key={activity.id} onUpdate={this.props.getFavoriteActivities}/>
            ));
         } else {
             const l = this.props.activities.length;
@@ -20,7 +20,7 @@ export default class FavoriteActivities extends React.Component {
                 this.props.activities[l-2],
                 this.props.activities[l-3]
             ];
-            return (list.map((activity) => (<FavoriteActivity data={activity} key={activity.id} onUpdate={this.props.getFavoriteActivities}/>)));
+            return (list.map((activity) => (<FavoriteActivity activity={activity} key={activity.id} onUpdate={this.props.getFavoriteActivities}/>)));
         }
     }
 

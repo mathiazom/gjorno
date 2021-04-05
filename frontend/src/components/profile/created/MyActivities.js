@@ -11,7 +11,7 @@ export default class MyActivities extends React.Component {
     renderAllActivities() {
         if (this.props.activities.length <= 3) {
             return this.props.activities.map((activity) => (
-                <MyActivity data={activity} key={activity.id} />
+                <MyActivity activity={activity} key={activity.id} />
            ));
         } else {
             const l = this.props.activities.length;
@@ -20,7 +20,7 @@ export default class MyActivities extends React.Component {
                 this.props.activities[l-2],
                 this.props.activities[l-3]
             ];
-            return (list.map((activity) => (<MyActivity data={activity} key={activity.id} />)));
+            return (list.map((activity) => (<MyActivity activity={activity} key={activity.id} />)));
         }
     }
 

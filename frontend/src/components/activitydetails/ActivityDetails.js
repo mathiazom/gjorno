@@ -147,7 +147,7 @@ class ActivityDetails extends React.Component {
                 <div className="container-fluid w-100 mt-5" style={{marginBottom: "300px"}}>
                     <div className="row">
                         <div className="col col-md-2 offset-sm-1">
-                            <ActivityHost userdata={this.state.author}/>
+                            <ActivityHost author={this.state.author}/>
                             {(this.state.activity?.activity_level || this.state.activity?.has_registration) &&
                             <div className="card mt-2">
                                 <div className="card-body">
