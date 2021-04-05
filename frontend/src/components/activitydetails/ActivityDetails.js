@@ -90,7 +90,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 201) {
                 toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 this.getActivity();
             }
         }).catch(error => {
@@ -112,7 +112,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 200) {
                 toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 this.getActivity();
             }
         }).catch(error => {

@@ -77,6 +77,18 @@ export const getTextColorBasedOnBgColor = (bgColor, lightColor, darkColor) => {
 }
 
 /**
+ * Compares the dates for two activities, based on whether the activity has registration or not (starting_time/log_timestamp).
+ * @param {*} a1 first activity
+ * @param {*} a2 second activity
+ * @returns a positive integer if a1 is before a2, a negative integer if a2 is before a1, or 0 if they have the same time.
+ */
+export const compareActivityDates = (a1, a2) => {
+    const date1 = a1.has_registration ? new Date(a1.starting_time) : new Date(a1.log_timestamp);
+    const date2 = a2.has_registration ? new Date(a2.starting_time) : new Date(a2.log_timestamp);
+    return date1 - date2;
+}
+
+/**
  * Utility function to validate a list of input fields
  * @param formRules: list of rule objects
  *        example:

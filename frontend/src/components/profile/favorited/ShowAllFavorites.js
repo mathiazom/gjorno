@@ -1,18 +1,17 @@
 import React from 'react';
 import FavoriteActivity from './FavoriteActivity';
 import axios from 'axios';
-import {updatePageTitle} from "../../common/Utils";
+import ShowAll from "../ShowAll";
 
 export default class ShowAllFavorites extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            activities: []
         }
     }
 
     componentDidMount() {
-        updatePageTitle("Mine favoritter");
         axios.get("http://localhost:8000/api/my_favorited_activities/",
             {
                 headers: {
@@ -20,27 +19,22 @@ export default class ShowAllFavorites extends React.Component {
                 }
             })
             .then(res => {
-                this.setState({data: res.data});
+                this.setState({activities: res.data});
             })
             .catch(error => {
                 console.log(error.response);
         });
     }
 
-    renderActivities() {
-        return (this.state.data.map((activity) => (
-            <FavoriteActivity activity={activity} key={activity.id} />
-        )));
-    }
-
     render() {
         return (
-            <div className="container-fluid w-75 mt-5">
-                <h2>Alle favoritter</h2>
-                <div>
-                    {this.renderActivities()}
-                </div>
-            </div>
-        );
+            <ShowAll
+                title={"Alle favoritter"}
+                activities={this.state.activities}
+                renderItem={(activity) => (
+                    <FavoriteActivity activity={activity} key={activity.id} />
+                )}
+            />
+        )
     }
 }

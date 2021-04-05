@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/js/all.js';
 
-export default class MyLoggedActivity extends React.Component {
+export default class MyLogActivity extends React.Component {
 
     /**
      * We take in some props (title, ingress and date) to make the logged Activity.
@@ -32,14 +32,14 @@ export default class MyLoggedActivity extends React.Component {
             <div className="card w-100 mt-4 mb-4 ps-3 pe-3">
                 <div className="card-body d-flex row">
                     <div className={"col pt-2 pb-2"}>
-                            <p className="card-text d-flex text-muted mb-1">{this.props.data.has_registration ?
-                            this.niceDate(this.props.data.starting_time) :
-                            this.niceDate(this.props.data.log_timestamp)}
-                            {this.props.data.has_registration && (new Date(this.props.data.starting_time) - Date.now()) > 0 && <span className="badge rounded-pill ms-2 bg-primary align-self-center">Kommende</span>}</p>
-                        <Link to={`/activity-details/${this.props.data.has_registration ? this.props.data.id : this.props.data.activity}`} className={"no-decoration"}>
-                            <h5 className="card-title text-success">{this.props.data.title}</h5>
+                            <p className="card-text d-flex text-muted mb-1">{this.props.logged_activity.has_registration ?
+                            this.niceDate(this.props.logged_activity.starting_time) :
+                            this.niceDate(this.props.logged_activity.log_timestamp)}
+                            {this.props.logged_activity.has_registration && (new Date(this.props.logged_activity.starting_time) - Date.now()) > 0 && <span className="badge rounded-pill ms-2 bg-primary align-self-center">Kommende</span>}</p>
+                        <Link to={`/activity-details/${this.props.logged_activity.has_registration ? this.props.logged_activity.id : this.props.logged_activity.activity}`} className={"no-decoration"}>
+                            <h5 className="card-title text-success">{this.props.logged_activity.title}</h5>
                         </Link>
-                        <p className="card-text">{this.props.data.ingress}</p>
+                        <p className="card-text">{this.props.logged_activity.ingress}</p>
                     </div>
                 </div>
             </div>

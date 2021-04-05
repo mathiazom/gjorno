@@ -1,11 +1,12 @@
 import React from 'react';
-import MyActivities from './created/MyActivities';
 import ProfileInfo from './ProfileInfo';
-import FavoriteActivities from './favorite/FavoriteActivities';
 import axios from 'axios';
 import './Profile.css';
-import MyLoggedActivities from './log/MyLoggedActivities';
-import {updatePageTitle} from "../common/Utils";
+import {compareActivityDates, updatePageTitle} from "../common/Utils";
+import ProfileList from "./ProfileList";
+import FavoriteActivity from "./favorited/FavoriteActivity";
+import MyActivity from "./created/MyActivity";
+import MyLogActivity from "./log/MyLogActivity";
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -14,8 +15,7 @@ export default class Profile extends React.Component {
             current_user: {},
             favorite_activities: [],
             my_activities: [],
-            logged_activities: [],
-            registered_activities: []
+            log: []
         }
         this.getFavoriteActivities = this.getFavoriteActivities.bind(this);
     }
@@ -25,8 +25,7 @@ export default class Profile extends React.Component {
         this.getCurrentUser();
         this.getMyActivities();
         this.getFavoriteActivities();
-        this.getLoggedActivities();
-        this.getRegisteredActivities();
+        this.getLog();
     }
 
     /**
@@ -65,35 +64,34 @@ export default class Profile extends React.Component {
     }
 
     /**
-     * Sends an API GET request to get the activities which the user has logged.
+     * Sends an API GET request to get the activities which the user has logged,
+     * as well as activities where user is registered
      */
-    getLoggedActivities() {
+    getLog() {
         axios.get('/api/my_logged_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
-            .then(res => {
-                this.setState({logged_activities: res.data});
-            })
-            .catch(error => {
-                console.log(error.response);
-            });
-    }
-
-    /**
-     * Sends an API GET request to get the activities for which the user is registered.
-     */
-    getRegisteredActivities() {
-        axios.get('/api/my_registered_activities/',
-            {
-                headers: {
-                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
-                }
-            })
-            .then(res => {
-                this.setState({registered_activities: res.data});
+            .then(logged_res => {
+                axios.get('/api/my_registered_activities/',
+                    {
+                        headers: {
+                            "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                        }
+                    })
+                    .then(registered_res => {
+                        this.setState({
+                            log: logged_res.data
+                                .concat(registered_res.data)
+                                .sort(compareActivityDates)
+                                .reverse()
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    });
             })
             .catch(error => {
                 console.log(error.response);
@@ -128,18 +126,40 @@ export default class Profile extends React.Component {
                     </div>
                     <div className="col mt-5 mt-md-0">
                         {this.state.favorite_activities.length > 0 &&
-                        <FavoriteActivities
+                        <ProfileList
+                            title={"Favoritter"}
                             activities={this.state.favorite_activities}
-                            getFavoriteActivities={this.getFavoriteActivities}
+                            renderItem={(activity) => (
+                                <FavoriteActivity activity={activity} key={activity.id}
+                                                  onUpdate={this.getFavoriteActivities}/>
+                            )}
+                            showAllPath={"/profile/favorites"}
                         />
                         }
-                        <MyActivities
+                        <ProfileList
+                            title={"Mine aktiviteter"}
                             activities={this.state.my_activities}
+                            renderItem={(activity) => (
+                                <MyActivity activity={activity} key={activity.id}/>
+                            )}
+                            showAllPath={"/profile/created"}
+                            emptyMessage={<>
+                                Du har ikke opprettet noen aktiviteter enda. <br/>Velg <q>Ny aktivitet</q> i menyen til
+                                venstre for å komme i gang.
+                            </>}
                         />
                         {this.state.current_user.is_organization === false &&
-                        <MyLoggedActivities
-                            logged={this.state.logged_activities}
-                            registered={this.state.registered_activities}
+                        <ProfileList
+                            title={"Logg"}
+                            activities={this.state.log}
+                            renderItem={(logged_activity) => (
+                                <MyLogActivity logged_activity={logged_activity} key={logged_activity.log_id}/>
+                            )}
+                            showAllPath={"/profile/log"}
+                            emptyMessage={<>
+                                Loggen er tom! <br/>Registrer deg eller fullfør en
+                                aktivitet, så dukker den opp her!
+                            </>}
                         />
                         }
                     </div>
