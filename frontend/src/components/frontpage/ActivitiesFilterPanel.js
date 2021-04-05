@@ -1,5 +1,7 @@
 import React from 'react';
 import DateTimePicker from '../common/DateTimePicker';
+import CategorySelect from "../common/CategorySelect";
+import axios from "axios";
 
 export default class ActivitiesFilterPanel extends React.Component {
 
@@ -8,8 +10,10 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.state = {
             filters: {},
+            categories: [],
+            selected_categories: [],
             earliest_start_date: null,
-            latest_start_date: null,
+            latest_start_date: null
         }
 
         this.updateRegistrationFilter = this.updateRegistrationFilter.bind(this);
@@ -17,9 +21,11 @@ export default class ActivitiesFilterPanel extends React.Component {
         this.updateExpiredRegistrationFilter = this.updateExpiredRegistrationFilter.bind(this);
         this.updateCapacityFilter = this.updateCapacityFilter.bind(this);
         this.updatePriceFilter = this.updatePriceFilter.bind(this);
+        this.updateCategoryFilter = this.updateCategoryFilter.bind(this);
     }
 
     componentDidMount() {
+        this.retrieveCategories()
         // Default to "ANY" for has registration filter
         document.getElementById("registration-filter-any").checked = true;
         this.updateRegistrationFilter();
@@ -29,6 +35,24 @@ export default class ActivitiesFilterPanel extends React.Component {
         // Default to "No" for expired registrations filter
         document.getElementById("expired-registration-filter-no").checked = true;
         this.updateExpiredRegistrationFilter();
+    }
+
+    /**
+     * Retrieve all available categories
+     */
+    retrieveCategories() {
+        axios
+            .get('http://localhost:8000/api/categories/')
+            .then(res => {
+                // Create category dropdown options
+                let categories = res.data.map((category) => {
+                    return {label: category.title, value: category.id}
+                });
+                this.setState({categories: categories});
+            })
+            .catch(error => {
+                console.log(error.response);
+            })
     }
 
     updateFilter(name, filter) {
@@ -92,18 +116,18 @@ export default class ActivitiesFilterPanel extends React.Component {
 
         this.updateFilter("expired_registration", filter);
     }
-    
+
     updateEarliestStartTimeFilter() {
         let filter;
 
         filter = (activity) => (activity.has_registration && (new Date(activity.starting_time) - this.state.earliest_start_date >= 0) || (!activity.has_registration))
-        
+
         this.updateFilter("earliest_start_time", filter);
     }
-    
+
     updateLatestStartTimeFilter() {
         let filter;
-        
+
         filter = (activity) => (activity.has_registration && (this.state.latest_start_date - new Date(activity.starting_time) >= 0) || (!activity.has_registration))
 
         this.updateFilter("latest_start_time", filter);
@@ -136,6 +160,20 @@ export default class ActivitiesFilterPanel extends React.Component {
         this.updateFilter('price', filter);
     }
 
+    updateCategoryFilter() {
+        let filter;
+
+        const selected_ids = this.state.selected_categories.map((category) => category.value);
+
+        if (selected_ids.length === 0) {
+            filter = () => true;
+        } else {
+            // Include activity if it has at least one of the categories selected
+            filter = (activity) => activity.categories.some(c => selected_ids.includes(c))
+        }
+
+        this.updateFilter('category', filter);
+    }
 
     render() {
         const maxCapacity = Math.max(
@@ -147,7 +185,7 @@ export default class ActivitiesFilterPanel extends React.Component {
             <div className="shadow ps-5 pe-5 pt-4 w-100 bg-white" style={{minHeight: "100%", paddingBottom: "150px"}}>
                 <p className={"h4 mt-3"}>Filtrering</p>
                 <div className={"mt-4 w-100"}>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="registration-filter-select" className="form-label">Har påmelding</label>
                         <div id="registration-filter-select" className="btn-group d-flex" role="group"
                              aria-label="Basic radio toggle button group">
@@ -167,7 +205,7 @@ export default class ActivitiesFilterPanel extends React.Component {
                             <label className="btn btn-outline-success" htmlFor="registration-filter-no">Nei</label>
                         </div>
                     </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="activity-level-filter-select" className="form-label">Aktivitetsnivå</label>
                         <div id="activity-level-filter-select" className="btn-group d-flex" role="group"
                              aria-label="Basic radio toggle button group">
@@ -193,6 +231,24 @@ export default class ActivitiesFilterPanel extends React.Component {
                                    htmlFor="activity-level-filter-3">Krevende</label>
                         </div>
                     </div>
+                    <div className={"mb-4"}>
+                        <label htmlFor="category-filter" className="form-label">
+                            Kategorier
+                        </label>
+                        <div>
+                            <CategorySelect
+                                id="category-filter"
+                                categories={this.state.categories}
+                                selected_categories={this.state.selected_categories}
+                                onChange={(selected) => {
+                                    this.setState(
+                                        {selected_categories: selected},
+                                        this.updateCategoryFilter
+                                    );
+                                }}
+                            />
+                        </div>
+                    </div>
                     <div className={"mb-3"}>
                         <label htmlFor="earliest-starting-time-label" className="form-label">
                             Tidligste starttidspunkt
@@ -206,9 +262,9 @@ export default class ActivitiesFilterPanel extends React.Component {
                                     this.updateEarliestStartTimeFilter
                             )}}
                         />
-                       
+
                     </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="latest-starting-time-label" className="form-label">
                             Seneste starttidspunkt
                         </label>
@@ -219,11 +275,11 @@ export default class ActivitiesFilterPanel extends React.Component {
                                 this.setState(
                                     {latest_start_date: date},
                                     this.updateLatestStartTimeFilter
-                                
+
                             )}}
                         />
                     </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="capacity-range" className="form-label">
                             Minimum ledige plasser: <span id="chosen-capacity">0</span></label>
                         <div>
@@ -237,7 +293,7 @@ export default class ActivitiesFilterPanel extends React.Component {
                             />
                         </div>
                     </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="price-filter" className="form-label">
                             Makspris: <span id="price-filter-value">{this.props.maxPrice} kroner</span>
                         </label>
@@ -253,7 +309,7 @@ export default class ActivitiesFilterPanel extends React.Component {
                             />
                         </div>
                     </div>
-                    <div className={"mb-5"}>
+                    <div className={"mb-4"}>
                         <label htmlFor="expired-registration-filter-select" className="form-label">Vis utløpte
                             aktiviteter</label>
                         <div id="expired-registration-filter-select" className="btn-group d-flex" role="group"
