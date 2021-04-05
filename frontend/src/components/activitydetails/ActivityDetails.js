@@ -212,7 +212,7 @@ class ActivityDetails extends React.Component {
                                             {stringIsEmail(this.state.user?.email) &&
                                             <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
                                                 <Link
-                                                    to={`/activity-details/${this.state.activity?.id}/contact/`}
+                                                    to={`/activity/${this.state.activity?.id}/contact/`}
                                                     title={this.state.activity?.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
                                                     className="text-success"
                                                     role="button">
@@ -235,7 +235,7 @@ class ActivityDetails extends React.Component {
                                 </div>
                             </div>
                             {(this.props.authenticated && this.state.activity?.is_author) &&
-                            <Link to={`/edit-activity/${this.state.activity.id}`}>
+                            <Link to={`/activity/${this.state.activity.id}/edit`}>
                                 <button id={"edit-button"}
                                         className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger
                                 </button>

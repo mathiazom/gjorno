@@ -38,7 +38,7 @@ class EmailForm extends React.Component {
             const userEmail = res.data.email;
             if (userEmail == null || !stringIsEmail(userEmail)) {
                 // User does not have a valid email registered, abort
-                this.props.history.push(`/activity-details/${this.props.match.params.id}`);
+                this.props.history.push(`/activity/${this.props.match.params.id}`);
                 return;
             }
             document.getElementById("user-email-input").value = res.data.email;
@@ -72,7 +72,7 @@ class EmailForm extends React.Component {
             updatePageTitle("Kontakt " + res.data.username);
             if (res.data.email == null || !stringIsEmail(res.data.email)) {
                 // Author does not have a valid email registered, abort
-                this.props.history.push(`/activity-details/${this.props.match.params.id}`);
+                this.props.history.push(`/activity/${this.props.match.params.id}`);
             }
         }).catch(error => {
             console.log(error.response);
@@ -192,7 +192,7 @@ class EmailForm extends React.Component {
                         {this.state.activity.username} har blitt varslet og svarer direkte til<br/><span
                         className={"text-success"}>{this.state.user.email}</span>
                     </p>
-                    <Link to={`/activity-details/${this.props.match.params.id}`} className="btn btn-success mt-4">Tilbake
+                    <Link to={`/activity/${this.props.match.params.id}`} className="btn btn-success mt-4">Tilbake
                         til aktiviteten</Link>
                 </div>
             );
@@ -204,7 +204,7 @@ class EmailForm extends React.Component {
                     <p className={"text-muted fs-5 mt-3"}>
                         Last inn siden på nytt og prøv en gang til, eller kom tilbake senere.
                     </p>
-                    <Link to={`/activity-details/${this.props.match.params.id}`}
+                    <Link to={`/activity/${this.props.match.params.id}`}
                           className="btn btn-outline-secondary mt-4">Tilbake til aktiviteten</Link>
                 </div>
             );

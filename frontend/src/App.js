@@ -115,16 +115,19 @@ export default class App extends React.Component {
                             <Route exact path={"/"}>
                                 <Activities authenticated={this.state.authenticated} />
                             </Route>
-                            <Route exact path={"/activity-details/:id"}>
+                            <ProtectedRoute exact path={"/activity/create"}>
+                                <CreateActivity />
+                            </ProtectedRoute>
+                            <Route exact path={"/activity/:id"}>
                                 <ActivityDetails
                                     authenticated={this.state.authenticated}
                                 />
                             </Route>
-                            <ProtectedRoute exact path={"/create-activity"}>
-                                <CreateActivity />
-                            </ProtectedRoute>
-                            <ProtectedRoute exact path={"/edit-activity/:id"}>
+                            <ProtectedRoute exact path={"/activity/:id/edit"}>
                                 <EditActivity />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/activity/:id/contact"}>
+                                <EmailForm />
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
@@ -140,9 +143,6 @@ export default class App extends React.Component {
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile/log"}>
                                 <ShowAllLogged />
-                            </ProtectedRoute>
-                            <ProtectedRoute exact path={"/activity-details/:id/contact"}>
-                                <EmailForm />
                             </ProtectedRoute>
                             {/* Redirect anything else to frontpage */}
                             <Route path={"*"}>

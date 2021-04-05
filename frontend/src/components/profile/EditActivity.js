@@ -40,7 +40,7 @@ class EditActivity extends React.Component {
                 }
             })
             .then(() => {
-                this.props.history.push(`/activity-details/${this.props.match.params.id}/`);
+                this.props.history.push(`/activity/${this.props.match.params.id}/`);
             }).catch(error => {
                 const errorResponse = error.response?.request?.response;
                 if(errorResponse === "\"Cannot decrease capacity below current number of registrations\""){

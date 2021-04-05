@@ -76,7 +76,7 @@ const Activity = (props) => {
             <img src={props.activity.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row align-items-center">
                 <div className={"col-12 col-lg-8 pe-4"}>
-                    <Link to={`/activity-details/${props.activity.id}`} className={"no-decoration"}>
+                    <Link to={`/activity/${props.activity.id}`} className={"no-decoration"}>
                         <h5 className="card-title text-success">
                             {/* Icon showing what activities have registration */}
                             {props.activity.has_registration &&

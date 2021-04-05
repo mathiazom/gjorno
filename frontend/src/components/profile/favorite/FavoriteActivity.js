@@ -8,8 +8,8 @@ export default class FavoriteActivity extends React.Component {
     /**
      * We take in some props (title and description) to make the Activity.
      * This activity is the one stored on the users profile.
-     * 
-     * @param {*} props 
+     *
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ export default class FavoriteActivity extends React.Component {
     }
 
     /**
-     * Sends a POST request to the API, deleting the activity from the 
+     * Sends a POST request to the API, deleting the activity from the
      * logged in user's favorites list,
      */
     unfavorite() {
@@ -44,7 +44,7 @@ export default class FavoriteActivity extends React.Component {
             <div className="card w-100 mt-4 mb-4 ps-3 pe-3">
                 <div className="card-body d-flex row">
                     <div className={"col pt-2 pb-2"}>
-                        <Link to={`/activity-details/${this.props.data.id}`} className={"no-decoration"}>
+                        <Link to={`/activity/${this.props.data.id}`} className={"no-decoration"}>
                         <h5 className="card-title text-success">{this.props.data.title}</h5></Link>
                         <p className="card-text">{this.props.data.ingress}</p>
                     </div>
