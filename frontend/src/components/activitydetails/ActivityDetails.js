@@ -5,14 +5,16 @@ import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
 import {Link, withRouter} from 'react-router-dom';
 import {toast} from "react-toastify";
+import {stringIsEmail} from "../common/Utils";
 
 class ActivityDetails extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            activity: [],
-            user: []
+            activity: null,
+            author: null,
+            user: null
         };
         this.getActivity = this.getActivity.bind(this);
         this.favorite = this.favorite.bind(this);
@@ -22,6 +24,7 @@ class ActivityDetails extends React.Component {
 
     componentDidMount() {
         this.getActivity();
+        this.getUser();
     }
 
     getActivity() {
@@ -44,11 +47,26 @@ class ActivityDetails extends React.Component {
             });
     }
 
+    getUser() {
+        axios
+            .get(`http://localhost:8000/api/current_user/`, {
+                headers: {
+                    "Authorization": `Token ${window.localStorage.getItem("Token")}`
+                }
+            })
+            .then(res => {
+                this.setState({user: res.data})
+            })
+            .catch(error => {
+                console.log(error.response);
+            });
+    }
+
     getActivityAuthor() {
         axios
             .get(`http://localhost:8000/api/users/${this.state.activity.user}`)
             .then(res => {
-                this.setState({user: res.data})
+                this.setState({author: res.data})
             })
             .catch(error => {
                 console.log(error.response);
@@ -119,66 +137,101 @@ class ActivityDetails extends React.Component {
     }
 
     render() {
-        let img = this.state.activity.image;
+        let img = this.state.activity?.image;
         return (
             <>
                 {img == null || <img src={img} className="img-fluid activity-details-banner" alt={"Aktivitetsbilde"}/>}
                 <div className="container-fluid w-100 mt-5" style={{marginBottom: "300px"}}>
                     <div className="row">
                         <div className="col col-md-2 offset-sm-1">
-                            <ActivityHost userdata={this.state.user}/>
-                            {(this.state.activity.activity_level || this.state.activity.has_registration) &&
+                            <ActivityHost userdata={this.state.author}/>
+                            {(this.state.activity?.activity_level || this.state.activity?.has_registration) &&
                             <div className="card mt-2">
                                 <div className="card-body">
-                                    {this.state.activity.activity_level &&
+                                    {this.state.activity?.activity_level &&
                                     (<>
                                         <div><b>Nivå</b></div>
                                         <label className="card-text mb-2">
-                                            {["Lett", "Moderat", "Krevende"][this.state.activity.activity_level - 1]}
+                                            {["Lett", "Moderat", "Krevende"][this.state.activity?.activity_level - 1]}
                                         </label>
                                     </>)
                                     }
-                                    {this.state.activity.has_registration &&
+                                    {this.state.activity?.has_registration &&
                                     <Registration activity={this.state.activity} onUpdate={this.getActivity}
                                                   authenticated={this.props.authenticated}/>
                                     }
                                 </div>
                             </div>
                             }
-                            {this.props.authenticated &&
                             <div className="card mt-2 p-3">
                                 <div className="d-xl-flex justify-content-evenly">
                                     <div className="d-flex align-items-center flex-column">
-                                        {/* Favorite button, hidden for an unauthorized user */}
-                                        {this.state.activity.is_favorited &&
-                                        <a title="Fjern fra favoritter" className="text-success" role="button"
-                                           onClick={this.unfavorite}><i
-                                            className="fas fa-heart fa-2x"/></a>
-                                        }
-                                        {!this.state.activity.is_favorited &&
-                                        <a title="Legg til favoritt" className="text-success" role="button"
-                                           onClick={this.favorite}><i
-                                            className="far fa-heart fa-2x"/></a>
-                                        }
-                                    </div>
-                                    {!this.state.activity.has_registration &&
-                                    <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
-                                        <a title="Registrer gjennomføring" className="text-success" role="button"
-                                           onClick={this.log}>
-                                            <i id={"log-button-icon"} className="far fa-check-circle fa-2x"/>
+                                        {/* Favorite button, disabled for an unauthorized user */}
+                                        {this.props.authenticated &&
+                                        <>
+                                            {this.state.activity?.is_favorited &&
+                                            <a title="Fjern fra favoritter" className="text-success" role="button"
+                                               onClick={this.unfavorite}><i
+                                                className="fas fa-heart fa-2x"/></a>
+                                            }
+                                            {!this.state.activity?.is_favorited &&
+                                            <a title={"Legg til favoritt"} className="text-success" role="button"
+                                               onClick={this.favorite}><i
+                                                className="far fa-heart fa-2x"/></a>
+                                            }
+                                        </>
+                                        ||
+                                        <a title={"Krever innlogging"} className="text-muted">
+                                            <i className="far fa-heart fa-2x"/>
                                         </a>
+                                        }
                                     </div>
+                                    {!this.state.activity?.has_registration &&
+                                    <>
+                                        {this.props.authenticated &&
+                                        <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
+                                            <a title="Registrer gjennomføring" className="text-success" role="button"
+                                               onClick={this.log}>
+                                                <i id={"log-button-icon"} className="far fa-check-circle fa-2x"/>
+                                            </a>
+                                        </div>
+                                        ||
+                                        <a title={"Krever innlogging"} className="text-muted">
+                                            <i className="far fa-check-circle fa-2x"/>
+                                        </a>
+                                        }
+                                    </>
                                     }
-                                    {!this.state.activity.is_author &&
-                                    <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
-                                        <a title={this.state.activity.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
-                                           className="text-success" role="button"><i className="far fa-envelope fa-2x"/></a>
-                                    </div>
+                                    {!this.state.activity?.is_author && stringIsEmail(this.state.author?.email) &&
+                                    <>
+                                        {this.props.authenticated &&
+                                        <>
+                                            {stringIsEmail(this.state.user?.email) &&
+                                            <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
+                                                <Link
+                                                    to={`/activity-details/${this.state.activity?.id}/contact/`}
+                                                    title={this.state.activity?.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
+                                                    className="text-success"
+                                                    role="button">
+                                                    <i className="far fa-envelope fa-2x"/>
+                                                </Link>
+                                            </div>
+                                            ||
+                                            <a title={"Krever registrert e-post"} className="text-muted">
+                                                <i className="far fa-envelope fa-2x"/>
+                                            </a>
+                                            }
+                                        </>
+                                        ||
+                                        <a title={"Krever innlogging"} className="text-muted">
+                                            <i className="far fa-envelope fa-2x"/>
+                                        </a>
+                                        }
+                                    </>
                                     }
                                 </div>
                             </div>
-                            }
-                            {(this.props.authenticated && this.state.activity.is_author) &&
+                            {(this.props.authenticated && this.state.activity?.is_author) &&
                             <Link to={`/edit-activity/${this.state.activity.id}`}>
                                 <button id={"edit-button"}
                                         className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger

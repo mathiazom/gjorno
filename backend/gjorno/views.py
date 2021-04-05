@@ -19,6 +19,9 @@ from .serializers import \
 from .models import Activity, Category, Registration, Image, Favorite, Log
 from datetime import datetime
 import pytz
+from django.core.mail import EmailMessage
+from django.conf import settings
+from rest_framework.views import APIView
 
 
 class ActivitiesView(viewsets.ModelViewSet):
@@ -292,3 +295,76 @@ class ImagesView(viewsets.ReadOnlyModelViewSet):
     """ View for the set of all predefined images. """
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
+
+
+class ActivityContactView(APIView):
+    """ View for sending mail. """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.get(id=self.request.user.id)
+        activity = Activity.objects.get(id=self.kwargs['activity'])
+
+        if not user.email:
+            return Response("User has not registered an email address", status=status.HTTP_403_FORBIDDEN)
+
+        author = activity.user
+        if not author.email:
+            return Response("Author of this activity has not registered an email address", status=status.HTTP_403_FORBIDDEN)
+
+        errors = {}
+
+        title = self.request.data.get('title')
+        if not title:
+            errors['title'] = "This field is required."
+
+        message = self.request.data.get('message')
+        if not message:
+            errors['message'] = "This field is required."
+
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+        sign = '\n\n\nMed vennlig hilsen\nGjørNo\nhttps://gjorno.site'
+
+        email_verification_subject = 'GjørNo - Meldingen er sendt'
+        email_verification_body = \
+            f'Hei, {user.username}' \
+            + f'\n\nMeldingen din har blitt sendt til {author.username}! De tar kontakt meg deg direkte på e-post.' \
+            + "\n\nDu skrev følgende:" \
+            + "\n\n--------------------------------" \
+            + f"\n{title}" \
+            + f"\n\n{message}" \
+            + "\n--------------------------------" \
+            + sign
+
+        email_contact_subject = title
+        email_contact_body = \
+            f"Hei, {author.username}" \
+            + f"\n\nMelding fra {user.username} angående \"{activity.title}\":" \
+            + "\n\n--------------------------------" \
+            + f"\n{title}\n\n" \
+            + self.request.data.get("message") \
+            + "\n--------------------------------" \
+            + "\n\nSend svar til: " + user.email \
+            + sign
+
+        confirm_email = EmailMessage(
+            email_verification_subject,
+            email_verification_body,
+            settings.EMAIL_HOST_USER,
+            [user.email]
+        )
+
+        contact_email = EmailMessage(
+            email_contact_subject,
+            email_contact_body,
+            settings.EMAIL_HOST_USER,
+            [author.email]
+        )
+
+        confirm_email.fail_silently = True
+        contact_email.fail_silently = True
+        confirm_email.send()
+        contact_email.send()
+        return Response("Email sent!", status=status.HTTP_200_OK)

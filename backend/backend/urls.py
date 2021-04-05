@@ -34,7 +34,8 @@ from gjorno.views import \
     MyFavoritedActivitiesView, \
     ActivityLogView, \
     ActivityUnlogView, \
-    MyLoggedActivitiesView
+    MyLoggedActivitiesView, \
+    ActivityContactView
 
 router = routers.DefaultRouter()
 router.register("activities", ActivitiesView, 'activities')
@@ -57,6 +58,7 @@ urlpatterns = [
     path('api/activities/<int:activity>/favorite/', ActivityFavoriteView.as_view()),
     path('api/activities/<int:activity>/log/', ActivityLogView.as_view()),
     path('api/activities/<int:activity>/unfavorite/', ActivityUnfavoriteView.as_view()),
+    path('api/activities/<int:activity>/contact/', ActivityContactView.as_view()),
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls'))
 ]
