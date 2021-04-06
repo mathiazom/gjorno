@@ -11,13 +11,12 @@ class EmailForm extends React.Component {
 
         this.state = {
             activity: null,
-            author: null,
             user: null,
             send_status: null
         };
 
         this.getActivity = this.getActivity.bind(this);
-        this.getActivityAuthor = this.getActivityAuthor.bind(this);
+        this.checkAuthorEmail = this.checkAuthorEmail.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -58,19 +57,18 @@ class EmailForm extends React.Component {
             }
         }).then(res => {
             this.setState({activity: res.data})
-            this.getActivityAuthor();
+            this.checkAuthorEmail();
         }).catch(error => {
             console.log(error.response);
         });
     }
 
     /**
-     * Set the mail based on who the owner of the activit is.
+     * Make sure author has a registered email address
      */
-    getActivityAuthor() {
+    checkAuthorEmail() {
         axios.get(`http://localhost:8000/api/users/${this.state.activity.user}`
         ).then(res => {
-            this.setState({author: res.data})
             if (res.data.email == null || !stringIsEmail(res.data.email)) {
                 // Author does not have a valid email registered, abort
                 this.props.history.push(`/activity-details/${this.props.match.params.id}`);
@@ -155,30 +153,8 @@ class EmailForm extends React.Component {
                     <p className={"fw-light text-muted fs-5"}><i>{this.state.activity?.title}</i></p>
                     <h2>Kontakt <span className={"text-success"}>{this.state.activity?.username}</span></h2>
                     <FormWithValidation submit={this.submit} submitText="Send">
-                        {/*Receiver (read-only) */}
-                        <div className="mt-4 mb-4">
-                            <label htmlFor="author-email-input" className="form-label h5 mb-3">
-                                {
-                                    this.state.activity?.has_registration && "Arrangørens e-postadresse"
-                                    || "Forfatterens e-postadresse"
-                                }
-                                <RequiredAsterisk/>
-                            </label>
-                            <input id="author-email-input" type="text" className="form-control" disabled
-                                   value={this.state.author?.email}
-                            />
-                            <div className={"invalid-feedback"}/>
-                        </div>
-                        {/*Sender (read-only) */}
-                        <div className="mb-4">
-                            <label htmlFor="user-email-input" className="form-label h5 mb-3">
-                                Din e-postadresse<RequiredAsterisk/>
-                            </label>
-                            <input id="user-email-input" type="text" className="form-control" disabled/>
-                            <div className={"invalid-feedback"}/>
-                        </div>
                         {/*Title */}
-                        <div className="mb-4">
+                        <div className="mt-4 mb-4">
                             <label htmlFor="email-title-input"
                                    className="form-label h5 mb-3">
                                 Tittel<RequiredAsterisk/>
@@ -193,6 +169,14 @@ class EmailForm extends React.Component {
                                 Melding<RequiredAsterisk/>
                             </label>
                             <textarea className="form-control" id="email-message-input" rows="5"/>
+                            <div className={"invalid-feedback"}/>
+                        </div>
+                        {/*Sender (read-only) */}
+                        <div className="mb-4">
+                            <label htmlFor="user-email-input" className="form-label h5 mb-3">
+                                Din e-postadresse<RequiredAsterisk/>
+                            </label>
+                            <input id="user-email-input" type="text" className="form-control" disabled/>
                             <div className={"invalid-feedback"}/>
                         </div>
                     </FormWithValidation>
