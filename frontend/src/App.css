@@ -1,3 +1,7 @@
+.no-decoration {
+  text-decoration: none;
+}
+
 /* MULTISELECT OVERRIDE */
 
 .dropdown-content{
@@ -42,6 +46,13 @@
   width: 100%;
   object-fit: cover;
   margin-bottom: 40px;
+}
+
+.rounded-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* BURGERS */
