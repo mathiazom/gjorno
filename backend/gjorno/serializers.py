@@ -11,12 +11,11 @@ from .models import Activity, Profile, Category, Registration, Image, Favorite, 
 class UserWithProfileSerializer(RegisterSerializer):
     """Custom serializer for account registration"""
 
-    phone_number = serializers.CharField(max_length=11, required=False)
+    email = serializers.EmailField(required=True)
     is_organization = serializers.BooleanField(default=False)
 
     def get_cleaned_data(self):
         data = super().get_cleaned_data()
-        data['phone_number'] = self.validated_data.get('phone_number', '')
         data['is_organization'] = self.validated_data.get('is_organization', '')
         return data
 
