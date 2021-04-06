@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Title = () => {
     return (
         <div className="position-relative">
-            <h1 className={"display-5"}>
+            <h1 className={"display-6"}>
                 <Link to={"/"} className={"no-decoration text-success"}>
                     GjørNo
                 </Link>
