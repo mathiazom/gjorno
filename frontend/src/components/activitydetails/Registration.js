@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import {getDateFromString} from "../common/Utils";
+import ParticipantsModal from "./ParticipantsModal";
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class Registration extends React.Component {
             })
             .then(res => {
                 this.setState({user: res.data});
-                if (res.data.is_author) {
+                if (this.props.activity?.is_author) {
                     axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/registrations/`,
                         {
                             headers: {
@@ -103,24 +104,25 @@ export default class Registration extends React.Component {
                 )
             } else {
                 if (new Date() < getDateFromString(this.props.activity.registration_deadline)) {
-                    if (this.props.activity.registrations_count < this.props.activity.registration_capacity){
+                    if (this.props.activity.registrations_count < this.props.activity.registration_capacity) {
                         actionButton = (
                             <button id={"registration-button"} className={"btn btn-success w-100 mt-3 mb-1"}
                                     onClick={this.register}>Meld på</button>
                         )
-                    }else{
+                    } else {
                         actionButton = (
-                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er full</button>
+                            <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er
+                                full</button>
                         )
                     }
-                } else{
+                } else {
                     actionButton = (
                         <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmeldingen er
                             avsluttet</button>
                     )
                 }
             }
-        }else{
+        } else {
             actionButton = (
                 <button className={"btn btn-secondary w-100 mt-3 mb-1"} disabled>Påmelding krever innlogging</button>
             )
@@ -129,19 +131,27 @@ export default class Registration extends React.Component {
 
         return (
             <>
-                {/*<p>{usernames}</p>  We could have a button if the current user is the owner to see all users in a pop-up. */}
-                {/*const usernames = this.state.participants.map(function(participant){ return participant["username"] + "\n"});*/}
                 <div><b>Påmeldte</b></div>
+                {this.state.participants.length > 0 &&
+                <>
+                    <a type="button" className="text-success no-decoration" data-bs-toggle="modal"
+                       data-bs-target="#participantsModal">
+                        {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
+                    </a>
+                    <ParticipantsModal id={"participantsModal"} participants={this.state.participants}/>
+                </>
+                ||
                 <label className="card-text mb-2">
                     {this.props.activity.registrations_count} av {this.props.activity.registration_capacity}
                 </label>
+                }
                 {this.props.activity.price &&
-                    (<>
-                        <div><b>Pris</b></div>
-                        <label className="card-text mb-2">
-                            {this.props.activity.price},-
-                        </label>
-                    </>)
+                (<>
+                    <div><b>Pris</b></div>
+                    <label className="card-text mb-2">
+                        {this.props.activity.price},-
+                    </label>
+                </>)
                 }
                 <div><b>Frist for påmelding</b></div>
                 <label className="card-text mb-2">
