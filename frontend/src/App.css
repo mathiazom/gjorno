@@ -1,3 +1,7 @@
+.no-decoration {
+  text-decoration: none;
+}
+
 /* MULTISELECT OVERRIDE */
 
 .dropdown-content{

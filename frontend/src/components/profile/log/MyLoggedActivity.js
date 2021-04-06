@@ -9,7 +9,7 @@ export default class MyLoggedActivity extends React.Component {
      * This activity is the one stored on the users profile.
      * 
      * @param {*} props 
-     */
+     // */
     constructor(props) {
         super(props);
     }
@@ -36,7 +36,7 @@ export default class MyLoggedActivity extends React.Component {
                             this.niceDate(this.props.data.starting_time) : 
                             this.niceDate(this.props.data.log_timestamp)}
                             {this.props.data.has_registration && (new Date(this.props.data.starting_time) - Date.now()) > 0 && <span className="badge rounded-pill ms-2 bg-primary align-self-center">Kommende</span>}</p>
-                        <Link to={`/activity-details/${this.props.data.id}`} style={{textDecoration: "none"}}>
+                        <Link to={`/activity-details/${this.props.data.id}`} className={"no-decoration"}>
                             <h5 className="card-title text-success">{this.props.data.title}</h5>
                         </Link>
                         <p className="card-text">{this.props.data.ingress}</p>

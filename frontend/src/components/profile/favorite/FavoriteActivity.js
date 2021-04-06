@@ -44,7 +44,7 @@ export default class FavoriteActivity extends React.Component {
             <div className="card w-100 mt-4 mb-4 ps-3 pe-3">
                 <div className="card-body d-flex row">
                     <div className={"col pt-2 pb-2"}>
-                        <Link to={`/activity-details/${this.props.data.id}`} style={{textDecoration: "none"}}>
+                        <Link to={`/activity-details/${this.props.data.id}`} className={"no-decoration"}>
                         <h5 className="card-title text-success">{this.props.data.title}</h5></Link>
                         <p className="card-text">{this.props.data.ingress}</p>
                     </div>
