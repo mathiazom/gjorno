@@ -36,6 +36,7 @@ class UserRegisterLoginTest(TestCase):
         """Request registration of regular user"""
         response = self.client.post('/auth/register/', {
             "username": "HeinrichSpiegel32",
+            "email": "heinrich@spiegel.de",
             "password1": "FiiaWZP3SVL7Su7dGhk4BuMTqzsMMncc",
             "password2": "FiiaWZP3SVL7Su7dGhk4BuMTqzsMMncc"
         })
@@ -45,6 +46,7 @@ class UserRegisterLoginTest(TestCase):
         """Request registration of organization"""
         response = self.client.post('/auth/register/', {
             "username": "WilhelmFliegstad17",
+            "email": "wilhelm@fliegstad.de",
             "password1": "8jSXhS2SHxcXEUXxyjN8ecU7saGUgW6p",
             "password2": "8jSXhS2SHxcXEUXxyjN8ecU7saGUgW6p",
             "is_organization": True
@@ -55,6 +57,7 @@ class UserRegisterLoginTest(TestCase):
         """Request user login (token retrieval)"""
         self.client.post('/auth/register/', {
             "username": "zamenhof59",
+            "email": "zamenhof@epsilon.de",
             "password1": "4SX8cGdwgGQsyxDEp4CN3YzqFa2RLUju",
             "password2": "4SX8cGdwgGQsyxDEp4CN3YzqFa2RLUju"
         })
