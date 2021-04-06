@@ -330,7 +330,7 @@ class ActivityContactView(APIView):
         email_verification_subject = 'GjørNo - Meldingen er sendt'
         email_verification_body = \
             f'Hei, {user.username}' \
-            + f'\n\nMeldingen din har blitt sendt til {author.username}! De tar kontakt meg deg direkte på e-post.' \
+            + f'\n\nMeldingen din har blitt sendt til {author.username}! De tar kontakt med deg direkte på e-post.' \
             + "\n\nDu skrev følgende:" \
             + "\n\n--------------------------------" \
             + f"\n{title}" \
