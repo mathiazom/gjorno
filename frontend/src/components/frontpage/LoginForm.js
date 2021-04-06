@@ -93,6 +93,7 @@ class LoginForm extends React.Component {
     registrationFormRules() {
 
         const usernameInput = document.getElementById("reg-username");
+        const emailInput = document.getElementById("reg-email");
         const password1Input = document.getElementById("reg-password1");
         const password2Input = document.getElementById("reg-password2");
 
@@ -103,6 +104,17 @@ class LoginForm extends React.Component {
                     {
                         isValid: !stringIsBlank(usernameInput.value),
                         msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: emailInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(emailInput.value),
+                        msg: "E-post er obligatorisk"
+                    }, {
+                        isValid: stringIsBlank(emailInput.value) || stringIsEmail(emailInput.value),
+                        msg: "Ugyldig e-post"
                     }
                 ]
             },{
@@ -147,6 +159,7 @@ class LoginForm extends React.Component {
         const password1Input = document.getElementById("reg-password1");
         const user = {
             "username": usernameInput.value,
+            "email": document.getElementById("reg-email").value,
             "password1": password1Input.value,
             "password2": document.getElementById("reg-password2").value,
             "is_organization": document.getElementById("organizationSwitch").checked
@@ -214,6 +227,8 @@ class LoginForm extends React.Component {
                         <div className={"mt-3 w-100"}>
                             <div className={"mt-3 mb-3"}>
                                 <input id="reg-username" className={"rounded mt-3 mb-0"} type="text" placeholder="Brukernavn" />
+                                <div className={"invalid-feedback"}/>
+                                <input id="reg-email" className={"rounded mt-3 mb-0"} type="email" placeholder="E-post" />
                                 <div className={"invalid-feedback"}/>
                                 <input id="reg-password1" className={"rounded mt-3 mb-0"} type="password" placeholder="Passord" />
                                 <div className={"invalid-feedback"}/>
