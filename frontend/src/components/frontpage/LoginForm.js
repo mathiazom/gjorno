@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import {displayValidationFeedback, stringIsBlank, validateForm} from "../common/Utils";
+import {displayValidationFeedback, stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
 
 /**
  * Component for the login form. Contain both login and registration.
@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
      * Function changing from Login to Register in the login pop-up.
      */
     switchToRegister() {
-        document.getElementById("container").classList.add('right-panel-active');
+        document.getElementById("login-form-container").classList.add('right-panel-active');
         this.clearFeedback();
     }
 
@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
      * Function changing from Register to Login in the login pop-up.
      */
     switchToLogin() {
-        document.getElementById("container").classList.remove('right-panel-active');
+        document.getElementById("login-form-container").classList.remove('right-panel-active');
         this.clearFeedback();
     }
 
@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
     clearFeedback() {
         setTimeout(() => {
             // Clear any feedback
-            const container = document.getElementById("container");
+            const container = document.getElementById("login-form-container");
             for(const feedback of container.getElementsByClassName("invalid-feedback")){
                 feedback.innerHTML = "";
             }
@@ -169,8 +169,9 @@ class LoginForm extends React.Component {
                         ["Passordet er for vanlig"],
                         password1Input.nextElementSibling
                     );
-                } else
-                console.log(error.response);
+                } else {
+                    console.log(error.response);
+                }
             })}
     
     /**
@@ -205,7 +206,7 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div className="container" id="container">
+            <div className="login-form-container" id="login-form-container">
                 <a className="close" onClick={this.closeLoginForm}/>
                 <div className="form-container sign-up-container">
                     <form action="#" className={"needs-validation"} noValidate>
