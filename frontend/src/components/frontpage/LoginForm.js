@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import {displayValidationFeedback, stringIsBlank, validateForm} from "../common/Utils";
+import {displayValidationFeedback, stringIsBlank, stringIsEmail, validateForm} from "../common/Utils";
 
 /**
  * Component for the login form. Contain both login and registration.
@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
      * Function changing from Login to Register in the login pop-up.
      */
     switchToRegister() {
-        document.getElementById("container").classList.add('right-panel-active');
+        document.getElementById("login-form-container").classList.add('right-panel-active');
         this.clearFeedback();
     }
 
@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
      * Function changing from Register to Login in the login pop-up.
      */
     switchToLogin() {
-        document.getElementById("container").classList.remove('right-panel-active');
+        document.getElementById("login-form-container").classList.remove('right-panel-active');
         this.clearFeedback();
     }
 
@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
     clearFeedback() {
         setTimeout(() => {
             // Clear any feedback
-            const container = document.getElementById("container");
+            const container = document.getElementById("login-form-container");
             for(const feedback of container.getElementsByClassName("invalid-feedback")){
                 feedback.innerHTML = "";
             }
@@ -93,6 +93,7 @@ class LoginForm extends React.Component {
     registrationFormRules() {
 
         const usernameInput = document.getElementById("reg-username");
+        const emailInput = document.getElementById("reg-email");
         const password1Input = document.getElementById("reg-password1");
         const password2Input = document.getElementById("reg-password2");
 
@@ -103,6 +104,17 @@ class LoginForm extends React.Component {
                     {
                         isValid: !stringIsBlank(usernameInput.value),
                         msg: "Brukernavn er obligatorisk"
+                    }
+                ]
+            },{
+                inputEl: emailInput,
+                rules: [
+                    {
+                        isValid: !stringIsBlank(emailInput.value),
+                        msg: "E-post er obligatorisk"
+                    }, {
+                        isValid: stringIsBlank(emailInput.value) || stringIsEmail(emailInput.value),
+                        msg: "Ugyldig e-post"
                     }
                 ]
             },{
@@ -147,6 +159,7 @@ class LoginForm extends React.Component {
         const password1Input = document.getElementById("reg-password1");
         const user = {
             "username": usernameInput.value,
+            "email": document.getElementById("reg-email").value,
             "password1": password1Input.value,
             "password2": document.getElementById("reg-password2").value,
             "is_organization": document.getElementById("organizationSwitch").checked
@@ -169,8 +182,9 @@ class LoginForm extends React.Component {
                         ["Passordet er for vanlig"],
                         password1Input.nextElementSibling
                     );
-                } else
-                console.log(error.response);
+                } else {
+                    console.log(error.response);
+                }
             })}
     
     /**
@@ -205,7 +219,7 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div className="container" id="container">
+            <div className="login-form-container" id="login-form-container">
                 <a className="close" onClick={this.closeLoginForm}/>
                 <div className="form-container sign-up-container">
                     <form action="#" className={"needs-validation"} noValidate>
@@ -213,6 +227,8 @@ class LoginForm extends React.Component {
                         <div className={"mt-3 w-100"}>
                             <div className={"mt-3 mb-3"}>
                                 <input id="reg-username" className={"rounded mt-3 mb-0"} type="text" placeholder="Brukernavn" />
+                                <div className={"invalid-feedback"}/>
+                                <input id="reg-email" className={"rounded mt-3 mb-0"} type="email" placeholder="E-post" />
                                 <div className={"invalid-feedback"}/>
                                 <input id="reg-password1" className={"rounded mt-3 mb-0"} type="password" placeholder="Passord" />
                                 <div className={"invalid-feedback"}/>
