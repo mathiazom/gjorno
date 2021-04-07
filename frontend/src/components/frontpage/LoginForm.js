@@ -247,6 +247,7 @@ class LoginForm extends React.Component {
                             </div>
                         </div>
                         <button className={"mt-3"} type="submit" onClick={this.register}>Registrer deg</button>
+                        <button className={"mt-4 d-md-none login-form-button-outline"} type={"button"} onClick={this.switchToLogin}>Logg inn</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
@@ -260,9 +261,10 @@ class LoginForm extends React.Component {
                         </div>
                         <button className={"mt-4"} onClick={this.login}>Logg inn</button>
                         <div id="sign-in-button-feedback" className={"invalid-feedback mt-3 text-center"}/>
+                        <button className={"mt-4 d-md-none login-form-button-outline"} type={"button"} onClick={this.switchToRegister}>Registrer deg</button>
                     </form>
                 </div>
-                <div className="overlay-container">
+                <div className="overlay-container d-none d-md-block">
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
                             <h1>Velkommen!</h1>

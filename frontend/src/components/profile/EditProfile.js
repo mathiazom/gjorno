@@ -4,6 +4,7 @@ import axios from "axios";
 import ImageUpload from "../common/ImageUpload";
 import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, updatePageTitle, validateForm} from "../common/Utils";
 import FormWithValidation from "../common/FormWithValidation";
+import FormPage from "../common/FormPage";
 
 class EditProfile extends React.Component {
 
@@ -123,7 +124,7 @@ class EditProfile extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 <h1>Rediger profil</h1>
                 <FormWithValidation submit={this.edit} submitText={"Lagre"}>
                     {/* Username */}
@@ -152,7 +153,7 @@ class EditProfile extends React.Component {
                         <div className={"invalid-feedback"}/>
                     </div>
                 </FormWithValidation>
-            </div>
+            </FormPage>
         );
     }
 }

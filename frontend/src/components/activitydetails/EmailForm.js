@@ -4,6 +4,7 @@ import FormWithValidation from '../common/FormWithValidation';
 import {RequiredAsterisk} from "../common/RequiredAsterisk";
 import {Link, withRouter} from 'react-router-dom';
 import {stringIsBlank, stringIsEmail, updatePageTitle, validateForm} from "../common/Utils";
+import FormPage from "../common/FormPage";
 
 class EmailForm extends React.Component {
     constructor(props) {
@@ -211,9 +212,9 @@ class EmailForm extends React.Component {
         }
 
         return (
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 {content}
-            </div>
+            </FormPage>
         );
     }
 }

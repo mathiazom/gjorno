@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
 import {displayValidationFeedback, updatePageTitle} from "../common/Utils";
+import FormPage from "../common/FormPage";
 
 class EditActivity extends React.Component {
 
@@ -56,13 +57,13 @@ class EditActivity extends React.Component {
 
     render() {
         return(
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 <h1>Rediger aktivitet</h1>
                 <ActivityForm onSubmit={this.editActivity} submitText={"Lagre"}
                     activity={this.state.activity}
                     disableHasRegistration
                 />
-            </div>
+            </FormPage>
         );
     }
 }

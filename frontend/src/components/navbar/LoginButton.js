@@ -16,8 +16,9 @@ const LoginButton = () => {
 
     return (
         <div>
-            <button id="login-button" onClick={() => {login()}} type="button" className="btn btn-outline-success">
-                LOGG INN
+            <button onClick={() => {login()}} type="button" className="btn btn-outline-success">
+                <span className={"d-none d-md-block"}>LOGG INN</span>
+                <i className="fas fa-sign-in-alt d-md-none"></i>
             </button>
         </div>
     )
