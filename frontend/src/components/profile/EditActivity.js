@@ -51,6 +51,7 @@ class EditActivity extends React.Component {
                 <h1>Rediger aktivitet</h1>
                 <ActivityForm onSubmit={this.editActivity} submitText={"Lagre"}
                     activity={this.state.activity}
+                    disableHasRegistration
                 />
             </div>
         );

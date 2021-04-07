@@ -76,8 +76,8 @@ class ActivityForm extends React.Component {
         document.getElementById("registration-price-input").value = activity.price;
 
         if (activity.has_registration) {
-            document.getElementById("registration-inputs").style.display = "block";
             document.getElementById("registration-checkbox").checked = true;
+            this.displayRegistrationForm();
             document.getElementById("registration-capacity-input").value = activity.registration_capacity;
             this.setState({deadline_datetime: new Date(activity.registration_deadline)})
             this.setState({start_datetime: new Date(activity.starting_time)})
@@ -367,11 +367,15 @@ class ActivityForm extends React.Component {
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Registration checkbox */}
-                <div className={"mt-3"}>
+                <div className={"mt-3" + (this.props.disableHasRegistration && !this.props.activity?.has_registration && " d-none" || "")}>
                     <label className="form-label h5 mb-3">Påmelding</label>
-                    <div className="form-check">
+                    <div className="form-check"
+                         title={this.props.disableHasRegistration && "Kan ikke endres etter at aktivitet er opprettet"}>
+                        {console.log(this.props)}
                         <input className="form-check-input" type="checkbox"
-                               onClick={this.displayRegistrationForm} id="registration-checkbox"/>
+                               onClick={this.displayRegistrationForm} id="registration-checkbox"
+                               disabled={this.props.disableHasRegistration}
+                        />
                         <label className="form-check-label" htmlFor="registration-checkbox">Aktivitet har
                             påmelding</label>
                     </div>
