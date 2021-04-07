@@ -195,7 +195,7 @@ class ActivityDetails extends React.Component {
                                         <div className="d-flex align-items-center flex-column">
                                             <a title="Registrer gjennomføring" className="text-success" role="button"
                                                onClick={this.log}>
-                                                <i id={"log-button-icon"} className="far fa-check-circle fa-2x"/>
+                                                <i className="far fa-check-circle fa-2x"/>
                                             </a>
                                         </div>
                                         ||
@@ -236,8 +236,8 @@ class ActivityDetails extends React.Component {
                             </div>
                             {(this.props.authenticated && this.state.activity?.is_author) &&
                             <Link to={`/activity/${this.state.activity.id}/edit`}>
-                                <button id={"edit-button"}
-                                        className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger
+                                <button className={"btn btn-outline-success w-100 mt-3 mb-1"}>
+                                    Rediger
                                 </button>
                             </Link>
                             }

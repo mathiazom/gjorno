@@ -35,14 +35,13 @@ class EmailForm extends React.Component {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
         }).then(res => {
-            this.setState({user: res.data});
             const userEmail = res.data.email;
             if (userEmail == null || !stringIsEmail(userEmail)) {
                 // User does not have a valid email registered, abort
                 this.props.history.push(`/activity/${this.props.match.params.id}`);
                 return;
             }
-            document.getElementById("user-email-input").value = res.data.email;
+            this.setState({user: res.data});
         }).catch(error => {
             console.log(error.response);
         });
@@ -161,7 +160,7 @@ class EmailForm extends React.Component {
                                    className="form-label h5 mb-3">
                                 Tittel<RequiredAsterisk/>
                             </label>
-                            <input className="form-control" id="email-title-input" type="text"/>
+                            <input id="email-title-input" className="form-control" type="text"/>
                             <div className={"invalid-feedback"}/>
                         </div>
                         {/*Message */}
@@ -170,7 +169,7 @@ class EmailForm extends React.Component {
                                    className="form-label h5 mb-3">
                                 Melding<RequiredAsterisk/>
                             </label>
-                            <textarea className="form-control" id="email-message-input" rows="5"/>
+                            <textarea id="email-message-input" className="form-control" rows="5"/>
                             <div className={"invalid-feedback"}/>
                         </div>
                         {/*Sender (read-only) */}
@@ -178,7 +177,9 @@ class EmailForm extends React.Component {
                             <label htmlFor="user-email-input" className="form-label h5 mb-3">
                                 Din e-postadresse<RequiredAsterisk/>
                             </label>
-                            <input id="user-email-input" type="text" className="form-control" disabled/>
+                            <input id="user-email-input" type="text" className="form-control" disabled
+                                   value={this.state.user?.email}
+                            />
                             <div className={"invalid-feedback"}/>
                         </div>
                     </FormWithValidation>

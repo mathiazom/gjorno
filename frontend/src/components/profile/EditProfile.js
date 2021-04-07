@@ -129,19 +129,19 @@ class EditProfile extends React.Component {
                 <FormWithValidation submit={this.edit} submitText={"Lagre"}>
                     {/* Username */}
                     <div className="mt-3 mb-4">
-                        <label htmlFor="Username" className="form-label h5 mb-3">Brukernavn</label>
+                        <label htmlFor="edit-username" className="form-label h5 mb-3">Brukernavn</label>
                         <input id="edit-username" type="text" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>
                     {/* Email */}
                     <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Epost</label>
+                        <label htmlFor="edit-email" className="form-label h5 mb-3">Epost</label>
                         <input id="edit-email" type="email" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>
                     {/* Phone number */}
                     <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Telefonnummer</label>
+                        <label htmlFor="edit-phone" className="form-label h5 mb-3">Telefonnummer</label>
                         <input id="edit-phone" type="text" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>

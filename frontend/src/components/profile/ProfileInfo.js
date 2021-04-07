@@ -12,7 +12,7 @@ export default class ProfileInfo extends React.Component {
             <div className="card" >
                 <img className="card-img-top img-fluid profile-image" src={this.props.user.avatar || "/images/profil.png"} alt="profile"/>
                 <div className="card-body">
-                    <h4 className="card-title d-flex" id="profile-username">{this.props.user.username}
+                    <h4 className="card-title d-flex">{this.props.user.username}
                         {/* Verified icon for organizations */}
                         {this.props.user.is_organization &&
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-patch-check-fill text-primary ms-1 align-self-center" viewBox="0 0 16 16">
