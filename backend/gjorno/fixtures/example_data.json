@@ -1,0 +1,3108 @@
+[
+{
+  "model": "admin_interface.theme",
+  "pk": 1,
+  "fields": {
+    "name": "Django",
+    "active": false,
+    "title": "Django administration",
+    "title_color": "#F5DD5D",
+    "title_visible": true,
+    "logo": "",
+    "logo_color": "#FFFFFF",
+    "logo_visible": true,
+    "favicon": "",
+    "env_name": "",
+    "env_color": "#E74C3C",
+    "env_visible_in_header": true,
+    "env_visible_in_favicon": true,
+    "language_chooser_active": true,
+    "language_chooser_display": "code",
+    "css_header_background_color": "#0C4B33",
+    "css_header_text_color": "#44B78B",
+    "css_header_link_color": "#FFFFFF",
+    "css_header_link_hover_color": "#C9F0DD",
+    "css_module_background_color": "#44B78B",
+    "css_module_text_color": "#FFFFFF",
+    "css_module_link_color": "#FFFFFF",
+    "css_module_link_hover_color": "#C9F0DD",
+    "css_module_rounded_corners": true,
+    "css_generic_link_color": "#0C3C26",
+    "css_generic_link_hover_color": "#156641",
+    "css_save_button_background_color": "#0C4B33",
+    "css_save_button_background_hover_color": "#0C3C26",
+    "css_save_button_text_color": "#FFFFFF",
+    "css_delete_button_background_color": "#BA2121",
+    "css_delete_button_background_hover_color": "#A41515",
+    "css_delete_button_text_color": "#FFFFFF",
+    "css": "",
+    "related_modal_active": true,
+    "related_modal_background_color": "#000000",
+    "related_modal_background_opacity": "0.3",
+    "related_modal_rounded_corners": true,
+    "related_modal_close_button_visible": true,
+    "list_filter_dropdown": true,
+    "list_filter_sticky": true,
+    "recent_actions_visible": true,
+    "form_submit_sticky": false,
+    "form_pagination_sticky": false
+  }
+},
+{
+  "model": "admin_interface.theme",
+  "pk": 2,
+  "fields": {
+    "name": "GjorNo",
+    "active": true,
+    "title": "Adminpanel",
+    "title_color": "#198754",
+    "title_visible": false,
+    "logo": "admin-interface/logo/gjorno.png",
+    "logo_color": "#198754",
+    "logo_visible": true,
+    "favicon": "admin-interface/favicon/gjorno.png",
+    "env_name": "",
+    "env_color": "#E74C3C",
+    "env_visible_in_header": false,
+    "env_visible_in_favicon": false,
+    "language_chooser_active": true,
+    "language_chooser_display": "code",
+    "css_header_background_color": "#FFFFFF",
+    "css_header_text_color": "#105736",
+    "css_header_link_color": "#198754",
+    "css_header_link_hover_color": "#1D9D62",
+    "css_module_background_color": "#198754",
+    "css_module_text_color": "#FFFFFF",
+    "css_module_link_color": "#FFFFFF",
+    "css_module_link_hover_color": "#EEEEEE",
+    "css_module_rounded_corners": true,
+    "css_generic_link_color": "#105736",
+    "css_generic_link_hover_color": "#198754",
+    "css_save_button_background_color": "#198754",
+    "css_save_button_background_hover_color": "#105736",
+    "css_save_button_text_color": "#FFFFFF",
+    "css_delete_button_background_color": "#D9534F",
+    "css_delete_button_background_hover_color": "#C9302C",
+    "css_delete_button_text_color": "#FFFFFF",
+    "css": "",
+    "related_modal_active": true,
+    "related_modal_background_color": "#105736",
+    "related_modal_background_opacity": "0.2",
+    "related_modal_rounded_corners": true,
+    "related_modal_close_button_visible": true,
+    "list_filter_dropdown": false,
+    "list_filter_sticky": true,
+    "recent_actions_visible": true,
+    "form_submit_sticky": false,
+    "form_pagination_sticky": false
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$o3FHU8fKPWDh$23i6sTI+NXn1F0ulkHXG8fPsL3S/lmBStHlTLZgVQLU=",
+    "last_login": "2021-04-07T18:22:14.527Z",
+    "is_superuser": true,
+    "username": "famousfoxglove",
+    "first_name": "",
+    "last_name": "",
+    "email": "famous@fox.glove",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:23:55.216Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "hhanwright0",
+    "first_name": "",
+    "last_name": "",
+    "email": "wblenkensop0@oakley.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.495Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "cburrage1",
+    "first_name": "",
+    "last_name": "",
+    "email": "cfarraway1@japanpost.jp",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.496Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "pbacksal2",
+    "first_name": "",
+    "last_name": "",
+    "email": "uprewett2@biglobe.ne.jp",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.497Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "mstronghill3",
+    "first_name": "",
+    "last_name": "",
+    "email": "vklimsch3@amazon.co.jp",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.498Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "pmetzing4",
+    "first_name": "",
+    "last_name": "",
+    "email": "ctennison4@chron.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.499Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "mhatton5",
+    "first_name": "",
+    "last_name": "",
+    "email": "dmathivat5@samsung.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.500Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "flamkin6",
+    "first_name": "",
+    "last_name": "",
+    "email": "itopliss6@miitbeian.gov.cn",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.501Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "pjoburn7",
+    "first_name": "",
+    "last_name": "",
+    "email": "eciraldo7@google.nl",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.503Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ggerald8",
+    "first_name": "",
+    "last_name": "",
+    "email": "crudinger8@yellowbook.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.505Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "pmanie9",
+    "first_name": "",
+    "last_name": "",
+    "email": "adymoke9@house.gov",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.506Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "upayliea",
+    "first_name": "",
+    "last_name": "",
+    "email": "krenachowskia@fda.gov",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.507Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "jsturdgessb",
+    "first_name": "",
+    "last_name": "",
+    "email": "ggearyb@patch.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.508Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "tfonesc",
+    "first_name": "",
+    "last_name": "",
+    "email": "ccrooksc@epa.gov",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.509Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "fnewlynd",
+    "first_name": "",
+    "last_name": "",
+    "email": "khenrychd@businessinsider.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.511Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "aegree",
+    "first_name": "",
+    "last_name": "",
+    "email": "arachuige@prlog.org",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.512Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "msweedlandf",
+    "first_name": "",
+    "last_name": "",
+    "email": "nmatijevicf@princeton.edu",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.513Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ccrisping",
+    "first_name": "",
+    "last_name": "",
+    "email": "nstathamg@geocities.jp",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.514Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "dacresh",
+    "first_name": "",
+    "last_name": "",
+    "email": "rjenningsh@joomla.org",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.515Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "apedicani",
+    "first_name": "",
+    "last_name": "",
+    "email": "aeyckeli@reference.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.516Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "vbrewinj",
+    "first_name": "",
+    "last_name": "",
+    "email": "kgronowj@usatoday.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T10:37:10.517Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$5dugLZzFS50m$Vvr26W/QIy0qUtnBfv+gaeD6tzzAgMZbAmBvpaB8a+s=",
+    "last_login": "2021-04-07T17:49:07.510Z",
+    "is_superuser": false,
+    "username": "olanordmann",
+    "first_name": "",
+    "last_name": "",
+    "email": "aqw7wqty@anonaddy.me",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-04-07T11:49:54Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "05by2eqcsdqh5i5ocxdo38s1dsokx7xh",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyEssC316N1vIFt2laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLE6K2vV6bccKT2l7IQfVO5Vp1qWeRr1ruiDNn2tLK_L4f4dZGp5W4M3FCQQQnKOsRMUstz7LiUyCEBkthAYbsF4QLGWcXDQDwAGDYH6fAH1UDbv:1lU6i8:g51cx7I-WaS4IdJXEk5DmWaAdvN-tcYVbGXDWinQnr4",
+    "expire_date": "2021-04-21T11:51:04.900Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "0indqplh6pu5ste0oki19a3v3tikaopt",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyEssC316N1vIFt2laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLE6K2vV6bccKT2l7IQfVO5Vp1qWeRr1ruiDNn2tLK_L4f4dZGp5W4M3FCQQQnKOsRMUstz7LiUyCEBkthAYbsF4QLGWcXDQDwAGDYH6fAH1UDbv:1lUCId:i4gCW09eOxVEwZDtqT3T2pQulZiLO19k7nUOATiTViA",
+    "expire_date": "2021-04-21T17:49:07.533Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5j5lh212onc7r5fb3leh358kueqd6wi1",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la0L64L107zc0M9NBqrVNgLox_rtgiAnbc869bwFEKcfVvnj2o2dn-Qk-iCHmEIq_zQvPYhBRFMJCXqcfsN5tTJszRKAHx924O8RbKinFdfZY7kl52KW8JsfhcrSngwmWaVsT9SN3qDqtWgCjkSrpaiZpatNojZIVVEqiYtXWozONlKohkG2P2PWgxOcL2s1Jow:1lUBKV:0Gn1hIBMyrqTKFD2T3IOjYb7HCwue5qSNJs06H_7JTQ",
+    "expire_date": "2021-04-21T16:46:59.078Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5mc0s54yfu3hkhc54m2p2kce6qqyuzv1",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnZ9W9DSc8ZLK-9JgGUSHFSIe4OkVJA-2bmvVRM2zrErckSx6LOCtTpd-OUHzLtoNzTdJt1nqd1GVnvij5o09e5yPNyuH8HQ2rDtxbCLEzGdhmRiTpyiAjBGVPJ9MZ67wKJ98yhVBBbewjVMjAQ9GDV-wO2fTaT:1lUCog:1maphiNzOC77TKniJbuKo6Sgo0YyKzxzB5phq--_948",
+    "expire_date": "2021-04-21T18:22:14.534Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6ecb5cekqmvpnt9wydn0dgqdki6rizw9",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la9KkD6Vl6d5vaKYzg1RrSYC6Mf67YIgJ23POvW8BiGMtS3jxlPrEFPgJKYuu1Jybv60zT6ITRTQiQF2GHwiJVqbNEUbAB5fN0B3KbZQ4lmVKUW6J3O0sryNxvuzt4WCAeVjXnryPjkx0Bs9OoWJse8O9itYZ0micbbXVXitnlV6FITi10UK0WllQ4vMF0r1JcA:1lU8e7:k8O6iTrIGR-ZX4qTJzPjCANGlJm1XSlkyDAeM0mahK8",
+    "expire_date": "2021-04-21T13:55:03.367Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "79nxamr32r3qq815zz61yvc5b7y2g1kw",
+  "fields": {
+    "session_data": ".eJxVjMEOgyAQRP-FsyEsiqLH3vsNZGXXSmshUeml6b9XG9PE47w3M2-B3qccV_fiOQyByfETwyS6mKep-Nu88Cw68RSFcJjX8QdcoI1pfYY9-gfH3dAd4y1Jn-I6h17uFXnYRV4T8XQ5uqeDEZdxW0Ol0LJFA74sydRsGDU1Ve09KgOAqLZgCQarKjCsNZm2hKYFUEYhiM8XwoBIuw:1lU6h2:crhV2RoxPYy1ALJbX1hhn4-iSKeqS7_B4XERqDeVdx4",
+    "expire_date": "2021-04-21T11:49:56.560Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "d1jsqmun6dovzi4hqsdn2eqe31wmtj82",
+  "fields": {
+    "session_data": ".eJxVjMsOgyAQRf-FtSGCPKLL7vsNZBjGSkshUemm6b9XG9PE7Tnn3jcDxFLz6l40xzFScPSEmNiQa0rN39aFZjawwhrmoK7TD7gYNibVGXrAB-XdhDvkW-FY8jpHz_eEH3bh1xIoXY72dDDBMm3rVmFnQ69Uj4osoO1GIOm1QhmsDp220gspDQpBLUgQREYLYwBEQNsL9vkC08BJvA:1lU6z0:7bJQ3Hl8QK1jaS0Bsb4OBAklyAKBqA3S2fCTCsZxfyc",
+    "expire_date": "2021-04-21T12:08:30.133Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gx233ktuo16f9je672bkbs0a1yeb6vew",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyEssC316N1vIFt2laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLE6K2vV6bccKT2l7IQfVO5Vp1qWeRr1ruiDNn2tLK_L4f4dZGp5W4M3FCQQQnKOsRMUstz7LiUyCEBkthAYbsF4QLGWcXDQDwAGDYH6fAH1UDbv:1lU8Q2:z1gWETijBq74zMEFSWNO-8UtppadjiKYdx0nl4cJc8s",
+    "expire_date": "2021-04-21T13:40:30.490Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "i0dnsf8k7cuql9zq3da4q4a9lnyk1x9l",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnZ9W9DSc8ZLK-9JgGUSHFSIe4OkVJA-2bmvVRM2zrErckSx6LOCtTpd-OUHzLtoNzTdJt1nqd1GVnvij5o09e5yPNyuH8HQ2rDtxbCLEzGdhmRiTpyiAjBGVPJ9MZ67wKJ98yhVBBbewjVMjAQ9GDV-wO2fTaT:1lU6DA:A5Hb3SfG_PRwNAXDhL2BO9fnh_A1iMMMSP1a7N0mCXs",
+    "expire_date": "2021-04-21T11:19:04.714Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "i75qy7auitvwf1ooigozvwlcaysohoj8",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_SNSEUSm1ZuvcMzXRmlGptE6BujHcXDDFh-977_y0AMZe0uBdP4RqYHD8hRDGkEmP1t2XmSQwiiUo4KMv4Ay7QytruCD3gg9Nm6A7plmvMaZmCr7ek3u1cXzJxPO_t4WCEeVzXrMlL7blrFQJZNIAGUUqjUUvovDJk1Ikbq3zTG4IOvCfNtrWgeiQSny_7xkrt:1lU6v8:t_WB4B0ElZbgjFyQ8kxisx4ByNhWbv0NT7mXgHFwbvs",
+    "expire_date": "2021-04-21T12:04:30.113Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "twswg1objyn24ihgcxkle4eg4b1p2d3r",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnZ9W9DSc8ZLK-9JgGUSHFSIe4OkVJA-2bmvVRM2zrErckSx6LOCtTpd-OUHzLtoNzTdJt1nqd1GVnvij5o09e5yPNyuH8HQ2rDtxbCLEzGdhmRiTpyiAjBGVPJ9MZ67wKJ98yhVBBbewjVMjAQ9GDV-wO2fTaT:1lU5Lz:50S3oMLGnPajY7hiuhElfLat4y-OOFXKH4ZYvo7ILms",
+    "expire_date": "2021-04-21T10:24:07.291Z"
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "example.com",
+    "name": "example.com"
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "olanordmann"
+    ],
+    "email": "ola@nordmann.no",
+    "verified": false,
+    "primary": true
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "famousfoxglove"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "hhanwright0"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "cburrage1"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "pbacksal2"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "mstronghill3"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "pmetzing4"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "mhatton5"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "flamkin6"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "pjoburn7"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "ggerald8"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "pmanie9"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "upayliea"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "jsturdgessb"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "tfonesc"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "fnewlynd"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "aegree"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "msweedlandf"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "ccrisping"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "dacresh"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "apedicani"
+    ],
+    "phone_number": null,
+    "is_organization": true,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "vbrewinj"
+    ],
+    "phone_number": null,
+    "is_organization": false,
+    "avatar": ""
+  }
+},
+{
+  "model": "gjorno.profile",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "olanordmann"
+    ],
+    "phone_number": "",
+    "is_organization": false,
+    "avatar": "uploads/avatars/external-content.duckduckgo.com_MLzDLty.jpg"
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "apedicani"
+    ],
+    "title": "Ut på tur Drammen",
+    "ingress": "Vi starter opp igjen med turer som er for innbyggere som er bosatt i Drammen Kommune. Turene er åpne for alle som ønsker å være med.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+    "image": "uploads/activities/6.jpg",
+    "has_registration": true,
+    "registration_capacity": 50,
+    "registration_deadline": "2021-04-09T11:30:22Z",
+    "starting_time": "2021-04-10T10:00:00Z",
+    "location": "DNT-butikken",
+    "price": null,
+    "activity_level": 1,
+    "categories": [
+      1
+    ],
+    "users_viewed": [
+      [
+        "famousfoxglove"
+      ],
+      [
+        "cburrage1"
+      ],
+      [
+        "pmetzing4"
+      ],
+      [
+        "dacresh"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "pbacksal2"
+    ],
+    "title": "Apalviksætra frå Fylling",
+    "ingress": "Dette er den kortaste ruta til Apalviksætra og ein går stort sett i motbakke opp til sætra, med tilsvarande nedoverbakkar på returen for dei som liker å renne.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.",
+    "image": "uploads/activities/2.jpg",
+    "has_registration": false,
+    "registration_capacity": null,
+    "registration_deadline": null,
+    "starting_time": null,
+    "location": null,
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      2,
+      3
+    ],
+    "users_viewed": [
+      [
+        "hhanwright0"
+      ],
+      [
+        "mhatton5"
+      ],
+      [
+        "ggerald8"
+      ],
+      [
+        "olanordmann"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "flamkin6"
+    ],
+    "title": "Frisbee-trening",
+    "ingress": "Lavterskel arrangement for deg som ønsker en morro introduksjon til denne enkle, men fantastiske, sporten.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.",
+    "image": "uploads/activities/8.jpg",
+    "has_registration": true,
+    "registration_capacity": 25,
+    "registration_deadline": "2021-04-16T11:36:43Z",
+    "starting_time": "2021-04-17T11:36:44Z",
+    "location": "Dødens dal",
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      7
+    ],
+    "users_viewed": [
+      [
+        "pbacksal2"
+      ],
+      [
+        "pmetzing4"
+      ],
+      [
+        "flamkin6"
+      ],
+      [
+        "aegree"
+      ],
+      [
+        "msweedlandf"
+      ],
+      [
+        "ccrisping"
+      ],
+      [
+        "dacresh"
+      ],
+      [
+        "apedicani"
+      ],
+      [
+        "vbrewinj"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "upayliea"
+    ],
+    "title": "Skitur på Valdresflye",
+    "ingress": "Dette er en fin skitur med flott utsikt på vestsida av Valdresflye. Vi starter på toppen av Flye og går mod Torfinnsbu",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+    "image": "uploads/activities/7.jpg",
+    "has_registration": true,
+    "registration_capacity": 100,
+    "registration_deadline": "2021-04-09T11:33:43Z",
+    "starting_time": "2021-04-11T09:00:00Z",
+    "location": "Shell på Fagernes",
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      2
+    ],
+    "users_viewed": [
+      [
+        "cburrage1"
+      ],
+      [
+        "ccrisping"
+      ],
+      [
+        "apedicani"
+      ],
+      [
+        "vbrewinj"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "aegree"
+    ],
+    "title": "Aksla via Rundskue",
+    "ingress": "Dette er en enkel og flott tur som passer for de fleste! Du går på gode veier/stier hele tiden. På turen kan du oppleve kulturminner, utskjærte figurer, utsiktspunkt og mye mer.",
+    "description": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.",
+    "image": "uploads/activities/1_tDmdFmM.jpg",
+    "has_registration": false,
+    "registration_capacity": null,
+    "registration_deadline": null,
+    "starting_time": null,
+    "location": null,
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      1
+    ],
+    "users_viewed": [
+      [
+        "pmetzing4"
+      ],
+      [
+        "mhatton5"
+      ],
+      [
+        "pjoburn7"
+      ],
+      [
+        "fnewlynd"
+      ],
+      [
+        "msweedlandf"
+      ],
+      [
+        "apedicani"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "ggerald8"
+    ],
+    "title": "Seniortur til Vikafjellet",
+    "ingress": "Me tek turen til Vikafjellet. Oppmøte på Esso Amfi kl. 10. Me rekna med å returnera kl. 17.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.\r\n\r\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. \r\n\r\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.",
+    "image": "uploads/activities/5_fFCVIpO.jpg",
+    "has_registration": true,
+    "registration_capacity": 10,
+    "registration_deadline": "2021-04-17T11:20:49Z",
+    "starting_time": "2021-04-24T08:00:00Z",
+    "location": "Esso Amfi",
+    "price": null,
+    "activity_level": 3,
+    "categories": [
+      6
+    ],
+    "users_viewed": [
+      [
+        "hhanwright0"
+      ],
+      [
+        "mstronghill3"
+      ],
+      [
+        "flamkin6"
+      ],
+      [
+        "ggerald8"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "flamkin6"
+    ],
+    "title": "Aukra kyststi",
+    "ingress": "Om du vil oppleve kysten og gå på tur nær havet er dette ein fin tur for deg. Frå kyststien er det fin utsikt mot Bjørnsund og Bud.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.",
+    "image": "uploads/activities/4.jpg",
+    "has_registration": false,
+    "registration_capacity": null,
+    "registration_deadline": null,
+    "starting_time": null,
+    "location": null,
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      1,
+      5
+    ],
+    "users_viewed": [
+      [
+        "olanordmann"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.activity",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "fnewlynd"
+    ],
+    "title": "Appelsinhaugen",
+    "ingress": "Fursetfjellet er utgangspunktet for en rekke fine familieturer og trimturer. På solværsdager er det et yrende folkeliv her.",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. \r\n\r\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. \r\n\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.",
+    "image": "uploads/activities/3.jpg",
+    "has_registration": false,
+    "registration_capacity": null,
+    "registration_deadline": null,
+    "starting_time": null,
+    "location": null,
+    "price": null,
+    "activity_level": 2,
+    "categories": [
+      2,
+      4
+    ],
+    "users_viewed": [
+      [
+        "pmanie9"
+      ],
+      [
+        "tfonesc"
+      ],
+      [
+        "aegree"
+      ],
+      [
+        "olanordmann"
+      ]
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 1,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "upayliea"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 2,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "tfonesc"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 3,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "mhatton5"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 4,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "msweedlandf"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 5,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "fnewlynd"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 6,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "upayliea"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 7,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "tfonesc"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 8,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "mhatton5"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 9,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "msweedlandf"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 10,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "fnewlynd"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 11,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "upayliea"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 12,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "tfonesc"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 13,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "mhatton5"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 14,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "msweedlandf"
+    ]
+  }
+},
+{
+  "model": "gjorno.registration",
+  "pk": 15,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "fnewlynd"
+    ]
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 1,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "pmanie9"
+    ],
+    "timestamp": "2021-04-07T18:41:52.900Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 2,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "flamkin6"
+    ],
+    "timestamp": "2021-04-07T18:41:52.901Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 3,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "msweedlandf"
+    ],
+    "timestamp": "2021-04-07T18:41:52.901Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 4,
+  "fields": {
+    "activity": 7,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2021-04-07T18:41:52.902Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 5,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "ccrisping"
+    ],
+    "timestamp": "2021-04-07T18:41:52.902Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 6,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "dacresh"
+    ],
+    "timestamp": "2021-04-07T18:41:52.902Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 7,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "famousfoxglove"
+    ],
+    "timestamp": "2021-04-07T18:41:52.903Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 8,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "mhatton5"
+    ],
+    "timestamp": "2021-04-07T18:41:52.903Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 9,
+  "fields": {
+    "activity": 6,
+    "user": [
+      "pjoburn7"
+    ],
+    "timestamp": "2021-04-07T18:41:52.904Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 10,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "pjoburn7"
+    ],
+    "timestamp": "2021-04-07T18:41:52.905Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 11,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "flamkin6"
+    ],
+    "timestamp": "2021-04-07T18:41:52.905Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 12,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "flamkin6"
+    ],
+    "timestamp": "2021-04-07T18:41:52.906Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 13,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "cburrage1"
+    ],
+    "timestamp": "2021-04-07T18:41:52.906Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 14,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "pjoburn7"
+    ],
+    "timestamp": "2021-04-07T18:41:52.907Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 15,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "ggerald8"
+    ],
+    "timestamp": "2021-04-07T18:41:52.907Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 16,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2021-04-07T18:41:52.907Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 17,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "famousfoxglove"
+    ],
+    "timestamp": "2021-04-07T18:41:52.908Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 18,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "aegree"
+    ],
+    "timestamp": "2021-04-07T18:41:52.908Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 19,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "famousfoxglove"
+    ],
+    "timestamp": "2021-04-07T18:41:52.909Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 20,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "flamkin6"
+    ],
+    "timestamp": "2021-04-07T18:41:52.909Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 21,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "hhanwright0"
+    ],
+    "timestamp": "2021-04-07T18:41:52.909Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 22,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "apedicani"
+    ],
+    "timestamp": "2021-04-07T18:41:52.910Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 23,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "dacresh"
+    ],
+    "timestamp": "2021-04-07T18:41:52.911Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 24,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "dacresh"
+    ],
+    "timestamp": "2021-04-07T18:41:52.911Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 25,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "upayliea"
+    ],
+    "timestamp": "2021-04-07T18:41:52.912Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 26,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "msweedlandf"
+    ],
+    "timestamp": "2021-04-07T18:41:52.913Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 27,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "upayliea"
+    ],
+    "timestamp": "2021-04-07T18:41:52.914Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 28,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "fnewlynd"
+    ],
+    "timestamp": "2021-04-07T18:41:52.915Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 29,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "pbacksal2"
+    ],
+    "timestamp": "2021-04-07T18:41:52.916Z"
+  }
+},
+{
+  "model": "gjorno.favorite",
+  "pk": 30,
+  "fields": {
+    "activity": 7,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2021-04-07T18:41:52.916Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 1,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "olanordmann"
+    ],
+    "timestamp": "2021-04-07T11:52:14.401Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 2,
+  "fields": {
+    "activity": 7,
+    "user": [
+      "olanordmann"
+    ],
+    "timestamp": "2021-04-07T11:52:26.175Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 3,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "aegree"
+    ],
+    "timestamp": "2020-09-30T07:17:10Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 4,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "cburrage1"
+    ],
+    "timestamp": "2021-02-08T20:07:36Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 5,
+  "fields": {
+    "activity": 4,
+    "user": [
+      "pmetzing4"
+    ],
+    "timestamp": "2020-08-08T08:13:28Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 6,
+  "fields": {
+    "activity": 6,
+    "user": [
+      "msweedlandf"
+    ],
+    "timestamp": "2020-11-05T00:07:50Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 7,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "pmanie9"
+    ],
+    "timestamp": "2020-09-29T09:25:10Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 8,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "aegree"
+    ],
+    "timestamp": "2020-09-09T15:24:33Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 9,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "pmetzing4"
+    ],
+    "timestamp": "2020-09-20T03:34:07Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 10,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2020-08-14T17:16:36Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 11,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "fnewlynd"
+    ],
+    "timestamp": "2020-06-15T15:33:16Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 12,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "pjoburn7"
+    ],
+    "timestamp": "2020-10-10T01:25:23Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 13,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "pmanie9"
+    ],
+    "timestamp": "2020-03-02T00:07:49Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 14,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2020-09-22T21:38:40Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 15,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "pmanie9"
+    ],
+    "timestamp": "2020-05-02T00:14:09Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 16,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "apedicani"
+    ],
+    "timestamp": "2020-08-24T09:13:08Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 17,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "tfonesc"
+    ],
+    "timestamp": "2020-04-01T18:33:39Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 18,
+  "fields": {
+    "activity": 6,
+    "user": [
+      "upayliea"
+    ],
+    "timestamp": "2021-03-25T14:39:55Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 19,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "flamkin6"
+    ],
+    "timestamp": "2020-04-21T19:24:04Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 20,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "famousfoxglove"
+    ],
+    "timestamp": "2021-03-24T15:45:43Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 21,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "pmanie9"
+    ],
+    "timestamp": "2020-12-12T01:31:34Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 22,
+  "fields": {
+    "activity": 1,
+    "user": [
+      "msweedlandf"
+    ],
+    "timestamp": "2020-10-02T22:55:54Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 23,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "aegree"
+    ],
+    "timestamp": "2020-05-28T19:08:03Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 24,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "upayliea"
+    ],
+    "timestamp": "2020-03-24T03:05:04Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 25,
+  "fields": {
+    "activity": 3,
+    "user": [
+      "aegree"
+    ],
+    "timestamp": "2020-09-25T18:10:21Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 26,
+  "fields": {
+    "activity": 7,
+    "user": [
+      "mhatton5"
+    ],
+    "timestamp": "2021-02-17T17:51:05Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 27,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "dacresh"
+    ],
+    "timestamp": "2020-03-20T21:01:36Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 28,
+  "fields": {
+    "activity": 6,
+    "user": [
+      "famousfoxglove"
+    ],
+    "timestamp": "2020-09-22T00:51:29Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 29,
+  "fields": {
+    "activity": 5,
+    "user": [
+      "mhatton5"
+    ],
+    "timestamp": "2020-03-26T01:26:58Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 30,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "ccrisping"
+    ],
+    "timestamp": "2020-10-01T07:14:02Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 31,
+  "fields": {
+    "activity": 2,
+    "user": [
+      "jsturdgessb"
+    ],
+    "timestamp": "2020-04-17T19:13:09Z"
+  }
+},
+{
+  "model": "gjorno.log",
+  "pk": 32,
+  "fields": {
+    "activity": 8,
+    "user": [
+      "mstronghill3"
+    ],
+    "timestamp": "2020-12-11T08:06:11Z"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 1,
+  "fields": {
+    "title": "Gåtur",
+    "color": "#BBEDEE"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 2,
+  "fields": {
+    "title": "Skitur",
+    "color": "#9896EE"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 3,
+  "fields": {
+    "title": "Ålesund",
+    "color": "#EEAE51"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 4,
+  "fields": {
+    "title": "Gjemnes",
+    "color": "#EE93C9"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 5,
+  "fields": {
+    "title": "Aukra",
+    "color": "#695BEE"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 6,
+  "fields": {
+    "title": "Fjelltur",
+    "color": "#717171"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 7,
+  "fields": {
+    "title": "Frisbee",
+    "color": "#EEBF33"
+  }
+},
+{
+  "model": "gjorno.category",
+  "pk": 8,
+  "fields": {
+    "title": "Golf",
+    "color": "#AF4F4F"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 1,
+  "fields": {
+    "title": "1",
+    "image": "uploads/gallery/aksla.jpg"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 2,
+  "fields": {
+    "title": "frisbeegolf",
+    "image": "uploads/gallery/frisbeegolf_pYVZ5p5.jpg"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 3,
+  "fields": {
+    "title": "blomst",
+    "image": "uploads/gallery/6.jpg"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 4,
+  "fields": {
+    "title": "ski",
+    "image": "uploads/gallery/7.jpg"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 5,
+  "fields": {
+    "title": "strand",
+    "image": "uploads/gallery/4.jpg"
+  }
+},
+{
+  "model": "gjorno.image",
+  "pk": 6,
+  "fields": {
+    "title": "bobble",
+    "image": "uploads/gallery/bobble.jpg"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2021-04-07T10:46:21.755Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "1",
+    "object_repr": "Gåtur",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2021-04-07T10:47:06.883Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "1",
+    "object_repr": "Aksla via Rundskue",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2021-04-07T10:48:31.510Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "1",
+    "object_repr": "Image object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2021-04-07T10:49:14.666Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "1",
+    "object_repr": "Aksla via Rundskue",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2021-04-07T10:49:42.839Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "1",
+    "object_repr": "Aksla via Rundskue",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2021-04-07T10:51:42.298Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "2",
+    "object_repr": "Skitur",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2021-04-07T10:51:52.293Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "2",
+    "object_repr": "Apalviksætra frå Fylling",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2021-04-07T10:52:07.123Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "2",
+    "object_repr": "Apalviksætra frå Fylling",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2021-04-07T10:52:40.855Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "3",
+    "object_repr": "Ålesund",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2021-04-07T10:52:43.683Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "2",
+    "object_repr": "Apalviksætra frå Fylling",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Categories\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2021-04-07T10:53:39.045Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "4",
+    "object_repr": "Gjemnes",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2021-04-07T10:54:07.410Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "3",
+    "object_repr": "Appelsinhaugen",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2021-04-07T10:55:20.815Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "5",
+    "object_repr": "Aukra",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2021-04-07T10:56:12.711Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "4",
+    "object_repr": "Aukra kyststi",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2021-04-07T11:21:08.226Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "5",
+    "object_repr": "Seniortur til Vikafjellet",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Has registration\", \"Registration capacity\", \"Registration deadline\", \"Starting time\", \"Location\", \"Users viewed\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2021-04-07T11:21:20.461Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "6",
+    "object_repr": "Fjelltur",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2021-04-07T11:21:22.619Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "5",
+    "object_repr": "Seniortur til Vikafjellet",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Categories\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2021-04-07T11:21:36.229Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "5",
+    "object_repr": "Seniortur til Vikafjellet",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2021-04-07T11:22:32.441Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "5",
+    "object_repr": "Seniortur til Vikafjellet",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Activity level\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2021-04-07T11:23:32.139Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "7",
+    "object_repr": "Frisbee",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2021-04-07T11:23:44.869Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "8",
+    "object_repr": "Golf",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2021-04-07T11:31:04.733Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "6",
+    "object_repr": "Ut på tur Drammen",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2021-04-07T11:31:37.403Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "6",
+    "object_repr": "Ut på tur Drammen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Creator\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2021-04-07T11:31:51.807Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "6",
+    "object_repr": "Ut på tur Drammen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2021-04-07T11:34:27.731Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "7",
+    "object_repr": "Skitur på Valdresflye",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2021-04-07T11:39:32.755Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "8",
+    "object_repr": "Frisbee-trening",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2021-04-07T11:39:44.994Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "8",
+    "object_repr": "Frisbee-trening",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2021-04-07T11:46:12.853Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "4",
+    "object_repr": "Skitur på Valdresflye",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2021-04-07T11:48:08.370Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "profile"
+    ],
+    "object_id": "10",
+    "object_repr": "ggerald8",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is organization\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2021-04-07T11:48:17.129Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "profile"
+    ],
+    "object_id": "16",
+    "object_repr": "aegree",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is organization\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2021-04-07T12:08:15.134Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "23",
+    "object_repr": "NTNUI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2021-04-07T13:22:27.753Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "gjorno.site",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2021-04-07T13:25:11.287Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "2",
+    "object_repr": "gjorno.site",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2021-04-07T13:25:20.572Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "sites",
+      "site"
+    ],
+    "object_id": "1",
+    "object_repr": "gjorno.site",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\", \"Display name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2021-04-07T13:25:30.336Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "23",
+    "object_repr": "NTNUI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2021-04-07T13:45:41.715Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "22",
+    "object_repr": "olanordmann",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2021-04-07T13:53:02.492Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "23",
+    "object_repr": "NTNUI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2021-04-07T13:56:00.735Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "2",
+    "object_repr": "Image object (2)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2021-04-07T13:58:37.058Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "8",
+    "object_repr": "Golf",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Color\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2021-04-07T13:58:54.666Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "category"
+    ],
+    "object_id": "8",
+    "object_repr": "Golf",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Color\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2021-04-07T14:01:42.062Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "23",
+    "object_repr": "NTNUI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2021-04-07T17:08:10.983Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "8",
+    "object_repr": "Appelsinhaugen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2021-04-07T17:35:08.641Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "6",
+    "object_repr": "Seniortur til Vikafjellet",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2021-04-07T17:42:11.428Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "3",
+    "object_repr": "Image object (3)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2021-04-07T17:42:24.909Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "4",
+    "object_repr": "Image object (4)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2021-04-07T17:42:51.199Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "5",
+    "object_repr": "Image object (5)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2021-04-07T17:45:13.244Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "6",
+    "object_repr": "Image object (6)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2021-04-07T17:45:18.586Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "6",
+    "object_repr": "Image object (6)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2021-04-07T17:47:42.840Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "image"
+    ],
+    "object_id": "1",
+    "object_repr": "Image object (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2021-04-07T18:23:05.496Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "registration"
+    ],
+    "object_id": "16",
+    "object_repr": "Registration object (16)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2021-04-07T18:31:05.085Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "13",
+    "object_repr": "fvef",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2021-04-07T18:31:05.096Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "12",
+    "object_repr": "acdawd",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2021-04-07T18:31:05.120Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "11",
+    "object_repr": "acdawcdaw",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2021-04-07T18:31:05.129Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "10",
+    "object_repr": "acwdadaw",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2021-04-07T18:31:05.146Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "gjorno",
+      "activity"
+    ],
+    "object_id": "9",
+    "object_repr": "bdgbdr",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2021-04-07T18:31:14.671Z",
+    "user": [
+      "famousfoxglove"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "23",
+    "object_repr": "NTNUI",
+    "action_flag": 3,
+    "change_message": ""
+  }
+}
+]

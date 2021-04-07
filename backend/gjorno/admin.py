@@ -1,6 +1,7 @@
 """Admin site configurations"""
 
 from django.contrib import admin
+from django.contrib.sites.models import Site
 from django.contrib.admin import AdminSite
 from django.contrib.auth.admin import User
 from django.db.models import Count, Case, When, Q
@@ -157,3 +158,4 @@ class TokenAdmin(admin.ModelAdmin):
 
 gjorno_admin_site.register(Category)
 gjorno_admin_site.register(User)
+gjorno_admin_site.register(Site)
