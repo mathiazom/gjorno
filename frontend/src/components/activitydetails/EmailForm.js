@@ -3,7 +3,7 @@ import React from 'react';
 import FormWithValidation from '../common/FormWithValidation';
 import {RequiredAsterisk} from "../common/RequiredAsterisk";
 import {Link, withRouter} from 'react-router-dom';
-import {stringIsBlank, stringIsEmail, updatePageTitle, validateForm} from "../common/Utils";
+import {displayValidationFeedback, stringIsBlank, stringIsEmail, updatePageTitle, validateForm} from "../common/Utils";
 import FormPage from "../common/FormPage";
 
 class EmailForm extends React.Component {
@@ -124,6 +124,9 @@ class EmailForm extends React.Component {
             return;
         }
 
+        const submitButton = document.getElementById("email-submit-button");
+        submitButton.disabled = true;
+
         const content = new FormData();
         content.append("title", document.getElementById("email-title-input").value);
         content.append("message", document.getElementById("email-message-input").value);
@@ -139,7 +142,14 @@ class EmailForm extends React.Component {
                 this.setState({send_status: res.status});
             })
             .catch(error => {
+                displayValidationFeedback(
+                    ["En feil oppstod"],
+                    submitButton.nextElementSibling
+                );
                 console.log(error.response);
+            })
+            .finally(() => {
+                submitButton.disabled = false;
             });
 
     }
@@ -153,7 +163,7 @@ class EmailForm extends React.Component {
                 <>
                     <p className={"fw-light text-muted fs-5"}><i>{this.state.activity?.title}</i></p>
                     <h2>Kontakt <span className={"text-success"}>{this.state.activity?.username}</span></h2>
-                    <FormWithValidation submit={this.submit} submitText="Send">
+                    <FormWithValidation submitId={"email-submit-button"} submit={this.submit} submitText="Send">
                         {/*Title */}
                         <div className="mt-4 mb-4">
                             <label htmlFor="email-title-input"

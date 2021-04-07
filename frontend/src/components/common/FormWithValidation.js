@@ -22,7 +22,8 @@ class FormWithValidation extends React.Component {
                             </button>
                         </div>
                         <div className={"col"}>
-                            <button className="btn btn-success w-100" onClick={this.props.submit}>{this.props.submitText}</button>
+                            <button id={this.props.submitId} className="btn btn-success w-100" onClick={this.props.submit}>{this.props.submitText}</button>
+                            <div className={"invalid-feedback w-100 text-center"}/>
                         </div>
                     </div>
                 }
