@@ -28,8 +28,9 @@ class CreateActivity extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
-            .then(() => {
-                this.props.history.push("/");
+            .then((res) => {
+                // Display details page of newly created activity
+                this.props.history.push("/activity/" + res.data.id);
             }).catch(error => {
                 console.log(error.response);
             }
