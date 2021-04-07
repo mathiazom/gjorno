@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 X_FRAME_OPTIONS='SAMEORIGIN'
 
 # allauth
-SITE_ID = 1
+SITE_ID = 2
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -163,4 +163,3 @@ MEDIA_URL = "/media/"
 
 # we whitelist localhost:3000 because that's where frontend will be served
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
-
