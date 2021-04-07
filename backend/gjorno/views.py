@@ -65,16 +65,21 @@ class ActivitiesView(viewsets.ModelViewSet):
             self.append_user_specific_fields(activity, request)
         return response
 
-    # Restrict activity edit to author only
     def update(self, request, *args, **kwargs):
         activity = self.get_object()
+        # Restrict activity edit to author only
         if activity.user.id != self.request.user.id:
             return Response("User is not activity author", status=status.HTTP_403_FORBIDDEN)
-        # If activity has registration, make sure capacity change is not removing registrations
         has_registration = activity.has_registration
         if 'has_registration' in request.data:
-            # Request changes has_registration
-            has_registration = json.loads(request.data['has_registration'])
+            # Make sure has_registration is not changed
+            request_has_registration = request.data['has_registration']
+            if isinstance(request_has_registration, str):
+                # Parse boolean string
+                request_has_registration = json.loads(request_has_registration)
+            if has_registration != request_has_registration:
+                return Response("Change of has_registration is not allowed", status=status.HTTP_403_FORBIDDEN)
+        # If activity has registration, make sure capacity change is not removing registrations
         if has_registration:
             if int(request.data['registration_capacity']) < activity.registrations_count():
                 return Response("Cannot decrease capacity below current number of registrations",
@@ -310,7 +315,8 @@ class ActivityContactView(APIView):
 
         author = activity.user
         if not author.email:
-            return Response("Author of this activity has not registered an email address", status=status.HTTP_403_FORBIDDEN)
+            return Response("Author of this activity has not registered an email address",
+                            status=status.HTTP_403_FORBIDDEN)
 
         errors = {}
 
