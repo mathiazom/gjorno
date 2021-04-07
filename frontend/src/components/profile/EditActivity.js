@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
+import {displayValidationFeedback} from "../common/Utils";
 
 class EditActivity extends React.Component {
 
@@ -40,6 +41,13 @@ class EditActivity extends React.Component {
             .then(() => {
                 this.props.history.push(`/activity-details/${this.props.match.params.id}/`);
             }).catch(error => {
+                const errorResponse = error.response?.request?.response;
+                if(errorResponse === "\"Cannot decrease capacity below current number of registrations\""){
+                    displayValidationFeedback(
+                        ["Må være minst like mange plasser som antall påmeldte"],
+                        document.getElementById("registration-capacity-input").nextElementSibling
+                    )
+                }
                 console.log(error.response);
             }
         );

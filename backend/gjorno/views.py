@@ -71,13 +71,14 @@ class ActivitiesView(viewsets.ModelViewSet):
         if activity.user.id != self.request.user.id:
             return Response("User is not activity author", status=status.HTTP_403_FORBIDDEN)
         has_registration = activity.has_registration
-        # Make sure has_registration is not changed
-        request_has_registration = request.data['has_registration']
-        if isinstance(request_has_registration, str):
-            # Parse boolean string
-            request_has_registration = json.loads(request_has_registration)
-        if 'has_registration' in request.data and has_registration != request_has_registration:
-            return Response("Change of has_registration is not allowed", status=status.HTTP_403_FORBIDDEN)
+        if 'has_registration' in request.data:
+            # Make sure has_registration is not changed
+            request_has_registration = request.data['has_registration']
+            if isinstance(request_has_registration, str):
+                # Parse boolean string
+                request_has_registration = json.loads(request_has_registration)
+            if has_registration != request_has_registration:
+                return Response("Change of has_registration is not allowed", status=status.HTTP_403_FORBIDDEN)
         # If activity has registration, make sure capacity change is not removing registrations
         if has_registration:
             if int(request.data['registration_capacity']) < activity.registrations_count():
