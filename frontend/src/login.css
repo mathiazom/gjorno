@@ -52,6 +52,10 @@
   outline: none;
 }
 
+.login-form-container button:disabled {
+  opacity: .65;
+}
+
 .login-form-container button.ghost {
   background-color: transparent;
   border-color: #ffffff;
