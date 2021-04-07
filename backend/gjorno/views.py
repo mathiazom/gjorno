@@ -40,6 +40,7 @@ class ActivitiesView(viewsets.ModelViewSet):
 
     @staticmethod
     def append_user_specific_fields(data, request):
+        """Add fields describing logged in users relation to the activity"""
         # Flag to determine if activity was authored by authorized user
         data['is_author'] = request.user.id == data['user']
         # Flag to determine if user is registered to activity

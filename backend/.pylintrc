@@ -4,5 +4,5 @@ fail-under=6.0
 output-format=colorized
 load-plugins=pylint_django
 django-settings-module=backend.settings
-ignore=apps.py, asgi.py, wsgi.py
+ignore=apps.py, asgi.py, wsgi.py, tests.py
 disable=too-many-ancestors

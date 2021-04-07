@@ -1,9 +1,9 @@
 """Model serializers"""
 
+from datetime import datetime
+from django.contrib.auth.admin import User
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
-from django.contrib.auth.admin import User
-from datetime import datetime
 import pytz
 from .models import Activity, Profile, Category, Registration, Image, Favorite, Log
 
@@ -32,7 +32,12 @@ class ActivitySerializer(serializers.ModelSerializer):
         if instance.has_registration:
             representation['registrations_count'] = instance.registrations_count()
         else:
-            for field in ['registration_capacity', 'registration_deadline', 'starting_time', 'location']:
+            for field in [
+                'registration_capacity',
+                'registration_deadline',
+                'starting_time',
+                'location'
+            ]:
                 representation.pop(field)
 
         return representation
@@ -59,6 +64,7 @@ class BasicActivitySerializer(serializers.ModelSerializer):
 
     @staticmethod
     def validate_registration(internal):
+        """Validate data fields related to activity registration"""
         registration_fields = ['registration_capacity', 'registration_deadline', 'starting_time', 'location']
         if 'has_registration' in internal and internal['has_registration']:
             errors = {field: [] for field in registration_fields}
@@ -114,10 +120,10 @@ class LogSerializer(serializers.ModelSerializer):
         log_representation.pop("user")
         log_representation["log_id"] = log_representation.pop("id")
         log_representation["log_timestamp"] = log_representation.pop("timestamp")
-        
+
         activity_representation = ActivitySerializer().to_representation(instance.activity)
         activity_representation.pop("id")
-        
+
         return {**log_representation, **activity_representation}
 
     class Meta:

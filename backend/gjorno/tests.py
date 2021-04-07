@@ -90,7 +90,7 @@ class ActivityBaseTest(TestCase):
         self.token2 = Token.objects.create(user=self.user2)
         self.client2 = APIClient()
         self.client2.credentials(HTTP_AUTHORIZATION='Token ' + self.token2.key)
-        self.organization = User.objects.create(username=f"Espio Inc.")
+        self.organization = User.objects.create(username="Espio Inc.")
         Profile.objects.create(user=self.organization, phone_number="+99987654321", is_organization=True)
         self.activity = Activity.objects.create(
             user=self.user, title="Promenu ĉirkaŭ la lago",
@@ -99,9 +99,9 @@ class ActivityBaseTest(TestCase):
             price=500.0,
             activity_level=1
         )
-        self.tokenOrganization = Token.objects.create(user=self.organization)
-        self.clientOrganization = APIClient()
-        self.clientOrganization.credentials(HTTP_AUTHORIZATION='Token ' + self.tokenOrganization.key)
+        self.token_organization = Token.objects.create(user=self.organization)
+        self.client_organization = APIClient()
+        self.client_organization.credentials(HTTP_AUTHORIZATION='Token ' + self.token_organization.key)
         self.activity.categories.set([1, 3])
         self.activity_with_registration = Activity.objects.create(
             user=self.user, title="Promenu ĉirkaŭ la lago",
@@ -171,7 +171,6 @@ class ActivityTest(ActivityBaseTest):
         client = APIClient()
         response = client.get('/api/activities/')
         # Check that each activity in json response matches original
-        self.maxDiff = None
         json_response = json.loads(response.content)
         for i, activity in enumerate(self.activities):
             self.assertDictEqual(
@@ -205,7 +204,7 @@ class ActivityTest(ActivityBaseTest):
 
     def test_retrieve_activities_with_registration(self):
         """Make sure created activities (with registration) can be retrieved with correct fields"""
-        self.activities_with_registration = []
+        activities_with_registration = []
         for i in range(1, 5):
             activity = Activity.objects.create(
                 user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
@@ -215,13 +214,13 @@ class ActivityTest(ActivityBaseTest):
                 starting_time="2022-03-23T15:20:34+01:00", location="T-Town", price=None, activity_level=None
             )
             activity.categories.set([1, 3])
-            self.activities_with_registration.append(activity)
+            activities_with_registration.append(activity)
         # Request activity retrieval
         client = APIClient()
         response = client.get('/api/activities/')
         # Check that each activity in json response matches original
         json_response = json.loads(response.content)
-        for i, activity in enumerate(self.activities_with_registration):
+        for i, activity in enumerate(activities_with_registration):
             self.assertDictEqual(
                 json_response[3 - i],
                 {
@@ -465,7 +464,7 @@ class ActivityTest(ActivityBaseTest):
     def put_activity(self):
         return self.client.put(f'/api/activities/{self.activity.id}/', {
             "user": self.user,
-            "title": f"Ruli hekto obl co",
+            "title": "Ruli hekto obl co",
             "ingress": "Ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3]
@@ -482,7 +481,7 @@ class ActivityTest(ActivityBaseTest):
         self.register_users()
         response = self.client.put(f'/api/activities/{self.activity_with_registration.id}/', {
             "user": self.user,
-            "title": f"Ruli hekto obl co",
+            "title": "Ruli hekto obl co",
             "ingress": "Ho ido stif frota.",
             "description": "Apud ferio substantivo hu ial. Ruli hekto obl co, ho ido stif frota.",
             "categories": [1, 3],
@@ -597,7 +596,7 @@ class ActivityRegistrationsTest(ActivityBaseTest):
 
     def test_register_user_is_organization(self):
         """Request registration of an organization"""
-        response = self.clientOrganization.post(f'/api/activities/{self.activity_with_registration.id}/register/')
+        response = self.client_organization.post(f'/api/activities/{self.activity_with_registration.id}/register/')
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
 
@@ -635,7 +634,7 @@ class ActivityRegistrationsTest(ActivityBaseTest):
 
     def test_retrieve_registered_activities(self):
         """Request activities where logged in user is registered"""
-        self.activities_with_registration = []
+        activities_with_registration = []
         for i in range(1, 5):
             activity = Activity.objects.create(
                 user=self.user, title=f"Promenu ĉirkaŭ la lago {i}",
@@ -645,14 +644,14 @@ class ActivityRegistrationsTest(ActivityBaseTest):
                 starting_time="2022-03-23T15:20:34+01:00", location="T-Town", price=None, activity_level=None
             )
             activity.categories.set([1, 3])
-            self.activities_with_registration.append(activity)
-        self.client2.post(f'/api/activities/{self.activities_with_registration[0].id}/register/')
-        self.client2.post(f'/api/activities/{self.activities_with_registration[1].id}/register/')
+            activities_with_registration.append(activity)
+        self.client2.post(f'/api/activities/{activities_with_registration[0].id}/register/')
+        self.client2.post(f'/api/activities/{activities_with_registration[1].id}/register/')
         response = self.client2.get("/api/my_registered_activities/")
         json_response = json.loads(response.content)
-        for i, activity in enumerate(self.activities_with_registration[0:2]):
+        for i, activity in enumerate(activities_with_registration[0:2]):
             self.assertDictEqual(
-                json_response[1-i],
+                json_response[1 - i],
                 {
                     "id": activity.id,
                     "title": activity.title,
@@ -723,7 +722,6 @@ class ActivityFavoriteTest(ActivityBaseTest):
                     "activity_level": activity.activity_level
                 }
             )
-
 
 
 class MyActivitiesTest(TestCase):

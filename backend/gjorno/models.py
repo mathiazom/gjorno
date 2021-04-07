@@ -41,6 +41,7 @@ class Activity(models.Model):
     price = models.FloatField(blank=True, null=True)
 
     class ActivityLevel(models.IntegerChoices):
+        """Enums of possible activity levels"""
         LOW = 1
         MID = 2
         HIGH = 3
@@ -53,12 +54,14 @@ class Activity(models.Model):
         return self.title
 
     def registered_users(self):
+        """Retrieve users who have registered to this activity"""
         if not self.has_registration:
             return []
         users = self.registrations.values_list('user')
         return User.objects.filter(id__in=users)
 
     def registrations_count(self):
+        """Retrieve number of users who have registered to this activity"""
         return len(self.registered_users())
 
     class Meta:

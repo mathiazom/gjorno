@@ -3,8 +3,8 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.contrib.auth.admin import User
+from django.db.models import Count, Case, When, Q
 from rest_framework.authtoken.models import Token
-from django.db.models import Count, Case, When, Q, Value
 
 from .models import Activity, Registration, Category, Image, Profile, Log, Favorite
 
