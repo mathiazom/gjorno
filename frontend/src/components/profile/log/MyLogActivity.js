@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/js/all.js';
 
+/**
+ * Information card for a user log
+ */
 export default class MyLogActivity extends React.Component {
 
     /**

@@ -2,6 +2,7 @@ import React from 'react';
 import './GalleryModal.css';
 
 const GalleryRow = (props) => {
+
     return props.images.map(image => {
             return (
                 <div className={"col-12 col-md-6 p-1"} key={image.id}>
@@ -11,10 +12,14 @@ const GalleryRow = (props) => {
             );
         }
     )
+
 }
 
 const GALLERY_COLUMNS = 2;
 
+/**
+ * Popup for admin defined image gallery
+ */
 export default class GalleryModal extends React.Component {
 
     constructor(props) {

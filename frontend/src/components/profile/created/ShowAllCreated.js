@@ -1,8 +1,11 @@
 import React from 'react';
 import MyActivity from './MyActivity';
 import axios from 'axios';
-import ShowAll from "../ShowAll";
+import ActivitiesList from "../ActivitiesList";
 
+/**
+ * Page for all activities created by the logged in user
+ */
 export default class ShowAllCreated extends React.Component {
 
     constructor(props) {
@@ -29,7 +32,7 @@ export default class ShowAllCreated extends React.Component {
 
     render() {
         return (
-            <ShowAll
+            <ActivitiesList
                 title={"Mine aktiviteter"}
                 activities={this.state.activities}
                 renderItem={(activity) => (

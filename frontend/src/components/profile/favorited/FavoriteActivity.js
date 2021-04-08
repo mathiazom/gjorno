@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/js/all.js';
 
+/**
+ * Information card for activity favorited by the logged in user
+ */
 export default class FavoriteActivity extends React.Component {
 
     /**

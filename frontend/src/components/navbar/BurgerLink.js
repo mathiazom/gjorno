@@ -4,12 +4,15 @@ import {
     useRouteMatch
 } from "react-router-dom";
 
+/**
+ * Specialized Link for use in BurgerMenu
+ */
 export default function BurgerLink({ label, to }) {
 
     /**
      * Link wrapper that closes BurgerMenu on click
      */
-    let match = useRouteMatch({
+    const match = useRouteMatch({
         path: to,
         exact: true
     });

@@ -1,6 +1,9 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
 
+/**
+ * Utility component for auto-scrolling to page top
+ */
 class ScrollToTop extends React.Component {
     componentDidUpdate(prevProps) {
         if (

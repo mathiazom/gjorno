@@ -8,15 +8,6 @@ import {nb} from 'date-fns/esm/locale'
  */
 export default class DateTimePicker extends React.Component{
 
-    /**
-     * Check if the given time is in the future
-     * @param time
-     * @returns {boolean}
-     */
-    isInFuture(time) {
-        return new Date().getTime() < new Date(time).getTime();
-    }
-
     render(){ 
 
         return (

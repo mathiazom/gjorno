@@ -1,18 +1,4 @@
 /**
- * Update HTML document title with GjørNo suffix
- */
-export const updatePageTitle = (prefix) => {
-    document.title = prefix + " · GjørNo";
-}
-
-/**
- * Create Date object from ISO date string
- */
-export const getDateFromString = (s) => {
-    return new Date(s.slice(0, 4), s.slice(5, 7) - 1, s.slice(8, 10), s.slice(11, 13), s.slice(14, 16))
-}
-
-/**
  * Check if string is empty or just white-space
  */
 export const stringIsBlank = (str) => {
@@ -49,43 +35,6 @@ export const stringIsPhoneNumber = (str) => {
         return false;
     }
     return /^(\+47)?[2-9][0-9]?(?:\d\d){0,3}/.test(str);
-}
-
-/**
- * Format phone number to [+47] XX XX XX XX
- * @param str
- * @returns {*}
- */
-export const formatPhoneNumber = (str) => {
-    return str.replaceAll(" ","").match(/\+?..?/g).join(" ");
-}
-
-/**
- * Decide if text should be light or dark based on background color
- * @param bgColor
- * @param lightColor
- * @param darkColor
- * @returns {*}
- */
-export const getTextColorBasedOnBgColor = (bgColor, lightColor, darkColor) => {
-    const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
-    const r = parseInt(color.substring(0, 2), 16); // hexToR
-    const g = parseInt(color.substring(2, 4), 16); // hexToG
-    const b = parseInt(color.substring(4, 6), 16); // hexToB
-    return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ?
-        darkColor : lightColor;
-}
-
-/**
- * Compares the dates for two activities, based on whether the activity has registration or not (starting_time/log_timestamp).
- * @param {*} a1 first activity
- * @param {*} a2 second activity
- * @returns a positive integer if a1 is before a2, a negative integer if a2 is before a1, or 0 if they have the same time.
- */
-export const compareActivityDates = (a1, a2) => {
-    const date1 = a1.has_registration ? new Date(a1.starting_time) : new Date(a1.log_timestamp);
-    const date2 = a2.has_registration ? new Date(a2.starting_time) : new Date(a2.log_timestamp);
-    return date1 - date2;
 }
 
 /**
@@ -132,7 +81,7 @@ export const validateForm = (formRules, withScroll=true) => {
         }
 
         // Display feedback if feedback element is provided
-        let invalidFeedback = validation.feedbackEl != null ? validation.feedbackEl : validation.inputEl.nextElementSibling;
+        const invalidFeedback = validation.feedbackEl != null ? validation.feedbackEl : validation.inputEl.nextElementSibling;
         if (invalidFeedback != null && invalidFeedback.classList.contains("invalid-feedback")) {
             displayValidationFeedback(feedback, invalidFeedback, withScroll && formIsValid, validation.inputEl);
         }

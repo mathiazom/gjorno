@@ -1,9 +1,12 @@
 import React from 'react';
 import MyLogActivity from './MyLogActivity';
 import axios from 'axios';
-import {compareActivityDates} from "../../common/Utils";
-import ShowAll from "../ShowAll";
+import {compareActivityDates} from "../../utils/DateUtils";
+import ActivitiesList from "../ActivitiesList";
 
+/**
+ * Page for all activities logged by the logged in user
+ */
 export default class ShowAllLog extends React.Component {
     constructor(props) {
         super(props);
@@ -25,14 +28,14 @@ export default class ShowAllLog extends React.Component {
      * as well as activities where user is registered
      */
     getLogActivities() {
-        axios.get('/api/my_logged_activities/',
+        axios.get('http://localhost:8000/api/my_logs/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
             .then(logged_res => {
-                axios.get('/api/my_registered_activities/',
+                axios.get('http://localhost:8000/api/my_registered_activities/',
                     {
                         headers: {
                             "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -57,7 +60,7 @@ export default class ShowAllLog extends React.Component {
 
     render() {
         return (
-            <ShowAll
+            <ActivitiesList
                 title={"Fullstendig log"}
                 activities={this.state.activities}
                 renderItem={(logged_activity) => (

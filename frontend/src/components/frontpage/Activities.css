@@ -1,3 +1,31 @@
+.activity-card img{
+    max-height: 200px;
+    object-fit: cover;
+}
+
+@media (min-width: 1200px) {
+
+    .activities-list {
+        max-width: 1100px;
+    }
+
+    .activity-card {
+        flex-direction: row;
+        align-items: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .activity-card img{
+        width: 250px;
+        min-width: 250px;
+        object-fit: cover;
+        min-height: 180px;
+        margin-right: 1rem;
+    }
+
+}
+
 .right-toggle-pane {
     height: 100%;
     position: fixed;
@@ -5,3 +33,4 @@
     overscroll-behavior: contain;
     right: 0;
 }
+

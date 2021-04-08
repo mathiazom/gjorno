@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Information card for activity created by logged in user
+ */
 export default class MyActivity extends React.Component {
 
     /**

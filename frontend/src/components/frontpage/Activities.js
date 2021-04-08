@@ -3,9 +3,12 @@ import './Activities.css';
 import Activity from './Activity';
 import axios from 'axios'
 import ActivitiesFilterPanel from "./ActivitiesFilterPanel";
-import {filterActivities} from "./FilterUtils";
-import {getTextColorBasedOnBgColor, updatePageTitle} from "../common/Utils";
+import {filterActivities} from "../utils/FilterUtils";
+import {getTextColorBasedOnBgColor, updatePageTitle} from "../utils/Utils";
 
+/**
+ * List of published activities
+ */
 export default class Activities extends React.Component {
 
     constructor(props) {
@@ -137,19 +140,6 @@ export default class Activities extends React.Component {
         );
     }
 
-    /**
-     * Get the highest price for all the activities. This will be used as the upper range of the price-filter.
-     */
-    getMaxPrice() {
-        let price = 0;
-        this.state.activities.forEach(activity => {
-            if (activity.price != null && activity.price > price) {
-                price = activity.price;
-            }
-        })
-        return price;
-    }
-
     render() {
         return (
             <div id={"activities-pane-container"} className={"d-flex flex-column"}>
@@ -171,7 +161,7 @@ export default class Activities extends React.Component {
                     <ActivitiesFilterPanel
                         activities={this.state.activities}
                         onFiltersChanged={this.onFiltersChanged}
-                        maxPrice={this.getMaxPrice()}
+                        maxPrice={Math.max(...this.state.activities.map(a => a.price), 0)}
                     />
                 </div>
             </div>

@@ -103,8 +103,8 @@ class ActivitiesView(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class RegistrationsView(viewsets.ReadOnlyModelViewSet):
-    """View for the registrations of a given activity"""
+class ParticipantsView(viewsets.ReadOnlyModelViewSet):
+    """View for the users that are registered to a given activity"""
     permission_classes = [IsAuthenticated]
     serializer_class = UserAndProfileSerializer
     lookup_field = 'activity'
@@ -226,18 +226,6 @@ class ActivityLogView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ActivityUnlogView(viewsets.GenericViewSet, mixins.DestroyModelMixin):
-    """View for user unlogging activity"""
-    permission_classes = [IsAuthenticated]
-    serializer_class = LogSerializer
-    queryset = Log.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        if self.get_object().user.id != self.request.user.id:
-            return Response("User is not log author", status=status.HTTP_403_FORBIDDEN)
-        return super().destroy(request, args, kwargs)
-
-
 class UsersView(viewsets.ReadOnlyModelViewSet):
     """View for the user information"""
     queryset = User.objects.all()
@@ -272,8 +260,8 @@ class MyRegisteredActivitiesView(viewsets.ReadOnlyModelViewSet):
         return Activity.objects.filter(id__in=activity_ids).order_by('-id')
 
 
-class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
-    """ View for the set of all of the users favorited activities """
+class MyFavoriteActivitiesView(viewsets.ReadOnlyModelViewSet):
+    """ View for the set of all of the users favorite activities """
     serializer_class = ActivitySerializer
     permission_classes = [IsAuthenticated]
 
@@ -282,8 +270,8 @@ class MyFavoritedActivitiesView(viewsets.ReadOnlyModelViewSet):
         return Activity.objects.filter(id__in=activity_ids)
 
 
-class MyLoggedActivitiesView(viewsets.ReadOnlyModelViewSet):
-    """ View for the set of all of the users logged activities """
+class MyLogsView(viewsets.ReadOnlyModelViewSet, mixins.DestroyModelMixin):
+    """ View for the set of all of the users logs """
     serializer_class = LogSerializer
     permission_classes = [IsAuthenticated]
 

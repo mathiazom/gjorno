@@ -2,6 +2,9 @@ import React from 'react';
 import GalleryModal from "./GalleryModal";
 import axios from "axios";
 
+/**
+ * Input element for uploading and selecting image
+ */
 export default class ImageUpload extends React.Component{
 
     constructor(props) {

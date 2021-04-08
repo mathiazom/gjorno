@@ -1,18 +1,23 @@
 import axios from 'axios';
 import React from 'react';
-import FormWithValidation from '../common/FormWithValidation';
-import {RequiredAsterisk} from "../common/RequiredAsterisk";
+import FormWithValidation from '../forms/FormWithValidation';
+import {RequiredAsterisk} from "../forms/RequiredAsterisk";
 import {Link, withRouter} from 'react-router-dom';
-import {displayValidationFeedback, stringIsBlank, stringIsEmail, updatePageTitle, validateForm} from "../common/Utils";
-import FormPage from "../common/FormPage";
+import {updatePageTitle} from '../utils/Utils';
+import {displayValidationFeedback, stringIsBlank, stringIsEmail, validateForm} from "../utils/ValidationUtils";
+import FormPage from "../forms/FormPage";
 
-class EmailForm extends React.Component {
+/**
+ * Page for sending email message to author of an activity
+ */
+class ContactForm extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             activity: null,
-            user: null,
+            user_email: null,
             send_status: null
         };
 
@@ -22,14 +27,11 @@ class EmailForm extends React.Component {
     }
 
     componentDidMount() {
-        this.getUser();
+        this.getUserEmail();
         this.getActivity();
     }
 
-    /**
-     * Get the mail of the logged in user, and set it in the form.
-     */
-    getUser() {
+    getUserEmail() {
         axios.get('http://localhost:8000/api/current_user/', {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -41,15 +43,12 @@ class EmailForm extends React.Component {
                 this.props.history.push(`/activity/${this.props.match.params.id}`);
                 return;
             }
-            this.setState({user: res.data});
+            this.setState({user_email: res.data.email});
         }).catch(error => {
             console.log(error.response);
         });
     }
 
-    /**
-     * Get the activity data.
-     */
     getActivity() {
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/?register_view`, {
             headers: {
@@ -188,7 +187,7 @@ class EmailForm extends React.Component {
                                 Din e-postadresse<RequiredAsterisk/>
                             </label>
                             <input id="user-email-input" type="text" className="form-control" disabled
-                                   value={this.state.user?.email}
+                                   value={this.state.user_email}
                             />
                             <div className={"invalid-feedback"}/>
                         </div>
@@ -202,7 +201,7 @@ class EmailForm extends React.Component {
                     <p className={"text-success fs-3 mt-4 fw-bold"}>E-posten er sendt!</p>
                     <p className={"text-muted fs-5 mt-3"}>
                         {this.state.activity.username} har blitt varslet og svarer direkte til<br/><span
-                        className={"text-success"}>{this.state.user.email}</span>
+                        className={"text-success"}>{this.state.user_email}</span>
                     </p>
                     <Link to={`/activity/${this.props.match.params.id}`} className="btn btn-success mt-4">Tilbake
                         til aktiviteten</Link>
@@ -230,4 +229,4 @@ class EmailForm extends React.Component {
     }
 }
 
-export default withRouter(EmailForm);
+export default withRouter(ContactForm);

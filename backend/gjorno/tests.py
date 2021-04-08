@@ -550,13 +550,13 @@ class ActivityRegistrationsTest(ActivityBaseTest):
 
     def test_retrieve_registrations(self):
         """Request registrations retrieval (as author)"""
-        response = self.client.get(f'/api/activities/{self.activity_with_registration.id}/registrations/')
+        response = self.client.get(f'/api/activities/{self.activity_with_registration.id}/participants/')
         # Check that request was accepted
         self.assertEqual(response.status_code, 200)
 
     def test_retrieve_registrations_no_registration(self):
         """Request registrations of activity that has no registration"""
-        response = self.client.get(f'/api/activities/{self.activity.id}/registrations/')
+        response = self.client.get(f'/api/activities/{self.activity.id}/participants/')
         # Check that request was accepted
         self.assertEqual(response.status_code, 200)
         # Make sure response list is empty
@@ -565,13 +565,13 @@ class ActivityRegistrationsTest(ActivityBaseTest):
     def test_retrieve_registrations_unauthorized(self):
         """Request registrations retrieval (without auth)"""
         client = APIClient()
-        response = client.get(f'/api/activities/{self.activity.id}/registrations/')
+        response = client.get(f'/api/activities/{self.activity.id}/participants/')
         # Check that request was denied
         self.assertEqual(response.status_code, 401)
 
     def test_retrieve_registrations_not_author(self):
         """Request registrations retrieval (different user than author)"""
-        response = self.client2.get(f'/api/activities/{self.activity.id}/registrations/')
+        response = self.client2.get(f'/api/activities/{self.activity.id}/participants/')
         # Check that request was denied
         self.assertEqual(response.status_code, 403)
 
@@ -702,7 +702,7 @@ class ActivityFavoriteTest(ActivityBaseTest):
         """Request activities logged in user has favorited"""
         self.client.post(f'/api/activities/{self.activities[0].id}/favorite/')
         self.client.post(f'/api/activities/{self.activities[1].id}/favorite/')
-        response = self.client.get("/api/my_favorited_activities/")
+        response = self.client.get("/api/my_favorite_activities/")
         json_response = json.loads(response.content)
         for i, activity in enumerate(self.activities[0:2]):
             self.assertDictEqual(
@@ -818,20 +818,14 @@ class LogTest(TestCase):
     def test_delete_log(self):
         """Request removal of activity log"""
         self.log = Log.objects.create(user=self.user, activity=self.activity)
-        response = self.client.delete(f"/api/activity_unlog/{self.log.id}/")
+        response = self.client.delete(f"/api/my_logs/{self.log.id}/")
         self.assertEqual(response.status_code, 204)
-
-    def test_delete_log_not_creator(self):
-        """Request removal of activity log not created by logged in user"""
-        self.log = Log.objects.create(user=self.user, activity=self.activity)
-        response = self.client2.delete(f"/api/activity_unlog/{self.log.id}/")
-        self.assertEqual(response.status_code, 403)
 
     def test_retrieve_logged_activities(self):
         """Request logged in user's logged activities"""
         self.log1 = Log.objects.create(user=self.user, activity=self.activity)
         self.log2 = Log.objects.create(user=self.user, activity=self.activity)
-        response = self.client.get("/api/my_logged_activities/")
+        response = self.client.get("/api/my_logs/")
         json_response = json.loads(response.content)
         self.assertListEqual(
             json_response,

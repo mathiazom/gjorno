@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default class DetailedActivity extends React.Component {
+/**
+ * Main text for an activity
+ */
+export default class ActivityText extends React.Component {
+
     constructor(props) {
         super(props);
     }
@@ -16,4 +20,5 @@ export default class DetailedActivity extends React.Component {
             </div>
         );
     }
+
 }

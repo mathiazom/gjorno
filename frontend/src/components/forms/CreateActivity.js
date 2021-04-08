@@ -1,10 +1,13 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import ActivityForm from "../common/ActivityForm";
-import {updatePageTitle} from "../common/Utils";
-import FormPage from "../common/FormPage";
+import ActivityForm from "./ActivityForm";
+import {updatePageTitle} from "../utils/Utils";
+import FormPage from "./FormPage";
 
+/**
+ * Input page for creating an activity
+ */
 class CreateActivity extends React.Component {
 
     constructor(props) {
