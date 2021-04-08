@@ -9,20 +9,33 @@
     * [Retrieve all users](#retrieve-all-users)
     * [Retrieve currently logged in user](#retrieve-currently-logged-in-user)
     * [Update info about currently logged in user](#update-info-about-currently-logged-in-user)
-4. Activities
+3. Activity
     * [Retrieve all activities](#retrieve-all-activities)
     * [Retrieve single activity](#retrieve-single-activity)
+   *  [Retrieve single activity and register unique view](#retrieve-single-activity-and-register-unique-view)
     * [Retrieve activities of currently logged in user](#retrieve-activities-of-currently-logged-in-user)
     * [Create an activity](#create-an-activity)
     * [Update an existing activity](#update-an-existing-activity)
-4. Activity registration
+4. Category
+   * [Retrieve all categories](#retrieve-all-categories)
+5. Images
+   * [Retrieve all admin images](#retrieve-all-admin-images-not-user-uploads)
+6. Activity registration
     * [Register logged in user to activity](#register-logged-in-user-to-an-activity)
     * [Unregister logged in user from activity](#unregister-logged-in-user-from-an-activity)
     * [Retrieve all activities where logged in user is registered](#retrieve-all-activities-where-logged-in-user-is-registered)
     * [Retrieve all users registered for an activity](#retrieve-all-users-registered-for-an-activity)
-5. Categories
-    * [Retrieve all categories](#retrieve-all-categories)
-    * [Retrieve all admin images](#retrieve-all-admin-images-not-user-uploads)
+7. Log
+    * [Create activity log](#create-activity-log)
+    * [Retrieve logs of logged in user](#retrieve-logs-of-logged-in-user)
+    * [Remove activity log](#remove-activity-log)
+8. Favorite
+    * [Favorite an activity](#favorite-an-activity)
+    * [Unfavorite an activity](#unfavorite-an-activity)
+    * [Retrieve activities favorited by logged in user](#unfavorite-an-activity)
+   
+9. Email
+    * [Send message to activity author](#send-message-to-activity-author)
 
 ### General info
 The API is available at [`localhost:8000/api`](http://localhost:8000/api). Accessing this URL in the browser will present the [Browsable API](https://www.django-rest-framework.org/topics/browsable-api/). Like the admin site, it's a useful tool for testing requests and inspecting the structure of the API.
@@ -57,7 +70,7 @@ axios.post(
 ## Register a new user
 #### `POST localhost:8000/auth/register/`
 
-Example request body (`email` and `is_organization` are optional)
+Example request body:
 ```json
 {
     "username": "friedrich",
@@ -259,6 +272,12 @@ Example response for a valid `id`, here with `id=2`
 }
 ```
 
+## Retrieve single activity and register unique view
+#### `GET localhost:8000/api/activities/{activity_id}?register_view`
+
+Expects no request body
+
+Response is identical to the one above, but the request is treated as a user viewing the activity. If no user is logged in, this request is identical to the one above.
 
 ## Retrieve activities of currently logged in user
 #### `GET localhost:8000/api/my_activities/`
@@ -317,7 +336,7 @@ Example request body
     "registration_capacity": 4,
     "registration_deadline": "2022-03-15T15:20:24Z",
     "starting_time": "2022-03-15T15:20:24Z",
-    "location": "Laguna Sporada 2",
+    "location": "Laguna Sporada 2"
 }
 ```
 where `"categories"` is a list of available category `id`s.
@@ -348,7 +367,7 @@ Example request body (same as for `POST`)
     "registration_capacity": 10,
     "registration_deadline": "2022-03-15T15:20:24Z",
     "starting_time": "2022-03-15T15:20:24Z",
-    "location": "Laguna Sporada 2",
+    "location": "Laguna Sporada 2"
 }
 ```
 
@@ -357,20 +376,70 @@ Example request body (same as for `POST`)
 If activity was successfully updated, the respone body will contain the updated activity.
 
 
+## Retrieve all categories
+#### `GET localhost:8000/api/categories/`
+Expects no request body
+
+Example response for a valid request:
+```json
+
+[
+   {
+      "id": 1,
+      "title": "Gåtur",
+      "color": "#BBEDEE"
+   },
+   {
+      "id": 2,
+      "title": "Skitur",
+      "color": "#9896EE"
+   },
+   {
+      "id": 3,
+      "title": "Ålesund",
+      "color": "#EEAE51"
+   }
+]
+```
+
+## Retrieve all admin images (not user uploads)
+#### `GET localhost:8000/api/images/`
+Expects no request body
+
+Example response for a valid request:
+```json
+[
+    {
+        "id": 1,
+        "title": "Skog",
+        "image": "http://localhost:8000/media/uploads/1226404797_preview_1119379893_preview_Forest_River.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Dune",
+        "image": "http://localhost:8000/media/uploads/christoffer-engstrom-8NuHwPbO62k-unsplash.jpg"
+    },
+    {
+        "id": 3,
+        "title": "Night",
+        "image": "http://localhost:8000/media/uploads/756630.jpg"
+    },
+    {
+        "id": 6,
+        "title": "Forca",
+        "image": "http://localhost:8000/media/uploads/yc9yzfnqcnkc.png"
+    }
+]
+```
+
 ## Register logged in user to an activity
 #### `POST localhost:8000/api/activities/{activity_id}/register/`
 🔑 Requires the `Authorization` header (see [Authorization](#authorization))
 
 Expects no request body
 
-Example response to valid request:
-```json
-{
-    "id": 9,
-    "activity": 1,
-    "user": 19
-}
-```
+Response to valid request:
+> User was successfully registered
 
 
 ## Unregister logged in user from an activity
@@ -435,7 +504,7 @@ Example response for a valid request:
 
 
 ## Retrieve all users registered for an activity
-#### `GET localhost:8000/api/activities/{activity_id}/registrations/`
+#### `GET localhost:8000/api/activities/{activity_id}/participants/`
 🔑 Requires the `Authorization` header (see [Authorization](#authorization))
 
 🚧 Only activity author can view this information
@@ -460,51 +529,180 @@ Example response to valid request:
 ]
 ```
 
+## Create activity log
+#### `POST localhost:8000/api/activities/{activity_id}/log/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
 
-## Retrieve all categories
-#### `GET localhost:8000/api/categories/`
 Expects no request body
 
-Example response for a valid request:
+Response to valid request:
+> Activity successfully logged
+
+## Retrieve logs of logged in user
+#### `GET localhost:8000/api/my_logs/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
+Expects no request body
+
+Example response to valid request:
 ```json
 [
-  {
-    "id": 1,
-    "title": "Dolor"
-  },
-  {
-    "id": 2,
-    "title": "Amet"
-  }
+    {
+        "activity": 4,
+        "log_id": 4,
+        "log_timestamp": "2021-02-08T21:07:36+01:00",
+        "username": "upayliea",
+        "is_organization": true,
+        "title": "Skitur på Valdresflye",
+        "ingress": "Dette er en fin skitur med flott utsikt på vestsida av Valdresflye. Vi starter på toppen av Flye og går mod Torfinnsbu",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+        "image": "/media/uploads/activities/7.jpg",
+        "has_registration": true,
+        "registration_capacity": 100,
+        "registration_deadline": "2021-04-09T13:33:43+02:00",
+        "starting_time": "2021-04-11T11:00:00+02:00",
+        "location": "Shell på Fagernes",
+        "price": null,
+        "activity_level": 2,
+        "user": 12,
+        "categories": [
+            2
+        ],
+        "registrations_count": 0
+    },
+    {
+        "activity": 1,
+        "log_id": 20,
+        "log_timestamp": "2021-03-24T16:45:43+01:00",
+        "username": "apedicani",
+        "is_organization": true,
+        "title": "Ut på tur Drammen",
+        "ingress": "Vi starter opp igjen med turer som er for innbyggere som er bosatt i Drammen Kommune. Turene er åpne for alle som ønsker å være med.",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        "image": "/media/uploads/activities/6.jpg",
+        "has_registration": true,
+        "registration_capacity": 50,
+        "registration_deadline": "2021-04-09T13:30:22+02:00",
+        "starting_time": "2021-04-10T12:00:00+02:00",
+        "location": "DNT-butikken",
+        "price": null,
+        "activity_level": 1,
+        "user": 20,
+        "categories": [
+            1
+        ],
+        "registrations_count": 0
+    }
 ]
 ```
 
-## Retrieve all admin images (not user uploads)
-#### `GET localhost:8000/api/images/`
+## Remove activity log
+#### `DELETE localhost:8000/api/my_logs/{log_id}/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
 Expects no request body
 
-Example response for a valid request:
+Response to valid request:
+> 204 No Content
+
+## Favorite an activity
+#### `POST localhost:8000/api/activities/{activity_id}/favorite/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
+Expects no request body
+
+Response to valid request:
+> Activity successfully favorited
+
+## Unfavorite an activity
+#### `POST localhost:8000/api/activities/{activity_id}/unfavorite/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
+Expects no request body
+
+Response to valid request:
+> Activity successfully unfavorited
+
+## Retrieve activities favorited by logged in user
+#### `GET localhost:8000/api/my_favorite_activities/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
+Expects no request body
+
+Example response to valid request:
 ```json
 [
     {
         "id": 1,
-        "title": "Skog",
-        "image": "http://localhost:8000/media/uploads/1226404797_preview_1119379893_preview_Forest_River.jpg"
+        "username": "apedicani",
+        "is_organization": true,
+        "title": "Ut på tur Drammen",
+        "ingress": "Vi starter opp igjen med turer som er for innbyggere som er bosatt i Drammen Kommune. Turene er åpne for alle som ønsker å være med.",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        "image": "http://localhost:8000/media/uploads/activities/6.jpg",
+        "has_registration": true,
+        "registration_capacity": 50,
+        "registration_deadline": "2021-04-09T13:30:22+02:00",
+        "starting_time": "2021-04-10T12:00:00+02:00",
+        "location": "DNT-butikken",
+        "price": null,
+        "activity_level": 1,
+        "user": 20,
+        "categories": [
+            1
+        ],
+        "registrations_count": 0
     },
     {
         "id": 2,
-        "title": "Dune",
-        "image": "http://localhost:8000/media/uploads/christoffer-engstrom-8NuHwPbO62k-unsplash.jpg"
+        "username": "pbacksal2",
+        "is_organization": true,
+        "title": "Apalviksætra frå Fylling",
+        "ingress": "Dette er den kortaste ruta til Apalviksætra og ein går stort sett i motbakke opp til sætra, med tilsvarande nedoverbakkar på returen for dei som liker å renne.",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.",
+        "image": "http://localhost:8000/media/uploads/activities/2.jpg",
+        "has_registration": false,
+        "price": null,
+        "activity_level": 2,
+        "user": 4,
+        "categories": [
+            2,
+            3
+        ]
     },
     {
-        "id": 3,
-        "title": "Night",
-        "image": "http://localhost:8000/media/uploads/756630.jpg"
-    },
-    {
-        "id": 6,
-        "title": "Forca",
-        "image": "http://localhost:8000/media/uploads/yc9yzfnqcnkc.png"
+        "id": 8,
+        "username": "fnewlynd",
+        "is_organization": false,
+        "title": "Appelsinhaugen",
+        "ingress": "Fursetfjellet er utgangspunktet for en rekke fine familieturer og trimturer. På solværsdager er det et yrende folkeliv her.",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. \r\n\r\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. \r\n\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.",
+        "image": "http://localhost:8000/media/uploads/activities/3.jpg",
+        "has_registration": false,
+        "price": null,
+        "activity_level": 2,
+        "user": 15,
+        "categories": [
+            2,
+            4
+        ]
     }
 ]
 ```
+
+## Send message to activity author
+#### `POST localhost:8000/api/activities/{activity_id}/contact/`
+🔑 Requires the `Authorization` header (see [Authorization](#authorization))
+
+Example request body
+
+```json
+{
+   "title": "Matservering under turneringen?",
+   "message": "Jeg har meldt meg på frisbeegolf-turneringen deres, og lurer på om det blir noe matservering underveis?"
+}
+```
+
+Response to valid request:
+> Email sent!
+

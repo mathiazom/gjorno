@@ -24,7 +24,7 @@ export default class Registration extends React.Component {
             .then(res => {
                 this.setState({user: res.data});
                 if (this.props.activity?.is_author) {
-                    axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/registrations/`,
+                    axios.get(`http://localhost:8000/api/activities/${this.props.activity.id}/participants/`,
                         {
                             headers: {
                                 "Authorization": `Token ${window.localStorage.getItem("Token")}`

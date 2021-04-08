@@ -32,7 +32,7 @@ export default class Profile extends React.Component {
      * Retrieve current user data
      */
     getCurrentUser() {
-        axios.get('/api/current_user/',
+        axios.get('http://localhost:8000/api/current_user/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -68,14 +68,14 @@ export default class Profile extends React.Component {
      * as well as activities where user is registered
      */
     getLog() {
-        axios.get('/api/my_logged_activities/',
+        axios.get('http://localhost:8000/api/my_logs/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
             .then(logged_res => {
-                axios.get('/api/my_registered_activities/',
+                axios.get('http://localhost:8000/api/my_registered_activities/',
                     {
                         headers: {
                             "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -103,7 +103,7 @@ export default class Profile extends React.Component {
      * Used for updating the favorites list after a change.
      */
     getFavoriteActivities() {
-        axios.get('http://localhost:8000/api/my_favorited_activities/',
+        axios.get('http://localhost:8000/api/my_favorite_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`

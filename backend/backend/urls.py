@@ -20,7 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 from gjorno.views import \
     ActivitiesView, \
-    RegistrationsView, \
+    ParticipantsView, \
     ActivityRegisterView, \
     ActivityUnregisterView, \
     CategoriesView, \
@@ -31,10 +31,9 @@ from gjorno.views import \
     MyRegisteredActivitiesView, \
     ActivityFavoriteView, \
     ActivityUnfavoriteView, \
-    MyFavoritedActivitiesView, \
+    MyFavoriteActivitiesView, \
     ActivityLogView, \
-    ActivityUnlogView, \
-    MyLoggedActivitiesView, \
+    MyLogsView, \
     ActivityContactView
 
 router = routers.DefaultRouter()
@@ -44,15 +43,14 @@ router.register("images", ImagesView, 'images')
 router.register("users", UsersView, "users")
 router.register("my_activities", MyActivitiesView, 'my_activities')
 router.register("my_registered_activities", MyRegisteredActivitiesView, 'my_registered_activities')
-router.register("my_favorited_activities", MyFavoritedActivitiesView, 'my_favorited_activities')
-router.register("my_logged_activities", MyLoggedActivitiesView, 'my_logged_activities')
-router.register("activity_unlog", ActivityUnlogView, 'activity_unlog')
+router.register("my_favorite_activities", MyFavoriteActivitiesView, 'my_favorite_activities')
+router.register("my_logs", MyLogsView, 'my_logs')
 
 urlpatterns = [
     path('admin/', gjorno_admin_site.urls),
     path('api/', include(router.urls)),
     path('api/current_user/', CurrentUserView.as_view()),
-    path('api/activities/<int:activity>/registrations/', RegistrationsView.as_view({'get': 'list'})),
+    path('api/activities/<int:activity>/participants/', ParticipantsView.as_view({'get': 'list'})),
     path('api/activities/<int:activity>/register/', ActivityRegisterView.as_view()),
     path('api/activities/<int:activity>/unregister/', ActivityUnregisterView.as_view()),
     path('api/activities/<int:activity>/favorite/', ActivityFavoriteView.as_view()),
