@@ -13,7 +13,7 @@ export default class ShowAllCreated extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8000/api/my_activities/",
+        axios.get("https://api.gjorno.site/api/my_activities/",
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`

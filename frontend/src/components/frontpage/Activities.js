@@ -74,7 +74,7 @@ export default class Activities extends React.Component {
      */
     getCategories() {
         axios
-            .get(`http://localhost:8000/api/categories/`)
+            .get(`https://api.gjorno.site/api/categories/`)
             .then(res => {
                 const categories = res.data.map((category) => {
                     category['text_color'] = getTextColorBasedOnBgColor(category.color, "#FFFFFF", "#000000");

@@ -30,7 +30,7 @@ class EmailForm extends React.Component {
      * Get the mail of the logged in user, and set it in the form.
      */
     getUser() {
-        axios.get('http://localhost:8000/api/current_user/', {
+        axios.get('https://api.gjorno.site/api/current_user/', {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
@@ -51,7 +51,7 @@ class EmailForm extends React.Component {
      * Get the activity data.
      */
     getActivity() {
-        axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}/?register_view`, {
+        axios.get(`https://api.gjorno.site/api/activities/${this.props.match.params.id}/?register_view`, {
             headers: {
                 "Authorization": `Token ${window.localStorage.getItem("Token")}`
             }
@@ -67,7 +67,7 @@ class EmailForm extends React.Component {
      * Make sure author has a registered email address
      */
     checkAuthorEmail() {
-        axios.get(`http://localhost:8000/api/users/${this.state.activity.user}`
+        axios.get(`https://api.gjorno.site/api/users/${this.state.activity.user}`
         ).then(res => {
             updatePageTitle("Kontakt " + res.data.username);
             if (res.data.email == null || !stringIsEmail(res.data.email)) {
@@ -131,7 +131,7 @@ class EmailForm extends React.Component {
         content.append("title", document.getElementById("email-title-input").value);
         content.append("message", document.getElementById("email-message-input").value);
 
-        axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/contact/`,
+        axios.post(`https://api.gjorno.site/api/activities/${this.state.activity.id}/contact/`,
             content,
             {
                 headers: {

@@ -12,7 +12,7 @@ export default class ShowAllFavorites extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8000/api/my_favorited_activities/",
+        axios.get("https://api.gjorno.site/api/my_favorited_activities/",
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`

@@ -42,7 +42,7 @@ export default class ActivitiesFilterPanel extends React.Component {
      */
     retrieveCategories() {
         axios
-            .get('http://localhost:8000/api/categories/')
+            .get('https://api.gjorno.site/api/categories/')
             .then(res => {
                 // Create category dropdown options
                 let categories = res.data.map((category) => {

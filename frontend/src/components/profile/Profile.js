@@ -49,7 +49,7 @@ export default class Profile extends React.Component {
      * Collect the activities posted by the logged in user, and stores them in the current state.
      */
     getMyActivities() {
-        axios.get('http://localhost:8000/api/my_activities/',
+        axios.get('https://api.gjorno.site/api/my_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -68,14 +68,14 @@ export default class Profile extends React.Component {
      * as well as activities where user is registered
      */
     getLog() {
-        axios.get('/api/my_logged_activities/',
+        axios.get('https://api.gjorno.site/api/my_logged_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
             .then(logged_res => {
-                axios.get('/api/my_registered_activities/',
+                axios.get('https://api.gjorno.site/api/my_registered_activities/',
                     {
                         headers: {
                             "Authorization": `Token ${window.localStorage.getItem("Token")}`
@@ -103,7 +103,7 @@ export default class Profile extends React.Component {
      * Used for updating the favorites list after a change.
      */
     getFavoriteActivities() {
-        axios.get('http://localhost:8000/api/my_favorited_activities/',
+        axios.get('https://api.gjorno.site/api/my_favorited_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`

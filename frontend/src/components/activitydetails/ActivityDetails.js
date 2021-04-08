@@ -52,7 +52,7 @@ class ActivityDetails extends React.Component {
 
     getUser() {
         axios
-            .get(`http://localhost:8000/api/current_user/`, {
+            .get(`https://api.gjorno.site/api/current_user/`, {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }

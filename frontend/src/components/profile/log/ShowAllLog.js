@@ -25,14 +25,14 @@ export default class ShowAllLog extends React.Component {
      * as well as activities where user is registered
      */
     getLogActivities() {
-        axios.get('/api/my_logged_activities/',
+        axios.get('https://api.gjorno.site/api/my_logged_activities/',
             {
                 headers: {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
             .then(logged_res => {
-                axios.get('/api/my_registered_activities/',
+                axios.get('https://api.gjorno.site/api/my_registered_activities/',
                     {
                         headers: {
                             "Authorization": `Token ${window.localStorage.getItem("Token")}`
