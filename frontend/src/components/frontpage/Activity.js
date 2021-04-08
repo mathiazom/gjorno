@@ -89,7 +89,7 @@ const Activity = (props) => {
                     <div>
                         {renderCategories()}
                     </div>
-                    <br/>
+                    <br className={"d-xl-none"} />
                     <span className={"d-xl-none d-flex justify-content-end text-muted fw-light"}><b>- {props.activity.username}</b>
                         {/* Verified icon for organizations */}
                         {props.activity.is_organization &&
