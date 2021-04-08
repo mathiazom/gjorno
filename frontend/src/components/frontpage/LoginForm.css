@@ -96,17 +96,17 @@
   transform: translate(-50%, -50%);
 }
 
-#show:checked ~ .login-form-container {
+#showLoginForm:checked ~ .login-form-container {
   display: block;
 }
 
-#show:checked ~ .main-container {
+#showLoginForm:checked ~ .main-container {
   filter: blur(10px);
   pointer-events: none;
   cursor: not-allowed;
 }
 
-#show {
+#showLoginForm {
   display: none;
 }
 

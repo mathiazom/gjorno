@@ -1,9 +1,12 @@
 import React from 'react';
 import MyLogActivity from './MyLogActivity';
 import axios from 'axios';
-import {compareActivityDates} from "../../common/Utils";
-import ShowAll from "../ShowAll";
+import {compareActivityDates} from "../../utils/DateUtils";
+import ActivitiesList from "../ActivitiesList";
 
+/**
+ * Page for all activities logged by the logged in user
+ */
 export default class ShowAllLog extends React.Component {
     constructor(props) {
         super(props);
@@ -57,7 +60,7 @@ export default class ShowAllLog extends React.Component {
 
     render() {
         return (
-            <ShowAll
+            <ActivitiesList
                 title={"Fullstendig log"}
                 activities={this.state.activities}
                 renderItem={(logged_activity) => (

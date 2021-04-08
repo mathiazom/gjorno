@@ -1,7 +1,10 @@
 import React from 'react';
-import {updatePageTitle} from "../common/Utils";
+import {updatePageTitle} from "../utils/Utils";
 
-export default class ShowAll extends React.Component {
+/**
+ * Generalized page for displaying a list of activities
+ */
+export default class ActivitiesList extends React.Component {
     constructor(props) {
         super(props);
     }

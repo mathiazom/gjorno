@@ -1,8 +1,11 @@
 import React from 'react';
 import FavoriteActivity from './FavoriteActivity';
 import axios from 'axios';
-import ShowAll from "../ShowAll";
+import ActivitiesList from "../ActivitiesList";
 
+/**
+ * Page for all activities favorited by the logged in user
+ */
 export default class ShowAllFavorites extends React.Component {
     constructor(props) {
         super(props);
@@ -28,7 +31,7 @@ export default class ShowAllFavorites extends React.Component {
 
     render() {
         return (
-            <ShowAll
+            <ActivitiesList
                 title={"Alle favoritter"}
                 activities={this.state.activities}
                 renderItem={(activity) => (

@@ -1,0 +1,19 @@
+.activity-details-banner {
+    max-height: 600px;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+
+    .activity-details-banner {
+        max-height: 300px;
+    }
+
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+}

@@ -1,22 +1,21 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import ImageUpload from "../common/ImageUpload";
-import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, updatePageTitle, validateForm} from "../common/Utils";
-import FormWithValidation from "../common/FormWithValidation";
-import FormPage from "../common/FormPage";
+import ImageUpload from "../forms/ImageUpload";
+import {updatePageTitle} from "../utils/Utils";
+import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, validateForm} from "../utils/ValidationUtils";
+import FormWithValidation from "../forms/FormWithValidation";
+import FormPage from "../forms/FormPage";
 
+/**
+ * Component to edit the information stored about a user.
+ */
 class EditProfile extends React.Component {
 
-    /**
-     * Component to edit the information stored about a user.
-     *
-     * @param {*} props
-     */
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            user: [],
             avatar: null
         };
         this.edit = this.edit.bind(this);
@@ -35,10 +34,10 @@ class EditProfile extends React.Component {
                 }
             })
             .then(res => {
-                this.setState({data: res.data})
-                document.getElementById("edit-username").value = this.state.data.username;
-                document.getElementById("edit-phone").value = this.state.data.phone_number;
-                document.getElementById("edit-email").value = this.state.data.email;
+                this.setState({user: res.data})
+                document.getElementById("edit-username").value = this.state.user.username;
+                document.getElementById("edit-phone").value = this.state.user.phone_number;
+                document.getElementById("edit-email").value = this.state.user.email;
             }).catch(error => {
             console.log(error.response);
         });
@@ -148,7 +147,7 @@ class EditProfile extends React.Component {
                     {/*Image */}
                     <div className="mb-4">
                         <label htmlFor="profile-avatar-image-upload" className="form-label h5 mb-3">Bilde</label>
-                        <ImageUpload id="profile-avatar-image-upload" image={this.state.data?.avatar}
+                        <ImageUpload id="profile-avatar-image-upload" image={this.state.user?.avatar}
                                      onImageChanged={(image) => this.setState({avatar: image})} />
                         <div className={"invalid-feedback"}/>
                     </div>

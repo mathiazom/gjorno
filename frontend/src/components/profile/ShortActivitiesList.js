@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default class ProfileList extends React.Component {
+/**
+ * Generalized list of three activities,
+ * with a button for displaying all of them
+ */
+export default class ShortActivitiesList extends React.Component {
 
-    /**
-     * We go through all the activities stored in our state from the API,
-     * and we make a MyActivity with the stored data (from the MyActivity-component).
-     */
     renderAllActivities() {
         return this.props.activities
             .slice(0,3)

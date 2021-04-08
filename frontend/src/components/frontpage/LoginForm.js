@@ -1,7 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
-import {displayValidationFeedback, stringIsBlank, updatePageTitle, stringIsEmail, validateForm} from "../common/Utils";
+import {updatePageTitle} from "../utils/Utils";
+import {displayValidationFeedback, stringIsBlank, stringIsEmail, validateForm} from "../utils/ValidationUtils";
 
 /**
  * Component for the login form. Contain both login and registration.
@@ -42,7 +43,7 @@ class LoginForm extends React.Component {
      * Also switches back to login panel to avoid register panel on next display of form.
      */
     closeLoginForm() {
-        document.getElementById("show").checked = false;
+        document.getElementById("showLoginForm").checked = false;
         this.switchToLogin();
         updatePageTitle("Utforsk nye aktiviteter");
     }

@@ -1,5 +1,6 @@
 import React from 'react';
-import BurgerLink from './BurgerLink'
+import BurgerLink from './BurgerLink';
+import './BurgerMenu.css';
 
 const BurgerMenu = () => {
     return (

@@ -1,10 +1,14 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import ActivityForm from "../common/ActivityForm";
-import {displayValidationFeedback, updatePageTitle} from "../common/Utils";
-import FormPage from "../common/FormPage";
+import ActivityForm from "./ActivityForm";
+import {updatePageTitle} from "../utils/Utils";
+import {displayValidationFeedback} from "../utils/ValidationUtils";
+import FormPage from "./FormPage";
 
+/**
+ * Input page for editing an activity
+ */
 class EditActivity extends React.Component {
 
     constructor(props) {

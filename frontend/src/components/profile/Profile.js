@@ -2,12 +2,16 @@ import React from 'react';
 import ProfileInfo from './ProfileInfo';
 import axios from 'axios';
 import './Profile.css';
-import {compareActivityDates, updatePageTitle} from "../common/Utils";
-import ProfileList from "./ProfileList";
+import {updatePageTitle} from "../utils/Utils";
+import {compareActivityDates} from "../utils/DateUtils";
+import ShortActivitiesList from "./ShortActivitiesList";
 import FavoriteActivity from "./favorited/FavoriteActivity";
 import MyActivity from "./created/MyActivity";
 import MyLogActivity from "./log/MyLogActivity";
 
+/**
+ * Page displaying information related to currently logged in user
+ */
 export default class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -126,7 +130,7 @@ export default class Profile extends React.Component {
                     </div>
                     <div className="col mt-5 mt-md-0">
                         {this.state.favorite_activities.length > 0 &&
-                        <ProfileList
+                        <ShortActivitiesList
                             title={"Favoritter"}
                             activities={this.state.favorite_activities}
                             renderItem={(activity) => (
@@ -136,7 +140,7 @@ export default class Profile extends React.Component {
                             showAllPath={"/profile/favorites"}
                         />
                         }
-                        <ProfileList
+                        <ShortActivitiesList
                             title={"Mine aktiviteter"}
                             activities={this.state.my_activities}
                             renderItem={(activity) => (
@@ -149,7 +153,7 @@ export default class Profile extends React.Component {
                             </>}
                         />
                         {this.state.current_user.is_organization === false &&
-                        <ProfileList
+                        <ShortActivitiesList
                             title={"Logg"}
                             activities={this.state.log}
                             renderItem={(logged_activity) => (

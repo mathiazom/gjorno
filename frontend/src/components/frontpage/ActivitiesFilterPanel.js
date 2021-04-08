@@ -1,8 +1,11 @@
 import React from 'react';
-import DateTimePicker from '../common/DateTimePicker';
-import CategorySelect from "../common/CategorySelect";
+import DateTimePicker from '../forms/DateTimePicker';
+import CategorySelect from "../forms/CategorySelect";
 import axios from "axios";
 
+/**
+ * Side panel for applying various filters to activities list
+ */
 export default class ActivitiesFilterPanel extends React.Component {
 
     constructor(props) {
@@ -45,7 +48,7 @@ export default class ActivitiesFilterPanel extends React.Component {
             .get('http://localhost:8000/api/categories/')
             .then(res => {
                 // Create category dropdown options
-                let categories = res.data.map((category) => {
+                const categories = res.data.map((category) => {
                     return {label: category.title, value: category.id}
                 });
                 this.setState({categories: categories});

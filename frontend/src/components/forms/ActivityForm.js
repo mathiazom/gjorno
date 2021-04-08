@@ -1,13 +1,16 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import DateTimePicker from "../common/DateTimePicker"
-import CategorySelect from "../common/CategorySelect";
+import DateTimePicker from ".//DateTimePicker"
+import CategorySelect from ".//CategorySelect";
 import ImageUpload from "./ImageUpload";
-import {validateForm, stringIsBlank, stringIsPositiveFloat} from "./Utils";
+import {validateForm, stringIsBlank, stringIsPositiveFloat} from "../utils/ValidationUtils";
 import FormWithValidation from "./FormWithValidation";
 import {RequiredAsterisk} from "./RequiredAsterisk";
 
+/**
+ * Generalized form for creating and editing an activity
+ */
 class ActivityForm extends React.Component {
 
     constructor(props) {
@@ -22,9 +25,6 @@ class ActivityForm extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    /**
-     * Retrieve all available categories
-     */
     componentDidMount() {
 
         this.retrieveCategories();
@@ -34,15 +34,12 @@ class ActivityForm extends React.Component {
 
     }
 
-    /**
-     * Retrieve all available categories
-     */
     retrieveCategories() {
         axios
             .get('http://localhost:8000/api/categories/')
             .then(res => {
                 // Create category dropdown options
-                let categories = res.data.map((category) => {
+                const categories = res.data.map((category) => {
                     return {label: category.title, value: category.id}
                 });
                 this.setState({categories: categories});
@@ -292,6 +289,9 @@ class ActivityForm extends React.Component {
         }
     }
 
+    /**
+     * Perform input validation and main action
+     */
     submit() {
         const registration = document.getElementById("registration-checkbox").checked ? true : false;
         if (registration) {
@@ -371,7 +371,6 @@ class ActivityForm extends React.Component {
                     <label className="form-label h5 mb-3">Påmelding</label>
                     <div className="form-check"
                          title={this.props.disableHasRegistration && "Kan ikke endres etter at aktivitet er opprettet"}>
-                        {console.log(this.props)}
                         <input className="form-check-input" type="checkbox"
                                onClick={this.displayRegistrationForm} id="registration-checkbox"
                                disabled={this.props.disableHasRegistration}
@@ -425,6 +424,7 @@ class ActivityForm extends React.Component {
             </FormWithValidation>
         );
     }
+
 }
 
 export default withRouter(ActivityForm);

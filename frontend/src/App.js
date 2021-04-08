@@ -7,22 +7,22 @@ import {
     Redirect
 } from "react-router-dom";
 import './App.css';
-import './login.css';
+import './components/frontpage/LoginForm.css';
 import Activities from './components/frontpage/Activities';
 import LoginForm from './components/frontpage/LoginForm';
 import Navbar from './components/navbar/Navbar';
-import CreateActivity from "./components/create/CreateActivity";
-import EditActivity from "./components/profile/EditActivity";
+import CreateActivity from "./components/forms/CreateActivity";
+import EditActivity from "./components/forms/EditActivity";
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
 import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
-import ScrollToTop from "./components/common/ScrollToTop";
+import ScrollToTop from "./components/utils/ScrollToTop";
 import ShowAllCreated from "./components/profile/created/ShowAllCreated";
 import ShowAllLog from './components/profile/log/ShowAllLog';
-import EmailForm from './components/activitydetails/EmailForm';
+import EmailForm from './components/activitydetails/ContactForm';
 import ShowAllFavorites from "./components/profile/favorited/ShowAllFavorites";
 
 
@@ -74,7 +74,7 @@ export default class App extends React.Component {
             <Router>
                 <ScrollToTop />
                 <div className={"App"}>
-                    <input type="checkbox" id="show" />
+                    <input type="checkbox" id="showLoginForm"/>
                     <LoginForm
                         onAuthStateChanged={this.onAuthStateChanged}
                     />
@@ -164,11 +164,11 @@ function ProtectedRoute({ path, children }) {
 
     // Display login form if not authenticated (as soon as page is ready)
     const toggleLogin = () => {
-        document.getElementById("show").checked = true;
+        document.getElementById("showLoginForm").checked = true;
     }
     const isAuthenticated = window.localStorage.getItem("Token");
     if (!isAuthenticated) {
-        const showToggle = document.getElementById("show");
+        const showToggle = document.getElementById("showLoginForm");
         if (showToggle != null) {
             // Show login form now
             toggleLogin();

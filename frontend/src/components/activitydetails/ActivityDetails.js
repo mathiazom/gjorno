@@ -1,12 +1,17 @@
 import React from 'react';
 import axios from 'axios';
-import ActivityHost from "./ActivityHost.js";
-import DetailedActivity from "./DetailedActivity.js";
-import Registration from "./Registration.js";
+import ActivityAuthor from "./ActivityAuthor.js";
+import ActivityText from "./ActivityText.js";
+import RegistrationDetails from "./RegistrationDetails.js";
 import {Link, withRouter} from 'react-router-dom';
 import {toast} from "react-toastify";
-import {stringIsEmail, updatePageTitle} from "../common/Utils";
+import {updatePageTitle} from "../utils/Utils";
+import {stringIsEmail} from "../utils/ValidationUtils";
+import './ActivityDetails.css';
 
+/**
+ * Details page for an activity, with all relevant information
+ */
 class ActivityDetails extends React.Component {
 
     constructor(props) {
@@ -76,10 +81,6 @@ class ActivityDetails extends React.Component {
             });
     }
 
-    /**
-     * Sends a POST request to the API, and adds the activity to the
-     * currently logged in user's favorites list.
-     */
     favorite() {
         axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/favorite/`,
             null,
@@ -90,7 +91,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 201) {
                 toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorited icon
+                // Refresh activity data to see updated favorite icon
                 this.getActivity();
             }
         }).catch(error => {
@@ -98,10 +99,6 @@ class ActivityDetails extends React.Component {
         })
     }
 
-    /**
-     * Sends a POST request to the API to remove the activity
-     * from the currently logged in user's favorites list.
-     */
     unfavorite() {
         axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/unfavorite/`,
             null,
@@ -112,7 +109,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 200) {
                 toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorited icon
+                // Refresh activity data to see updated favorite icon
                 this.getActivity();
             }
         }).catch(error => {
@@ -120,9 +117,6 @@ class ActivityDetails extends React.Component {
         })
     }
 
-    /**
-     * Sends a POST request to the API to create a log for this activity
-     */
     log() {
         axios.post(`http://localhost:8000/api/activities/${this.state.activity.id}/log/`,
             null,
@@ -140,14 +134,14 @@ class ActivityDetails extends React.Component {
     }
 
     render() {
-        let img = this.state.activity?.image;
+        const img = this.state.activity?.image;
         return (
             <>
                 {img == null || <img src={img} className="img-fluid activity-details-banner" alt={"Aktivitetsbilde"}/>}
                 <div className="container-fluid w-100 mt-md-5" style={{marginBottom: "300px"}}>
                     <div className="row">
                         <div className="col-12 col-md-3 col-xxl-2 offset-md-1 order-1 order-md-0">
-                            <ActivityHost author={this.state.author}/>
+                            <ActivityAuthor author={this.state.author}/>
                             {(this.state.activity?.activity_level || this.state.activity?.has_registration) &&
                             <div className="card mt-2">
                                 <div className="card-body">
@@ -160,8 +154,8 @@ class ActivityDetails extends React.Component {
                                     </>)
                                     }
                                     {this.state.activity?.has_registration &&
-                                    <Registration activity={this.state.activity} onUpdate={this.getActivity}
-                                                  authenticated={this.props.authenticated}/>
+                                    <RegistrationDetails activity={this.state.activity} onUpdate={this.getActivity}
+                                                         authenticated={this.props.authenticated}/>
                                     }
                                 </div>
                             </div>
@@ -243,13 +237,14 @@ class ActivityDetails extends React.Component {
                             }
                         </div>
                         <div className="col-12 col-md-7 ms-md-4 ms-xxl-5 mb-5">
-                            <DetailedActivity activity={this.state.activity} authenticated={this.props.authenticated}/>
+                            <ActivityText activity={this.state.activity} authenticated={this.props.authenticated}/>
                         </div>
                     </div>
                 </div>
             </>
         );
     }
+
 }
 
 export default withRouter(ActivityDetails);

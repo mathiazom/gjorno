@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React from 'react';
-import {getDateFromString} from "../common/Utils";
+import {getDateFromString} from "../utils/DateUtils";
 import ParticipantsModal from "./ParticipantsModal";
 
-export default class Registration extends React.Component {
+/**
+ * Information card for activity registration details
+ */
+export default class RegistrationDetails extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -173,4 +177,5 @@ export default class Registration extends React.Component {
             </>
         );
     }
+
 }

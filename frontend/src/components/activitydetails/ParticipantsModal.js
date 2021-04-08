@@ -1,6 +1,9 @@
 import React from 'react';
-import {formatPhoneNumber} from "../common/Utils";
+import {formatPhoneNumber} from "../utils/Utils";
 
+/**
+ * Popup containing list of users registered to an activity
+ */
 export default class ParticipantsModal extends React.Component {
 
     constructor(props) {
