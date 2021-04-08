@@ -2,6 +2,8 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
+import {updatePageTitle} from "../common/Utils";
+import FormPage from "../common/FormPage";
 
 class CreateActivity extends React.Component {
 
@@ -9,6 +11,10 @@ class CreateActivity extends React.Component {
         super(props);
         // Bind "this" to get access to "this.props.history"
         this.createActivity = this.createActivity.bind(this);
+    }
+
+    componentDidMount() {
+        updatePageTitle("Ny aktivitet");
     }
 
     /**
@@ -23,8 +29,9 @@ class CreateActivity extends React.Component {
                     "Authorization": `Token ${window.localStorage.getItem("Token")}`
                 }
             })
-            .then(() => {
-                this.props.history.push("/");
+            .then((res) => {
+                // Display details page of newly created activity
+                this.props.history.push("/activity/" + res.data.id);
             }).catch(error => {
                 console.log(error.response);
             }
@@ -34,10 +41,10 @@ class CreateActivity extends React.Component {
     render() {
 
         return (
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 <h1>Ny aktivitet</h1>
                 <ActivityForm onSubmit={this.createActivity} submitText={"Legg ut"} />
-            </div>
+            </FormPage>
         );
     }
 }

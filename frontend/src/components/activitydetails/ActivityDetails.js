@@ -5,7 +5,7 @@ import DetailedActivity from "./DetailedActivity.js";
 import Registration from "./Registration.js";
 import {Link, withRouter} from 'react-router-dom';
 import {toast} from "react-toastify";
-import {stringIsEmail} from "../common/Utils";
+import {stringIsEmail, updatePageTitle} from "../common/Utils";
 
 class ActivityDetails extends React.Component {
 
@@ -24,7 +24,9 @@ class ActivityDetails extends React.Component {
 
     componentDidMount() {
         this.getActivity();
-        this.getUser();
+        if (this.props.authenticated) {
+            this.getUser();
+        }
     }
 
     getActivity() {
@@ -39,6 +41,7 @@ class ActivityDetails extends React.Component {
                 headers: headers
             })
             .then(res => {
+                updatePageTitle(res.data.title);
                 this.setState({activity: res.data})
                 this.getActivityAuthor()
             })
@@ -87,7 +90,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 201) {
                 toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 this.getActivity();
             }
         }).catch(error => {
@@ -109,7 +112,7 @@ class ActivityDetails extends React.Component {
             }).then(res => {
             if (res.status === 200) {
                 toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 this.getActivity();
             }
         }).catch(error => {
@@ -141,10 +144,10 @@ class ActivityDetails extends React.Component {
         return (
             <>
                 {img == null || <img src={img} className="img-fluid activity-details-banner" alt={"Aktivitetsbilde"}/>}
-                <div className="container-fluid w-100 mt-5" style={{marginBottom: "300px"}}>
+                <div className="container-fluid w-100 mt-md-5" style={{marginBottom: "300px"}}>
                     <div className="row">
-                        <div className="col col-md-2 offset-sm-1">
-                            <ActivityHost userdata={this.state.author}/>
+                        <div className="col-12 col-md-3 col-xxl-2 offset-md-1 order-1 order-md-0">
+                            <ActivityHost author={this.state.author}/>
                             {(this.state.activity?.activity_level || this.state.activity?.has_registration) &&
                             <div className="card mt-2">
                                 <div className="card-body">
@@ -164,7 +167,7 @@ class ActivityDetails extends React.Component {
                             </div>
                             }
                             <div className="card mt-2 p-3">
-                                <div className="d-xl-flex justify-content-evenly">
+                                <div className="d-flex justify-content-evenly">
                                     <div className="d-flex align-items-center flex-column">
                                         {/* Favorite button, disabled for an unauthorized user */}
                                         {this.props.authenticated &&
@@ -189,10 +192,10 @@ class ActivityDetails extends React.Component {
                                     {!this.state.activity?.has_registration &&
                                     <>
                                         {this.props.authenticated &&
-                                        <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
+                                        <div className="d-flex align-items-center flex-column">
                                             <a title="Registrer gjennomføring" className="text-success" role="button"
                                                onClick={this.log}>
-                                                <i id={"log-button-icon"} className="far fa-check-circle fa-2x"/>
+                                                <i className="far fa-check-circle fa-2x"/>
                                             </a>
                                         </div>
                                         ||
@@ -207,9 +210,9 @@ class ActivityDetails extends React.Component {
                                         {this.props.authenticated &&
                                         <>
                                             {stringIsEmail(this.state.user?.email) &&
-                                            <div className="d-flex align-items-center flex-column mt-4 mt-xl-0">
+                                            <div className="d-flex align-items-center flex-column">
                                                 <Link
-                                                    to={`/activity-details/${this.state.activity?.id}/contact/`}
+                                                    to={`/activity/${this.state.activity?.id}/contact/`}
                                                     title={this.state.activity?.has_registration && "Kontakt arrangør" || "Kontakt forfatter"}
                                                     className="text-success"
                                                     role="button">
@@ -232,14 +235,14 @@ class ActivityDetails extends React.Component {
                                 </div>
                             </div>
                             {(this.props.authenticated && this.state.activity?.is_author) &&
-                            <Link to={`/edit-activity/${this.state.activity.id}`}>
-                                <button id={"edit-button"}
-                                        className={"btn btn-outline-success w-100 mt-3 mb-1"}>Rediger
+                            <Link to={`/activity/${this.state.activity.id}/edit`}>
+                                <button className={"btn btn-outline-success w-100 mt-3 mb-1"}>
+                                    Rediger
                                 </button>
                             </Link>
                             }
                         </div>
-                        <div className="col col-md-7 offset-sm-1">
+                        <div className="col-12 col-md-7 ms-md-4 ms-xxl-5 mb-5">
                             <DetailedActivity activity={this.state.activity} authenticated={this.props.authenticated}/>
                         </div>
                     </div>

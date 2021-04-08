@@ -4,7 +4,7 @@ import Activity from './Activity';
 import axios from 'axios'
 import ActivitiesFilterPanel from "./ActivitiesFilterPanel";
 import {filterActivities} from "./FilterUtils";
-import {getTextColorBasedOnBgColor} from "../common/Utils";
+import {getTextColorBasedOnBgColor, updatePageTitle} from "../common/Utils";
 
 export default class Activities extends React.Component {
 
@@ -24,6 +24,7 @@ export default class Activities extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Utforsk nye aktiviteter");
         this.getCategories();
         this.getActivities();
         this.attachPaneResizeObserver();

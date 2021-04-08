@@ -24,7 +24,7 @@ const Activity = (props) => {
         }).then(res => {
             if (res.status === 201) {
                 toast("Favoritt lagt til 😍", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 props.onUpdate();
             }
             }).catch(error => {
@@ -46,7 +46,7 @@ const Activity = (props) => {
         }).then(res => {
             if (res.status === 200) {
                 toast("Favoritt fjernet 💔️", {containerId: 'info-toast-container'});
-                // Refresh activity data to see correct favorite icon
+                // Refresh activity data to see correct favorited icon
                 props.onUpdate();
             }
             }).catch(error => {
@@ -75,8 +75,8 @@ const Activity = (props) => {
         <div className="card activity-card mt-4 mb-4">
             <img src={props.activity.image || "images/placeholder.png"} className="img-fluid" alt={"bilde"}/>
             <div className="card-body d-flex row align-items-center">
-                <div className={"col-12 col-lg-8 pe-4"}>
-                    <Link to={`/activity-details/${props.activity.id}`} className={"no-decoration"}>
+                <div className={"col-12 col-xl-8 pe-4"}>
+                    <Link to={`/activity/${props.activity.id}`} className={"no-decoration"}>
                         <h5 className="card-title text-success">
                             {/* Icon showing what activities have registration */}
                             {props.activity.has_registration &&
@@ -89,6 +89,16 @@ const Activity = (props) => {
                     <div>
                         {renderCategories()}
                     </div>
+                    <br className={"d-xl-none"} />
+                    <span className={"d-xl-none d-flex justify-content-end text-muted fw-light"}><b>- {props.activity.username}</b>
+                        {/* Verified icon for organizations */}
+                        {props.activity.is_organization &&
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-patch-check-fill text-primary ms-1 align-self-center" viewBox="0 0 16 16">
+                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+                            <title>Organisasjon</title>
+                        </svg>
+                        }
+                        </span>
                 </div>
                 <div className={"col-12 col-xl-4 text-end d-none d-xl-block pe-5"}>
                     <div className={"text-secondary"}>

@@ -1,12 +1,14 @@
 import React from 'react';
 import MyActivity from './MyActivity';
 import axios from 'axios';
+import ShowAll from "../ShowAll";
 
 export default class ShowAllCreated extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            activities: []
         }
     }
 
@@ -18,27 +20,22 @@ export default class ShowAllCreated extends React.Component {
                 }
             })
             .then(res => {
-                this.setState({data: res.data});
+                this.setState({activities: res.data});
             })
             .catch(error => {
                 console.log(error.response);
         });
     }
 
-    renderActivities() {
-        return (this.state.data.map((activity) => (
-            <MyActivity data={activity} key={activity.id} />
-        )));
-    }
-
     render() {
         return (
-            <div className="container-fluid w-75 mt-5">
-                <h2>Alle mine aktiviteter</h2>
-                <div>
-                    {this.renderActivities()}
-                </div>
-            </div>
-        );
+            <ShowAll
+                title={"Mine aktiviteter"}
+                activities={this.state.activities}
+                renderItem={(activity) => (
+                    <MyActivity activity={activity} key={activity.id} />
+                )}
+            />
+        )
     }
 }

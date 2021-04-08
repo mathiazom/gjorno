@@ -34,8 +34,9 @@ class LogoutButton extends React.Component {
     render(){
         return (
             <div>
-                <button id="logout-button" onClick={() => {this.logout()}} type="button" className="btn btn-outline-success">
-                    LOGG UT
+                <button onClick={() => {this.logout()}} type="button" className="btn btn-outline-success">
+                    <span className={"d-none d-md-block"}>LOGG UT</span>
+                    <i className="fas fa-sign-out-alt d-md-none"></i>
                 </button>
             </div>
         )

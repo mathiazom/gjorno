@@ -48,11 +48,22 @@
   margin-bottom: 40px;
 }
 
-.rounded-avatar {
-  width: 60px;
-  height: 60px;
+@media (max-width: 768px) {
+
+  .activity-details-banner {
+    max-height: 300px;
+  }
+
+}
+
+.rounded-img {
   border-radius: 50%;
   object-fit: cover;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
 }
 
 /* BURGERS */

@@ -4,7 +4,7 @@ import './GalleryModal.css';
 const GalleryRow = (props) => {
     return props.images.map(image => {
             return (
-                <div className={"col-6 p-1"} key={image.id}>
+                <div className={"col-12 col-md-6 p-1"} key={image.id}>
                     <img src={image.image} className={"img-fluid rounded gallery-modal-image"} title={image.title}
                          alt={image.title} onClick={props.onClick.bind(this,image.id)}/>
                 </div>
@@ -55,7 +55,7 @@ export default class GalleryModal extends React.Component {
                             <h5 className="modal-title" id="galleryModalLabel">Bildegalleri</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                         </div>
-                        <div id="gallery-body" className="modal-body ms-3 me-3">
+                        <div className="modal-body ms-3 me-3">
                             {this.renderGalleryImages()}
                         </div>
                         <div className="modal-footer">

@@ -21,9 +21,9 @@ import axios from "axios";
 import ActivityDetails from './components/activitydetails/ActivityDetails';
 import ScrollToTop from "./components/common/ScrollToTop";
 import ShowAllCreated from "./components/profile/created/ShowAllCreated";
-import ShowAllFavorites from "./components/profile/favorite/ShowAllFavorites";
-import ShowAllLogged from './components/profile/log/ShowAllLogged';
+import ShowAllLog from './components/profile/log/ShowAllLog';
 import EmailForm from './components/activitydetails/EmailForm';
+import ShowAllFavorites from "./components/profile/favorited/ShowAllFavorites";
 
 
 export default class App extends React.Component {
@@ -31,7 +31,10 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            authenticated: window.localStorage.getItem('Token') != null
+            authenticated: window.localStorage.getItem('Token') != null,
+            my_activities: [],
+            favorite_activities: [],
+            log_activities: []
         }
 
         this.onAuthStateChanged = this.onAuthStateChanged.bind(this)
@@ -115,16 +118,19 @@ export default class App extends React.Component {
                             <Route exact path={"/"}>
                                 <Activities authenticated={this.state.authenticated} />
                             </Route>
-                            <Route exact path={"/activity-details/:id"}>
+                            <ProtectedRoute exact path={"/activity/create"}>
+                                <CreateActivity />
+                            </ProtectedRoute>
+                            <Route exact path={"/activity/:id"}>
                                 <ActivityDetails
                                     authenticated={this.state.authenticated}
                                 />
                             </Route>
-                            <ProtectedRoute exact path={"/create-activity"}>
-                                <CreateActivity />
-                            </ProtectedRoute>
-                            <ProtectedRoute exact path={"/edit-activity/:id"}>
+                            <ProtectedRoute exact path={"/activity/:id/edit"}>
                                 <EditActivity />
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path={"/activity/:id/contact"}>
+                                <EmailForm />
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile"}>
                                 <Profile />
@@ -139,10 +145,7 @@ export default class App extends React.Component {
                                 <ShowAllFavorites />
                             </ProtectedRoute>
                             <ProtectedRoute exact path={"/profile/log"}>
-                                <ShowAllLogged />
-                            </ProtectedRoute>
-                            <ProtectedRoute exact path={"/activity-details/:id/contact"}>
-                                <EmailForm />
+                                <ShowAllLog />
                             </ProtectedRoute>
                             {/* Redirect anything else to frontpage */}
                             <Route path={"*"}>

@@ -1,4 +1,11 @@
 /**
+ * Update HTML document title with GjørNo suffix
+ */
+export const updatePageTitle = (prefix) => {
+    document.title = prefix + " · GjørNo";
+}
+
+/**
  * Create Date object from ISO date string
  */
 export const getDateFromString = (s) => {
@@ -67,6 +74,18 @@ export const getTextColorBasedOnBgColor = (bgColor, lightColor, darkColor) => {
     const b = parseInt(color.substring(4, 6), 16); // hexToB
     return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ?
         darkColor : lightColor;
+}
+
+/**
+ * Compares the dates for two activities, based on whether the activity has registration or not (starting_time/log_timestamp).
+ * @param {*} a1 first activity
+ * @param {*} a2 second activity
+ * @returns a positive integer if a1 is before a2, a negative integer if a2 is before a1, or 0 if they have the same time.
+ */
+export const compareActivityDates = (a1, a2) => {
+    const date1 = a1.has_registration ? new Date(a1.starting_time) : new Date(a1.log_timestamp);
+    const date2 = a2.has_registration ? new Date(a2.starting_time) : new Date(a2.log_timestamp);
+    return date1 - date2;
 }
 
 /**

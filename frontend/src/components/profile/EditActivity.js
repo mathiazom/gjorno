@@ -2,7 +2,8 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ActivityForm from "../common/ActivityForm";
-import {displayValidationFeedback} from "../common/Utils";
+import {displayValidationFeedback, updatePageTitle} from "../common/Utils";
+import FormPage from "../common/FormPage";
 
 class EditActivity extends React.Component {
 
@@ -18,6 +19,7 @@ class EditActivity extends React.Component {
     }
 
     componentDidMount() {
+        updatePageTitle("Rediger aktivitet");
         axios.get(`http://localhost:8000/api/activities/${this.props.match.params.id}`)
             .then(res => {
                 this.setState({activity: res.data})
@@ -39,7 +41,7 @@ class EditActivity extends React.Component {
                 }
             })
             .then(() => {
-                this.props.history.push(`/activity-details/${this.props.match.params.id}/`);
+                this.props.history.push(`/activity/${this.props.match.params.id}/`);
             }).catch(error => {
                 const errorResponse = error.response?.request?.response;
                 if(errorResponse === "\"Cannot decrease capacity below current number of registrations\""){
@@ -55,13 +57,13 @@ class EditActivity extends React.Component {
 
     render() {
         return(
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 <h1>Rediger aktivitet</h1>
                 <ActivityForm onSubmit={this.editActivity} submitText={"Lagre"}
                     activity={this.state.activity}
                     disableHasRegistration
                 />
-            </div>
+            </FormPage>
         );
     }
 }

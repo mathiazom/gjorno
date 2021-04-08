@@ -325,14 +325,14 @@ class ActivityForm extends React.Component {
                 {/*Ingress */}
                 <div className="mb-4">
                     <label htmlFor="activity-ingress-input" className="form-label h5 mb-3">Ingress<RequiredAsterisk/></label>
-                    <input className="form-control" id="activity-ingress-input" type="text"
+                    <input id="activity-ingress-input" className="form-control" type="text"
                            placeholder={"Joggetur fra Gløshaugen til Heimdal."} />
                     <div className={"invalid-feedback"}/>
                 </div>
                 {/*Description */}
                 <div className="mb-4">
                     <label htmlFor="activity-description-input" className="form-label h5 mb-3">Beskrivelse<RequiredAsterisk/></label>
-                    <textarea className="form-control" id="activity-description-input" rows="5"
+                    <textarea id="activity-description-input" className="form-control" rows="5"
                               placeholder={"Solid joggetur på 8 km. Terrenget er nokså flatt. Anbefaler å ligge på rundt 7 km/t."}/>
                     <div className={"invalid-feedback"}/>
                 </div>

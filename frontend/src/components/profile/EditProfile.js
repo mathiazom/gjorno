@@ -2,8 +2,9 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import ImageUpload from "../common/ImageUpload";
-import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, validateForm} from "../common/Utils";
+import {stringIsBlank, stringIsEmail, stringIsPhoneNumber, updatePageTitle, validateForm} from "../common/Utils";
 import FormWithValidation from "../common/FormWithValidation";
+import FormPage from "../common/FormPage";
 
 class EditProfile extends React.Component {
 
@@ -26,6 +27,7 @@ class EditProfile extends React.Component {
      * Set the different fields to contain the data collected.
      */
     componentDidMount() {
+        updatePageTitle("Rediger profil");
         axios.get('http://localhost:8000/api/current_user/',
             {
                 headers: {
@@ -122,24 +124,24 @@ class EditProfile extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid w-50 m-5 mx-auto">
+            <FormPage>
                 <h1>Rediger profil</h1>
                 <FormWithValidation submit={this.edit} submitText={"Lagre"}>
                     {/* Username */}
                     <div className="mt-3 mb-4">
-                        <label htmlFor="Username" className="form-label h5 mb-3">Brukernavn</label>
+                        <label htmlFor="edit-username" className="form-label h5 mb-3">Brukernavn</label>
                         <input id="edit-username" type="text" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>
                     {/* Email */}
                     <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Epost</label>
+                        <label htmlFor="edit-email" className="form-label h5 mb-3">Epost</label>
                         <input id="edit-email" type="email" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>
                     {/* Phone number */}
                     <div className="mb-4">
-                        <label htmlFor="activity-description-input" className="form-label h5 mb-3">Telefonnummer</label>
+                        <label htmlFor="edit-phone" className="form-label h5 mb-3">Telefonnummer</label>
                         <input id="edit-phone" type="text" className="form-control"/>
                         <div className={"invalid-feedback"}/>
                     </div>
@@ -151,7 +153,7 @@ class EditProfile extends React.Component {
                         <div className={"invalid-feedback"}/>
                     </div>
                 </FormWithValidation>
-            </div>
+            </FormPage>
         );
     }
 }

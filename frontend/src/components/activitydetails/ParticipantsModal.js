@@ -10,7 +10,7 @@ export default class ParticipantsModal extends React.Component {
     renderParticipants() {
         return this.props.participants.map((participant) => (
             <div key={participant.id} className={"d-flex mb-4"}>
-                <img className={"rounded-avatar align-self-center"} src={participant.avatar || "/images/profil.png"}/>
+                <img className={"rounded-img avatar align-self-center"} src={participant.avatar || "/images/profil.png"}/>
                 <div className={"flex-column ms-4 mt-3 mb-3 align-self-center"}>
                     <p className={"m-0"}>{participant.username}</p>
                     {participant.email &&

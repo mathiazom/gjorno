@@ -11,7 +11,7 @@ export default class DetailedActivity extends React.Component {
                 <h1 className="text-success">{this.props.activity?.title}</h1>
                 <h4 className={"fw-bold mt-3 mb-4"}>{this.props.activity?.ingress}</h4>
                 <section>
-                    <p style={{whiteSpace: "pre-wrap"}}>{this.props.activity?.description}</p>
+                    <p className={"fs-5"} style={{whiteSpace: "pre-wrap"}}>{this.props.activity?.description}</p>
                 </section>
             </div>
         );
