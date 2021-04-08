@@ -560,13 +560,6 @@
   }
 },
 {
-  "model": "sites.site",
-  "fields": {
-    "domain": "example.com",
-    "name": "example.com"
-  }
-},
-{
   "model": "account.emailaddress",
   "pk": 1,
   "fields": {
